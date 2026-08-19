@@ -20,7 +20,7 @@ export default function Contact() {
     <div>
       <Band tight style={{ paddingTop: 4 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1.1fr .9fr", gap: 56, alignItems: "start" }}>
-          <Card tone="brand" padding="md" style={{ display: "flex", flexDirection: "column" }}>
+          <Card tone="brand" padding="none" style={{ display: "flex", flexDirection: "column", padding: 8 }}>
             <ZohoContractorForm />
           </Card>
           <div style={{ display: "flex", flexDirection: "column", gap: 18, paddingTop: 8 }}>
