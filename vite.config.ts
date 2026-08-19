@@ -4,6 +4,7 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  server: { open: true },
   build: { outDir: "build" },
   environments: {
     ssr: { build: { outDir: "build/server" } },
