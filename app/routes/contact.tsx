@@ -20,9 +20,9 @@ export default function Contact() {
     <div>
       <Band tight style={{ paddingTop: 4 }}>
         <div style={{ display: "grid", gridTemplateColumns: "1.1fr .9fr", gap: 56, alignItems: "start" }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <Card tone="brand" padding="md" style={{ display: "flex", flexDirection: "column" }}>
             <ZohoContractorForm />
-          </div>
+          </Card>
           <div style={{ display: "flex", flexDirection: "column", gap: 18, paddingTop: 8 }}>
             <p style={{ margin: 0, font: "var(--type-body)", color: "var(--text-body)", lineHeight: 1.6 }}>
               We will need some basic information from you so we can get on the same page. After you fill out the form we will contact you and we can discuss next steps and get the project started.
