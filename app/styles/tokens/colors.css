@@ -1,0 +1,29 @@
+:root{
+  /* Brand red ramp — #bf2419 is the supplied brand red */
+  --red-800:#6d130d; --red-700:#8f1a12; --red-600:#a51f15; --red-500:#bf2419;
+  --red-400:#d64a3f; --red-200:#f0b6b1; --red-100:#f9e2e0; --red-050:#fdf4f3;
+  /* Neutral ramp — #898989 and #e0e0e0 are the supplied grays */
+  --gray-950:#121212; --gray-900:#1c1c1c; --gray-800:#2e2e2e; --gray-700:#4d4d4d;
+  --gray-600:#6b6b6b; --gray-500:#898989; --gray-400:#adadad; --gray-300:#c9c9c9;
+  --gray-200:#e0e0e0; --gray-100:#ededed; --gray-050:#f6f6f6; --white:#ffffff;
+  /* Support — used only for status, never as decoration */
+  --green-600:#2f7a3d; --amber-600:#b0761a; --blue-600:#2b5f8f;
+
+  /* Semantic: brand */
+  --brand:var(--red-500); --brand-hover:var(--red-600); --brand-press:var(--red-700);
+  --brand-tint:var(--red-050); --brand-tint-strong:var(--red-100);
+  /* Semantic: text */
+  --text-strong:var(--gray-900); --text-body:var(--gray-700); --text-muted:var(--gray-500);
+  --text-inverse:var(--white); --text-brand:var(--red-600); --text-on-brand:var(--white);
+  /* Semantic: surface */
+  --surface-page:var(--white); --surface-card:var(--white); --surface-subtle:var(--gray-050);
+  --surface-muted:var(--gray-100); --surface-dark:var(--gray-900); --surface-brand:var(--brand);
+  /* Semantic: line */
+  --border-hairline:var(--gray-200); --border-strong:var(--gray-300);
+  --border-dark:var(--gray-800); --border-brand:var(--brand);
+  --rule-accent:var(--brand);
+  /* Semantic: state */
+  --focus-ring:var(--red-400); --success:var(--green-600); --warning:var(--amber-600);
+  --danger:var(--red-600); --info:var(--blue-600);
+  --disabled-bg:var(--gray-100); --disabled-fg:var(--gray-400);
+}

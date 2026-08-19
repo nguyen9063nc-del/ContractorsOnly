@@ -1,0 +1,5 @@
+/* Contractors Only webfonts.
+   SUBSTITUTION NOTE: no brand font files were supplied. Archivo (display/headings)
+   and IBM Plex Sans (body/UI) are Google Fonts stand-ins. Swap this @import for
+   local @font-face rules when real font binaries arrive. */
+@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap");
