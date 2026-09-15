@@ -1,44 +1,61 @@
 import type { Route } from "./+types/equipment";
 import { Container } from "~/components/site/Container";
 import { DarkHero } from "~/components/site/DarkHero";
-import { PhotoSlot } from "~/components/site/PhotoSlot";
+import { MaybePhotoBox } from "~/components/site/MaybePhotoBox";
 import { Button } from "~/components/core/Button";
 import { cssVars } from "~/styles/css-vars";
-import { LIFTS, MOWERS, TRAILERS, TRUCKS, type FleetUnit } from "~/data/content";
+import { FLEET_ROWS, TOOL_ROWS, type FleetUnit, type ToolItem } from "~/data/content";
 import { PHOTOS } from "~/data/images.generated";
 
 export function meta(_: Route.MetaArgs) {
   return [
     { title: "Equipment — Contractors Only" },
-    { name: "description", content: "Mowers, trailers, trucks and lifts — all in house. No rental counters, no waiting on a delivery window, no day-rate surprises on your invoice." },
+    { name: "description", content: "Trucks, vans, trailers and tools — all in house. No rental counters, no waiting on a delivery window, no day-rate surprises on your invoice." },
   ];
 }
 
-function FleetGroup({ title, blurb, units, cols, colsTablet }: { title: string; blurb: string; units: FleetUnit[]; cols: number; colsTablet: number }) {
+const h2Red = { margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(34px,4.4vw,56px)", lineHeight: 0.95, letterSpacing: "-.025em", textTransform: "uppercase" as const, color: "var(--brand)" };
+const rowLabel = { margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(26px,1.9vw,32px)", lineHeight: 1, letterSpacing: "-.01em", textTransform: "uppercase" as const, color: "#1c1c1c" };
+const rowBlurb = { fontSize: "clamp(17px,1.15vw,20px)", lineHeight: 1.5, color: "#6a6a6a", flex: "1 1 320px", minWidth: 0 } as const;
+
+function FleetRowSection({ label, blurb, units, cols, colsTablet }: { label: string; blurb: string; units: FleetUnit[]; cols: number; colsTablet: number }) {
   return (
-    <section style={{ background: "#fff" }}>
-      <Container>
-        <div style={{ padding: "clamp(22px,3vh,30px) 0" }}>
-          <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap", marginBottom: 22 }}>
-            <h3 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 26, lineHeight: 1, letterSpacing: "-.01em", textTransform: "uppercase", color: "#1c1c1c" }}>{title}</h3>
-            <span style={{ fontSize: 17, lineHeight: 1.5, color: "#6a6a6a", flex: "1 1 320px", minWidth: 0 }}>{blurb}</span>
-          </div>
-          <div className="co-grid" style={cssVars({ "--cols": cols, "--cols-tablet": colsTablet, "--cols-mobile": 1, "--gap-x": "20px", "--gap-y": "20px" })}>
-            {units.map((u) => (
-              <div key={u.name} style={{ display: "flex", flexDirection: "column", background: "#fff" }}>
-                <div style={{ position: "relative", aspectRatio: "16/10", borderRadius: 8, overflow: "hidden" }}>
-                  {u.src ? <img src={u.src} alt={u.name} loading="lazy" decoding="async" width={700} height={438} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} /> : <PhotoSlot label={u.ph} />}
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 6, padding: "14px 2px 0" }}>
-                  <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 19, lineHeight: 1.2, color: "#1c1c1c" }}>{u.name}</span>
-                  <span style={{ fontSize: 17, lineHeight: 1.45, color: "#4d4d4d" }}>{u.spec}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </Container>
-    </section>
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+        <h3 style={rowLabel}>{label}</h3>
+        <span style={rowBlurb}>{blurb}</span>
+      </div>
+      <div className="co-grid" style={cssVars({ "--cols": cols, "--cols-tablet": colsTablet, "--cols-mobile": 1, "--gap-x": "clamp(14px,1.6vw,24px)", "--gap-y": "clamp(14px,1.6vw,24px)" })}>
+        {units.map((u) => (
+          <figure key={u.name} style={{ margin: 0, display: "flex", flexDirection: "column", gap: 11, minWidth: 0 }}>
+            <MaybePhotoBox photo={{ photo: u.photo, alt: u.name }} aspectRatio="4/3" size="sm" />
+            <figcaption style={{ display: "flex", flexDirection: "column", gap: 4, minWidth: 0 }}>
+              <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 400, fontSize: "clamp(19px,1.35vw,23px)", lineHeight: 1.2, color: "#1c1c1c" }}>{u.name}</span>
+              <span style={{ fontSize: "clamp(17px,1.15vw,20px)", lineHeight: 1.4, color: "#898989" }}>{u.spec}</span>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ToolRowSection({ label, blurb, items, cols, colsTablet }: { label: string; blurb: string; items: ToolItem[]; cols: number; colsTablet: number }) {
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
+      <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap" }}>
+        <h3 style={rowLabel}>{label}</h3>
+        <span style={rowBlurb}>{blurb}</span>
+      </div>
+      <div className="co-grid" style={cssVars({ "--cols": cols, "--cols-tablet": colsTablet, "--cols-mobile": 2, "--gap-x": "clamp(12px,1.3vw,20px)", "--gap-y": "clamp(12px,1.3vw,20px)" })}>
+        {items.map((t) => (
+          <figure key={t.name} style={{ margin: 0, display: "flex", flexDirection: "column", gap: 10, minWidth: 0 }}>
+            <MaybePhotoBox photo={{ photo: t.photo, alt: t.name }} aspectRatio="1/1" size="sm" />
+            <figcaption style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 400, fontSize: "clamp(17px,1.15vw,20px)", lineHeight: 1.25, color: "#1c1c1c" }}>{t.name}</figcaption>
+          </figure>
+        ))}
+      </div>
+    </div>
   );
 }
 
@@ -46,14 +63,14 @@ export default function Equipment() {
   return (
     <div>
       <DarkHero image={PHOTOS["trailer-exterior"]} alt="Crew trailer staged at a property" minHeight="clamp(380px,48vh,500px)" priority>
-        <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 17, letterSpacing: ".22em", textTransform: "uppercase", color: "rgba(255,255,255,.7)" }}>Equipment</span>
+        <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(17px,1.15vw,20px)", letterSpacing: ".22em", textTransform: "uppercase", color: "rgba(255,255,255,.7)" }}>Equipment</span>
         <h1 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(40px,5.6vw,78px)", lineHeight: 0.92, letterSpacing: "-.025em", textTransform: "uppercase", color: "#fff" }}>
           We own it.
           <br />
           <span style={{ color: "var(--brand)" }}>It shows up.</span>
         </h1>
         <p style={{ margin: 0, maxWidth: 470, fontSize: "clamp(17px,2vh,20px)", lineHeight: 1.5, color: "rgba(255,255,255,.82)" }}>
-          Mowers, trailers, trucks and lifts — all in house. No rental counters, no waiting on a delivery window, no day-rate surprises on your invoice.
+          Trucks, vans, trailers and tools — all in house. No rental counters, no waiting on a delivery window, no day-rate surprises on your invoice.
         </p>
         <Button as="link" to="/contact" style={{ marginTop: 6 }}>
           Get your project started
@@ -62,48 +79,37 @@ export default function Equipment() {
 
       <section style={{ background: "#fff" }}>
         <Container>
-          <div style={{ padding: "clamp(48px,7vh,88px) 0 clamp(20px,3vh,28px)" }}>
-            <div style={{ display: "flex", flexDirection: "column", gap: 12, maxWidth: 720 }}>
-              <h2 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(34px,4.4vw,56px)", lineHeight: 0.95, letterSpacing: "-.025em", textTransform: "uppercase", color: "var(--brand)" }}>
-                The fleet
-              </h2>
-              <p style={{ margin: 0, fontSize: 17, lineHeight: 1.6, color: "#4d4d4d" }}>
-                Owning our equipment is how we overlap trades and keep a turnover on schedule. Every unit below is ours and stays loaded, so crews start working the hour they arrive.
-              </p>
+          <div style={{ padding: "clamp(60px,9vh,116px) 0" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: "clamp(38px,5.5vh,66px)" }}>
+              <h2 style={h2Red}>Efficiency by design</h2>
+              <p style={{ margin: 0, fontSize: "clamp(17px,1.15vw,20px)", lineHeight: 1.6, color: "#4d4d4d" }}>Our vehicle fleet: how we get our people, equipment, tools and supplies to you quickly.</p>
             </div>
-          </div>
-        </Container>
-      </section>
-
-      <FleetGroup title="Trucks & vans" blurb="Sized to the job, from a single service call to a full turnover." units={TRUCKS} cols={3} colsTablet={2} />
-      <FleetGroup title="Trailers" blurb="Trade-specific packouts stay loaded, so crews work instead of making supply runs." units={TRAILERS} cols={2} colsTablet={2} />
-      <FleetGroup title="Mowers" blurb="Two zero-turns plus a rough-cut tow-behind for lots that have gone too long." units={MOWERS} cols={3} colsTablet={2} />
-
-      <section style={{ background: "#fff" }}>
-        <Container>
-          <div style={{ padding: "clamp(22px,3vh,30px) 0 clamp(48px,7vh,80px)" }}>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 14, flexWrap: "wrap", marginBottom: 18 }}>
-              <h3 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 26, lineHeight: 1, letterSpacing: "-.01em", textTransform: "uppercase", color: "#1c1c1c" }}>Lifts</h3>
-              <span style={{ fontSize: 17, lineHeight: 1.5, color: "#6a6a6a", flex: "1 1 320px", minWidth: 0 }}>Height access on demand — no day-rate rentals for roofline exteriors or high interior ceilings.</span>
-            </div>
-            <div className="co-grid" style={cssVars({ "--cols": 2, "--cols-tablet": 2, "--cols-mobile": 1, "--gap-x": "16px", "--gap-y": "16px" })}>
-              {LIFTS.map((l) => (
-                <div key={l.name} className="co-lift-row">
-                  <div style={{ flex: "0 0 132px", aspectRatio: "1/1", borderRadius: 8, overflow: "hidden" }}>
-                    <PhotoSlot label={l.ph} />
-                  </div>
-                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", gap: 6, minWidth: 0 }}>
-                    <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 19, lineHeight: 1.2, color: "#1c1c1c" }}>{l.name}</span>
-                    <span style={{ fontSize: 17, lineHeight: 1.45, color: "#4d4d4d" }}>{l.spec}</span>
-                  </div>
-                </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "clamp(34px,4.5vh,56px)" }}>
+              {FLEET_ROWS.map((r) => (
+                <FleetRowSection key={r.label} label={r.label} blurb={r.blurb} units={r.units} cols={4} colsTablet={2} />
               ))}
             </div>
           </div>
         </Container>
       </section>
 
-      <DarkHero image={PHOTOS["trailer-secured-load"]} alt="Loaded trailer ready to roll" minHeight="clamp(340px,42vh,440px)">
+      <section style={{ background: "#fff" }}>
+        <Container>
+          <div style={{ padding: "0 0 clamp(60px,9vh,116px)" }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: "clamp(38px,5.5vh,66px)" }}>
+              <h2 style={h2Red}>Tools to get the job done</h2>
+              <p style={{ margin: 0, fontSize: "clamp(17px,1.15vw,20px)", lineHeight: 1.6, color: "#4d4d4d" }}>Our tools and equipment: everything in one place, organized and ready.</p>
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "clamp(34px,4.5vh,56px)" }}>
+              {TOOL_ROWS.map((r) => (
+                <ToolRowSection key={r.label} label={r.label} blurb={r.blurb} items={r.items} cols={5} colsTablet={3} />
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <DarkHero image={PHOTOS["trailer-packout"]} alt="Loaded trailer ready to roll" minHeight="clamp(340px,42vh,440px)">
         <h2 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(34px,4.6vw,64px)", lineHeight: 0.94, letterSpacing: "-.025em", textTransform: "uppercase", color: "#fff" }}>
           Need something
           <br />

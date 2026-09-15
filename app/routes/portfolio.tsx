@@ -1,10 +1,10 @@
 import type { Route } from "./+types/portfolio";
 import { Container } from "~/components/site/Container";
 import { DarkHero } from "~/components/site/DarkHero";
-import { GalleryShot } from "~/components/site/GalleryShot";
+import { MaybePhotoBox } from "~/components/site/MaybePhotoBox";
 import { Button } from "~/components/core/Button";
 import { cssVars } from "~/styles/css-vars";
-import { WORK } from "~/data/content";
+import { PROJECTS, type PortfolioPhoto } from "~/data/content";
 import { PHOTOS } from "~/data/images.generated";
 
 export function meta(_: Route.MetaArgs) {
@@ -14,11 +14,22 @@ export function meta(_: Route.MetaArgs) {
   ];
 }
 
+const h2Red = { margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(30px,3.6vw,48px)", lineHeight: 0.98, letterSpacing: "-.02em", textTransform: "uppercase" as const, color: "#1c1c1c" };
+
+function Tile({ p, aspectRatio = "4/3" }: { p: PortfolioPhoto; aspectRatio?: string }) {
+  return (
+    <figure style={{ margin: 0, display: "flex", flexDirection: "column", gap: 8, minWidth: 0 }}>
+      <MaybePhotoBox photo={{ photo: p.photo, alt: p.alt }} aspectRatio={aspectRatio} size="sm" />
+      <figcaption style={{ fontSize: "clamp(16px,1.05vw,18px)", lineHeight: 1.3, color: "#898989" }}>{p.caption}</figcaption>
+    </figure>
+  );
+}
+
 export default function Portfolio() {
   return (
     <div>
       <DarkHero image={PHOTOS["showroom"]} alt="Commercial showroom cleaned and ready for business" minHeight="clamp(380px,48vh,500px)" priority>
-        <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 17, letterSpacing: ".22em", textTransform: "uppercase", color: "rgba(255,255,255,.7)" }}>Portfolio</span>
+        <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(17px,1.15vw,20px)", letterSpacing: ".22em", textTransform: "uppercase", color: "rgba(255,255,255,.7)" }}>Portfolio</span>
         <h1 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(40px,5.6vw,78px)", lineHeight: 0.92, letterSpacing: "-.025em", textTransform: "uppercase", color: "#fff" }}>
           Recent work.
           <br />
@@ -32,18 +43,34 @@ export default function Portfolio() {
         </Button>
       </DarkHero>
 
-      <section style={{ padding: "64px 0", background: "#fff" }}>
+      <section style={{ background: "#fff" }}>
         <Container>
-          <div className="co-grid" style={cssVars({ "--cols": 2, "--cols-tablet": 2, "--cols-mobile": 1, "--gap-x": "32px", "--gap-y": "40px" })}>
-            {WORK.map((w) => (
-              <figure key={w.cap} style={{ margin: 0, display: "flex", flexDirection: "column", gap: 14, minWidth: 0 }}>
-                <GalleryShot shots={w.shots} />
-                <figcaption style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 17, letterSpacing: ".14em", textTransform: "uppercase", color: "var(--brand)" }}>{w.tag}</span>
-                  <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 24, lineHeight: 1.08, letterSpacing: "-.02em", color: "#1c1c1c" }}>{w.cap}</span>
-                  <span style={{ fontSize: 17, lineHeight: 1.45, color: "#4d4d4d" }}>{w.sub}</span>
-                </figcaption>
-              </figure>
+          <div style={{ padding: "clamp(60px,9vh,116px) 0", display: "flex", flexDirection: "column", gap: "clamp(64px,9vh,120px)" }}>
+            {PROJECTS.map((project, i) => (
+              <div key={project.name} style={{ display: "flex", flexDirection: "column", gap: "clamp(28px,3.6vh,40px)" }}>
+                <div style={{ display: "flex", flexDirection: "column", gap: 14, maxWidth: 720 }}>
+                  <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(15px,1vw,17px)", letterSpacing: ".16em", textTransform: "uppercase", color: "var(--brand)" }}>
+                    Project {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h2 style={h2Red}>{project.name}</h2>
+                  <p style={{ margin: 0, fontSize: "clamp(17px,1.15vw,20px)", lineHeight: 1.6, color: "#4d4d4d" }}>{project.body}</p>
+                </div>
+
+                <div className="co-split" style={cssVars({ "--split-cols": "minmax(0,1.3fr) minmax(0,1fr)", "--split-gap": "clamp(24px,3.2vw,48px)" })}>
+                  <Tile p={project.hero} aspectRatio="16/11" />
+                  <div className="co-grid" style={cssVars({ "--cols": 2, "--cols-tablet": 2, "--cols-mobile": 2, "--gap-x": "clamp(12px,1.4vw,20px)", "--gap-y": "clamp(12px,1.4vw,20px)" })}>
+                    {project.tiles.map((t, ti) => (
+                      <Tile key={ti} p={t} aspectRatio="4/3" />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="co-grid" style={cssVars({ "--cols": 6, "--cols-tablet": 3, "--cols-mobile": 2, "--gap-x": "clamp(10px,1.2vw,16px)", "--gap-y": "clamp(10px,1.2vw,16px)" })}>
+                  {project.strip.map((s, si) => (
+                    <Tile key={si} p={s} aspectRatio="1/1" />
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         </Container>

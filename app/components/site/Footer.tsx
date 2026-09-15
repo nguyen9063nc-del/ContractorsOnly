@@ -21,31 +21,31 @@ export function Footer() {
               One call does it all.
             </p>
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 6, textAlign: "center" }}>
-              <span style={{ fontSize: 17, lineHeight: 1.5, color: "#4d4d4d" }}>
+              <span style={{ fontSize: "clamp(17px,1.15vw,20px)", lineHeight: 1.5, color: "#4d4d4d" }}>
                 {ADDRESS_LINE1}
                 <br />
                 {ADDRESS_LINE2}
               </span>
-              <a href={PHONE_HREF} style={{ fontSize: 17, lineHeight: 1.5, color: "#4d4d4d", textDecoration: "none", borderBottom: 0 }}>
+              <a href={PHONE_HREF} style={{ fontSize: "clamp(17px,1.15vw,20px)", lineHeight: 1.5, color: "#4d4d4d", textDecoration: "none", borderBottom: 0 }}>
                 {PHONE_DISPLAY}
               </a>
-              <a href={`mailto:${EMAIL}`} style={{ fontSize: 17, lineHeight: 1.5, color: "#4d4d4d", textDecoration: "none", borderBottom: 0, wordBreak: "break-all" }}>
+              <a href={`mailto:${EMAIL}`} style={{ fontSize: "clamp(17px,1.15vw,20px)", lineHeight: 1.5, color: "#4d4d4d", textDecoration: "none", borderBottom: 0, wordBreak: "break-all" }}>
                 {EMAIL}
               </a>
             </div>
           </div>
           {COLS.map((c) => (
             <div key={c.t} style={{ display: "flex", flexDirection: "column", gap: 12, alignItems: "flex-start" }}>
-              <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 17, letterSpacing: ".14em", textTransform: "uppercase", color: "#1c1c1c" }}>{c.t}</span>
+              <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(17px,1.15vw,20px)", letterSpacing: ".14em", textTransform: "uppercase", color: "#1c1c1c" }}>{c.t}</span>
               {c.items.map((i) => (
-                <Link key={i.label} to={i.to} style={{ fontSize: 17, color: "#4d4d4d", textDecoration: "none", border: 0 }}>
+                <Link key={i.label} to={i.to} style={{ fontSize: "clamp(17px,1.15vw,20px)", color: "#4d4d4d", textDecoration: "none", border: 0 }}>
                   {i.label}
                 </Link>
               ))}
             </div>
           ))}
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, paddingTop: 22, fontSize: 17, color: "#898989" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", gap: 8, paddingTop: 22, fontSize: "clamp(17px,1.15vw,20px)", color: "#898989" }}>
           <span>&copy; {new Date().getFullYear()} Contractors Only. Your one-stop property make-ready partner.</span>
           <span>Licensed &amp; insured &middot; Serving the metro area</span>
         </div>
