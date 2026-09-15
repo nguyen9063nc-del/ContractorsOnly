@@ -102,7 +102,7 @@ export default function Services() {
                     </ul>
                   </div>
                   <figure dir="ltr" style={{ margin: 0, display: "flex", flexDirection: "column", gap: 10, minWidth: 0 }}>
-                    <img src={s.src} alt={s.alt} loading="lazy" decoding="async" width={700} height={525} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 8, background: "#ededed" }} />
+                    <img src={s.src} alt={s.alt} loading="lazy" decoding="async" width={700} height={525} style={{ width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 8, background: "#ededed" }} />
                     <figcaption style={{ fontSize: 17, lineHeight: 1.35, color: "#898989" }}>{s.caption}</figcaption>
                   </figure>
                 </div>

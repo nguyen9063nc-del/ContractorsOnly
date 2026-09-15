@@ -8,7 +8,7 @@ export const PHOTOS: Record<string, ImageVariants> = {
   "conference-room": { tile: "/assets/photos/conference-room-tile.dfd1a28204.webp", full: "/assets/photos/conference-room-full.570f9cd598.webp" },
   "office-desk": { tile: "/assets/photos/office-desk-tile.3c3d3b8824.webp", full: "/assets/photos/office-desk-full.0251b8b31a.webp" },
   "office-files": { tile: "/assets/photos/office-files-tile.4a351e9f7c.webp", full: "/assets/photos/office-files-full.afb9aa4cef.webp" },
-  "restroom-refresh": { tile: "/assets/photos/restroom-refresh-tile.01006f514e.webp", full: "/assets/photos/restroom-refresh-full.c6817c1c46.webp" },
+  "restroom-refresh": { tile: "/assets/photos/restroom-refresh-tile.1456a74ada.webp", full: "/assets/photos/restroom-refresh-full.fda800860a.webp" },
   "showroom": { tile: "/assets/photos/showroom-tile.2c8acc3c18.webp", full: "/assets/photos/showroom-full.faa9dc0eb4.webp" },
   "trailer-exterior": { tile: "/assets/photos/trailer-exterior-tile.e9873aa384.webp", full: "/assets/photos/trailer-exterior-full.568bc4fc8e.webp" },
   "trailer-interior": { tile: "/assets/photos/trailer-interior-tile.6e85abaabb.webp", full: "/assets/photos/trailer-interior-full.721d3900bf.webp" },

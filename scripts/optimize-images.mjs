@@ -32,6 +32,9 @@ async function buildPhoto(file) {
   const variants = {};
   for (const v of PHOTO_VARIANTS) {
     const buf = await sharp(srcPath)
+      .rotate() // auto-orient from EXIF before resizing — sharp otherwise resizes
+      // the raw sensor pixels and drops the orientation tag, silently baking in a
+      // sideways/upside-down image for any photo that needed EXIF rotation.
       .resize({ width: v.width, withoutEnlargement: true })
       .webp({ quality: v.quality, effort: 6 })
       .toBuffer();

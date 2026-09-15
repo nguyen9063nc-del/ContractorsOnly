@@ -25,7 +25,7 @@ export const links: Route.LinksFunction = () => [
     rel: "preload",
     as: "image",
     href: HERO_PHOTOS[0].full,
-    imageSrcset: `${HERO_PHOTOS[0].tile} 700w, ${HERO_PHOTOS[0].full} 1600w`,
+    imageSrcSet: `${HERO_PHOTOS[0].tile} 700w, ${HERO_PHOTOS[0].full} 1600w`,
     imageSizes: "100vw",
     fetchPriority: "high",
   },
@@ -120,13 +120,13 @@ function SpeedSection() {
             decoding="async"
             width={1600}
             height={1200}
-            style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }}
+            style={{ width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }}
           />
         </div>
         <div className="co-grid" style={{ ...cssVars({ "--cols": 4, "--cols-tablet": 2, "--cols-mobile": 2, "--gap-x": "20px", "--gap-y": "20px" }), marginTop: "clamp(28px,4vh,44px)" }}>
           {FLEET_STRIP.map((f) => (
             <figure key={f.t} style={{ margin: 0, display: "flex", flexDirection: "column", gap: 10, minWidth: 0 }}>
-              <img src={f.src} alt={f.t} loading="lazy" decoding="async" width={700} height={525} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }} />
+              <img src={f.src} alt={f.t} loading="lazy" decoding="async" width={700} height={525} style={{ width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }} />
               <figcaption style={{ display: "flex", flexDirection: "column", gap: 3, paddingTop: 9 }}>
                 <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 17, textTransform: "uppercase", letterSpacing: ".02em", color: "#1c1c1c" }}>{f.t}</span>
                 <span style={{ fontSize: 17, lineHeight: 1.35, color: "#898989" }}>{f.b}</span>
@@ -150,7 +150,7 @@ function CapabilitiesBand() {
           <div className="co-grid" style={cssVars({ "--cols": 4, "--cols-tablet": 2, "--cols-mobile": 1, "--gap-x": "20px", "--gap-y": "28px" })}>
             {HOME_CAPABILITIES.map((c) => (
               <div key={c.t} style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-                <img src={c.src} alt={c.alt} loading="lazy" decoding="async" width={700} height={525} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }} />
+                <img src={c.src} alt={c.alt} loading="lazy" decoding="async" width={700} height={525} style={{ width: "100%", height: "auto", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }} />
                 <div style={{ display: "flex", flexDirection: "column", gap: 14, padding: "10px 0 0", marginTop: 8 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
                     <Icon name={c.icon} size={22} strokeColor="var(--brand)" />
@@ -192,7 +192,7 @@ function DeadlineSection() {
             decoding="async"
             width={1600}
             height={900}
-            style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block", borderRadius: 16 }}
+            style={{ width: "100%", height: "auto", aspectRatio: "16/9", objectFit: "cover", display: "block", borderRadius: 16 }}
           />
         </div>
         <div className="co-grid" style={{ ...cssVars({ "--cols": 3, "--cols-tablet": 2, "--cols-mobile": 1, "--gap-x": "20px", "--gap-y": "20px" }), marginTop: 36 }}>
