@@ -1,0 +1,31 @@
+{
+  "name": "contractors-only",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "react-router dev",
+    "build": "react-router build",
+    "start": "wrangler dev",
+    "deploy": "npm run build && wrangler deploy",
+    "typecheck": "react-router typegen && wrangler types && tsc -b",
+    "cf-typegen": "wrangler types"
+  },
+  "dependencies": {
+    "isbot": "^5.1.22",
+    "lucide-react": "^0.544.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router": "^7.9.1"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.4.0",
+    "@react-router/dev": "^7.9.1",
+    "@types/node": "^22.10.5",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "typescript": "^5.7.2",
+    "vite": "^6.3.5",
+    "vite-tsconfig-paths": "^5.1.4",
+    "wrangler": "^4.28.0"
+  }
+}

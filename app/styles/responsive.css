@@ -1,0 +1,40 @@
+/* Breakpoints: desktop > 1024px, tablet 641–1024px, mobile <= 640px.
+   These utilities exist so layout actually reflows at each tier (real CSS
+   grid-template-columns changes, not a scaled-down desktop layout). */
+
+.co-container{width:100%;max-width:var(--container-w,1440px);margin:0 auto;padding:0 32px;box-sizing:border-box}
+@media (max-width:1024px){.co-container{padding:0 24px}}
+@media (max-width:640px){.co-container{padding:0 18px}}
+
+/* N-column grid: set --cols / --cols-tablet / --cols-mobile inline per usage. */
+.co-grid{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));gap:var(--gap-y,20px) var(--gap-x,20px)}
+@media (max-width:1024px){.co-grid{grid-template-columns:repeat(var(--cols-tablet,2),minmax(0,1fr));gap:var(--gap-y-tablet,var(--gap-y,18px)) var(--gap-x-tablet,var(--gap-x,18px))}}
+@media (max-width:640px){.co-grid{grid-template-columns:repeat(var(--cols-mobile,1),minmax(0,1fr));gap:var(--gap-y-mobile,var(--gap-y,16px)) var(--gap-x-mobile,var(--gap-x,16px))}}
+
+/* Asymmetric two-column content layout that stacks below tablet. */
+.co-split{display:grid;grid-template-columns:var(--split-cols,1fr 1fr);gap:var(--split-gap,40px);align-items:var(--split-align,start)}
+@media (max-width:1024px){.co-split{grid-template-columns:1fr;gap:var(--split-gap-tablet,32px)}}
+
+/* Header nav: full row on desktop, hamburger + slide-down panel at tablet/mobile. */
+.co-nav-links{display:flex;flex-wrap:nowrap;align-items:center}
+.co-header-cta{display:flex}
+.co-nav-toggle{display:none}
+@media (max-width:860px){
+  .co-nav-links{display:none}
+  .co-header-cta{display:none}
+  .co-nav-toggle{display:inline-flex}
+}
+.co-mobile-panel{display:flex}
+@media (min-width:861px){.co-mobile-panel{display:none!important}}
+
+/* Equipment "lifts" rows: image + text side by side, stacked on phones. */
+.co-lift-row{display:flex;align-items:stretch;gap:16px}
+@media (max-width:640px){.co-lift-row{flex-direction:column}}
+
+/* Services alternating feature rows: force ltr stacking order on small screens
+   regardless of the desktop dir=rtl mirroring, so image always follows text. */
+@media (max-width:900px){
+  .co-alt-row{direction:ltr!important}
+}
+
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
