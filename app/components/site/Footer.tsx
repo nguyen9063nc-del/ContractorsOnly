@@ -6,6 +6,7 @@ import { PHONE_DISPLAY, PHONE_HREF, EMAIL, ADDRESS_LINE1, ADDRESS_LINE2 } from "
 
 const COLS = [
   { t: "Services", items: [{ label: "Interior", to: "/services" }, { label: "Exterior", to: "/services" }, { label: "Property preparation", to: "/services" }, { label: "Cleanup & hauling", to: "/services" }] },
+  { t: "Who we serve", items: [{ label: "Real estate agents", to: "/services" }, { label: "Property managers", to: "/services" }, { label: "Investors", to: "/services" }, { label: "Multifamily", to: "/services" }, { label: "REO & asset managers", to: "/services" }, { label: "Commercial", to: "/services" }] },
   { t: "Company", items: [{ label: "How it works", to: "/contact" }, { label: "Equipment", to: "/equipment" }, { label: "Portfolio", to: "/portfolio" }, { label: "About us", to: "/about" }, { label: "Contact", to: "/contact" }] },
 ];
 
@@ -13,7 +14,7 @@ export function Footer() {
   return (
     <footer style={{ background: "#f6f6f6", borderTop: "1px solid #e0e0e0", padding: "64px 0 32px", color: "#4d4d4d" }}>
       <Container>
-        <div className="co-grid" style={{ ...cssVars({ "--cols": 3, "--cols-tablet": 3, "--cols-mobile": 1, "--gap-x": "40px", "--gap-y": "32px" }), paddingBottom: 40, borderBottom: "1px solid #e0e0e0" }}>
+        <div className="co-grid" style={{ ...cssVars({ "--cols": 4, "--cols-tablet": 2, "--cols-mobile": 1, "--gap-x": "40px", "--gap-y": "32px" }), paddingBottom: 40, borderBottom: "1px solid #e0e0e0" }}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 14 }}>
             <Wordmark height={64} />
             <p style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(17px,1.5vw,22px)", lineHeight: 1.1, letterSpacing: "-.01em", textTransform: "uppercase", color: "#1c1c1c", textAlign: "center" }}>
