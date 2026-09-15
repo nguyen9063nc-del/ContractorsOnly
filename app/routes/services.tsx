@@ -5,6 +5,7 @@ import { Button } from "~/components/core/Button";
 import { Icon } from "~/components/core/Icon";
 import { cssVars } from "~/styles/css-vars";
 import { SERVICES_AUDIENCES, SERVICE_CATEGORIES, TIMELINE } from "~/data/content";
+import { PHOTOS } from "~/data/images.generated";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -16,7 +17,7 @@ export function meta(_: Route.MetaArgs) {
 export default function Services() {
   return (
     <div>
-      <DarkHero image="/assets/photos/office-meeting-room.jpg" alt="Commercial interior prepared for handover" minHeight="clamp(420px,56vh,560px)">
+      <DarkHero image={PHOTOS["conference-room"]} alt="Commercial interior prepared for handover" minHeight="clamp(420px,56vh,560px)" priority>
         <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 17, letterSpacing: ".22em", textTransform: "uppercase", color: "rgba(255,255,255,.7)" }}>Services</span>
         <h1 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(40px,5.6vw,78px)", lineHeight: 0.92, letterSpacing: "-.025em", textTransform: "uppercase", color: "#fff" }}>
           Who we serve.
@@ -101,7 +102,7 @@ export default function Services() {
                     </ul>
                   </div>
                   <figure dir="ltr" style={{ margin: 0, display: "flex", flexDirection: "column", gap: 10, minWidth: 0 }}>
-                    <img src={s.src} alt={s.alt} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 8, background: "#ededed" }} />
+                    <img src={s.src} alt={s.alt} loading="lazy" decoding="async" width={700} height={525} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 8, background: "#ededed" }} />
                     <figcaption style={{ fontSize: 17, lineHeight: 1.35, color: "#898989" }}>{s.caption}</figcaption>
                   </figure>
                 </div>
@@ -148,7 +149,7 @@ export default function Services() {
         </div>
       </section>
 
-      <DarkHero image="/assets/photos/trailer-exterior.jpg" alt="Crew truck staged at a property" minHeight="clamp(380px,48vh,520px)">
+      <DarkHero image={PHOTOS["trailer-exterior"]} alt="Crew truck staged at a property" minHeight="clamp(380px,48vh,520px)">
         <h2 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(34px,4.6vw,64px)", lineHeight: 0.94, letterSpacing: "-.025em", textTransform: "uppercase", color: "#fff" }}>Don&apos;t see it listed?</h2>
         <p style={{ margin: 0, maxWidth: 470, fontSize: "clamp(17px,2vh,20px)", lineHeight: 1.5, color: "rgba(255,255,255,.82)" }}>
           This covers the most common work, not everything we can do. If a property needs something you don&apos;t see here, ask — if we can&apos;t do it ourselves, we usually know who can and will coordinate it as part of the same scope.

@@ -4,6 +4,12 @@ import appCss from "./styles/app.css?url";
 
 export const links: Route.LinksFunction = () => [
   { rel: "icon", type: "image/png", href: "/assets/logo-mark.png" },
+  // Self-hosted fonts used on every page — preloaded so the real typeface arrives
+  // as early as possible and swaps in before layout has settled (font-display:
+  // swap already avoids blocking first paint; this just shortens the fallback
+  // window, which is where swap-triggered reflow/CLS would otherwise come from).
+  { rel: "preload", href: "/fonts/archivo-latin.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
+  { rel: "preload", href: "/fonts/ibm-plex-sans-latin-400.woff2", as: "font", type: "font/woff2", crossOrigin: "anonymous" },
   { rel: "stylesheet", href: appCss },
 ];
 

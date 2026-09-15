@@ -5,6 +5,7 @@ import { GalleryShot } from "~/components/site/GalleryShot";
 import { Button } from "~/components/core/Button";
 import { cssVars } from "~/styles/css-vars";
 import { WORK } from "~/data/content";
+import { PHOTOS } from "~/data/images.generated";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -16,7 +17,7 @@ export function meta(_: Route.MetaArgs) {
 export default function Portfolio() {
   return (
     <div>
-      <DarkHero image="/assets/photos/showroom.jpg" alt="Commercial showroom cleaned and ready for business" minHeight="clamp(380px,48vh,500px)">
+      <DarkHero image={PHOTOS["showroom"]} alt="Commercial showroom cleaned and ready for business" minHeight="clamp(380px,48vh,500px)" priority>
         <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 17, letterSpacing: ".22em", textTransform: "uppercase", color: "rgba(255,255,255,.7)" }}>Portfolio</span>
         <h1 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(40px,5.6vw,78px)", lineHeight: 0.92, letterSpacing: "-.025em", textTransform: "uppercase", color: "#fff" }}>
           Recent work.
@@ -48,7 +49,7 @@ export default function Portfolio() {
         </Container>
       </section>
 
-      <DarkHero image="/assets/photos/conference-room.jpg" alt="Conference room ready for business" minHeight="clamp(340px,42vh,440px)">
+      <DarkHero image={PHOTOS["conference-room"]} alt="Conference room ready for business" minHeight="clamp(340px,42vh,440px)">
         <h2 style={{ margin: 0, fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: "clamp(34px,4.6vw,64px)", lineHeight: 0.94, letterSpacing: "-.025em", textTransform: "uppercase", color: "#fff" }}>
           <span style={{ color: "var(--brand)" }}>Your property</span>
           <br />

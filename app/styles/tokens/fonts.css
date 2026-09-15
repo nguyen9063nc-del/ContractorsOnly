@@ -1,5 +1,24 @@
-/* Contractors Only webfonts.
-   SUBSTITUTION NOTE: no brand font files were supplied. Archivo (display/headings)
-   and IBM Plex Sans (body/UI) are Google Fonts stand-ins. Swap this @import for
-   local @font-face rules when real font binaries arrive. */
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap");
+/* Contractors Only webfonts — self-hosted.
+   Only the weights actually used anywhere in the app are shipped: Archivo 600/700
+   (headings, eyebrows, buttons, labels — verified by grepping every fontWeight in
+   app/) and IBM Plex Sans 400 (body copy). IBM Plex Mono and Archivo 500/800 were
+   in the original Google Fonts request but never applied to any element, so they
+   were dropped entirely. Files are the "latin" subset only (site copy is English),
+   pulled once from Google's own CDN — see scripts/optimize-images.mjs sibling
+   note in README for how to refresh them if that ever changes.
+   Archivo ships as a single variable-weight file; one ranged @font-face covers
+   both weights actually used instead of two separate downloads. */
+@font-face {
+  font-family: "Archivo";
+  font-style: normal;
+  font-weight: 600 700;
+  font-display: swap;
+  src: url("/fonts/archivo-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/ibm-plex-sans-latin-400.woff2") format("woff2");
+}

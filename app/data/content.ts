@@ -1,4 +1,5 @@
 import type { IconName } from "lucide-react/dynamic";
+import { PHOTOS } from "./images.generated";
 
 export const PHONE_DISPLAY = "(425) 444-4514";
 export const PHONE_HREF = "tel:4254444514";
@@ -6,18 +7,17 @@ export const EMAIL = "hannguyen1@comcast.net";
 export const ADDRESS_LINE1 = "14600 1st Ave S";
 export const ADDRESS_LINE2 = "Burien, WA 98168";
 
-const P = "/assets/photos/";
-
 export interface Shot {
-  src: string;
+  tile: string;
+  full: string;
   alt: string;
   filter?: string;
 }
 
 export const HERO_PHOTOS: Shot[] = [
-  { src: P + "showroom.jpg", alt: "Commercial showroom cleaned and ready for business", filter: "brightness(1.18) contrast(1.02)" },
-  { src: P + "conference-room.jpg", alt: "Conference room ready for business" },
-  { src: P + "restroom-refresh.jpg", alt: "Refreshed commercial restroom" },
+  { ...PHOTOS["showroom"], alt: "Commercial showroom cleaned and ready for business", filter: "brightness(1.18) contrast(1.02)" },
+  { ...PHOTOS["conference-room"], alt: "Conference room ready for business" },
+  { ...PHOTOS["restroom-refresh"], alt: "Refreshed commercial restroom" },
 ];
 
 export const ONES: { t: string; short: string; icon: IconName }[] = [
@@ -29,10 +29,10 @@ export const ONES: { t: string; short: string; icon: IconName }[] = [
 export const SPEED_POINTS = ["Fully stocked and organized", "Professional grade equipment", "Equipment for multiple trades", "Clean, efficient and secure", "Ready to deploy to your property"];
 
 export const FLEET_STRIP: { src: string; t: string; b: string }[] = [
-  { src: P + "trailer-exterior.jpg", t: "Enclosed trailers", b: "Mobile workshops" },
-  { src: P + "trailer-packout.jpg", t: "Organized packout", b: "Tools and supplies on hand" },
-  { src: P + "trailer-interior.jpg", t: "Staging and storage", b: "Materials, equipment & debris" },
-  { src: P + "trailer-secured-load.jpg", t: "Specialized equipment", b: "Hauled in and secured" },
+  { src: PHOTOS["trailer-exterior"].tile, t: "Enclosed trailers", b: "Mobile workshops" },
+  { src: PHOTOS["trailer-packout"].tile, t: "Organized packout", b: "Tools and supplies on hand" },
+  { src: PHOTOS["trailer-interior"].tile, t: "Staging and storage", b: "Materials, equipment & debris" },
+  { src: PHOTOS["trailer-secured-load"].tile, t: "Specialized equipment", b: "Hauled in and secured" },
 ];
 
 export interface HomeCapability {
@@ -44,10 +44,10 @@ export interface HomeCapability {
 }
 
 export const HOME_CAPABILITIES: HomeCapability[] = [
-  { t: "Interior repairs & finishes", icon: "paint-roller", src: P + "office-desk.jpg", alt: "Refreshed interior workspace", items: ["Painting", "Drywall repair", "Trim & doors", "Flooring", "Cabinet touch-ups", "Fixture replacement", "Handyman services"] },
-  { t: "Exterior & grounds", icon: "trees", src: P + "trailer-exterior.jpg", alt: "Crew truck on a property exterior", items: ["Pressure washing", "Landscaping", "Gutter cleaning", "Fence & deck repairs", "Exterior painting", "Yard cleanup"] },
-  { t: "Clean & prepare", icon: "sparkles", src: P + "restroom-refresh.jpg", alt: "Freshly cleaned interior space", items: ["Deep cleaning", "Carpet cleaning", "Window cleaning", "Junk removal", "Appliance removal", "Final photo-ready cleaning"] },
-  { t: "Specialty trades", icon: "wrench", src: P + "trailer-interior.jpg", alt: "Tools and equipment staged in a trailer", items: ["Electrical (minor repairs)", "Plumbing (minor repairs)", "HVAC (as needed)", "Other licensed trades through our network"] },
+  { t: "Interior repairs & finishes", icon: "paint-roller", src: PHOTOS["office-desk"].tile, alt: "Refreshed interior workspace", items: ["Painting", "Drywall repair", "Trim & doors", "Flooring", "Cabinet touch-ups", "Fixture replacement", "Handyman services"] },
+  { t: "Exterior & grounds", icon: "trees", src: PHOTOS["trailer-exterior"].tile, alt: "Crew truck on a property exterior", items: ["Pressure washing", "Landscaping", "Gutter cleaning", "Fence & deck repairs", "Exterior painting", "Yard cleanup"] },
+  { t: "Clean & prepare", icon: "sparkles", src: PHOTOS["restroom-refresh"].tile, alt: "Freshly cleaned interior space", items: ["Deep cleaning", "Carpet cleaning", "Window cleaning", "Junk removal", "Appliance removal", "Final photo-ready cleaning"] },
+  { t: "Specialty trades", icon: "wrench", src: PHOTOS["trailer-interior"].tile, alt: "Tools and equipment staged in a trailer", items: ["Electrical (minor repairs)", "Plumbing (minor repairs)", "HVAC (as needed)", "Other licensed trades through our network"] },
 ];
 
 export interface HomeAudience {
@@ -87,18 +87,18 @@ export interface WorkItem {
 
 export const WORK: WorkItem[] = [
   { cap: "Office turnover", tag: "Commercial", sub: "Repairs, finish work, and a full cleanout so the space is ready for its next tenant.", shots: [
-    { src: P + "office-desk.jpg", alt: "Office workstation ready for move-in" },
-    { src: P + "office-files.jpg", alt: "Organized office file storage" },
+    { ...PHOTOS["office-desk"], alt: "Office workstation ready for move-in" },
+    { ...PHOTOS["office-files"], alt: "Organized office file storage" },
   ] },
   { cap: "Showroom & conference reset", tag: "Commercial", sub: "Deep clean, paint, and fixtures brought back to standard before reopening.", shots: [
-    { src: P + "showroom.jpg", alt: "Commercial showroom cleaned and ready for business", filter: "brightness(1.18) contrast(1.02)" },
-    { src: P + "conference-room.jpg", alt: "Conference room ready for business" },
+    { ...PHOTOS["showroom"], alt: "Commercial showroom cleaned and ready for business", filter: "brightness(1.18) contrast(1.02)" },
+    { ...PHOTOS["conference-room"], alt: "Conference room ready for business" },
   ] },
   { cap: "Restroom refresh", tag: "Commercial", sub: "Fixtures, tile, and finish work handled in a single coordinated visit.", shots: [
-    { src: P + "restroom-refresh.jpg", alt: "Refreshed commercial restroom" },
+    { ...PHOTOS["restroom-refresh"], alt: "Refreshed commercial restroom" },
   ] },
   { cap: "Meeting room turnaround", tag: "Commercial", sub: "Paint, carpet cleaning, and punch-list repairs completed between tenants.", shots: [
-    { src: P + "office-meeting-room.jpg", alt: "Meeting room ready for occupancy" },
+    { ...PHOTOS["conference-room"], alt: "Meeting room ready for occupancy" },
   ] },
 ];
 
@@ -131,10 +131,10 @@ export interface ServiceCategory {
 }
 
 export const SERVICE_CATEGORIES: ServiceCategory[] = [
-  { t: "Interior repairs & finishes", icon: "paint-roller", src: P + "office-desk.jpg", alt: "Refreshed interior workspace", caption: "Interior refresh completed ahead of tenant move-in.", body: "Everything inside the walls — paint, surfaces, flooring and the finish work that makes a space feel ready rather than repaired.", items: ["Interior painting", "Drywall & ceiling repair", "Flooring & carpet", "Doors, trim & hardware", "Cabinet touch-ups", "Fixture replacement", "Minor carpentry", "Punch-list repairs"] },
-  { t: "Exterior & grounds", icon: "trees", src: P + "trailer-exterior.jpg", alt: "Crew truck on a property exterior", caption: "Exterior cleanup and pressure washing on a commercial lot.", body: "Curb appeal and upkeep. The outside of a property is the first thing a buyer, tenant or inspector sees — and the first thing that gets flagged.", items: ["Exterior painting", "Pressure washing", "Landscaping & yard cleanup", "Gutter cleaning", "Fence & deck repair", "Debris removal"] },
-  { t: "Clean & prepare", icon: "sparkles", src: P + "restroom-refresh.jpg", alt: "Freshly cleaned interior space", caption: "Restroom refresh handled in a single coordinated visit.", body: "The last mile before listing or move-in: everything cleaned, cleared and photo-ready on the date you need it.", items: ["Deep cleaning", "Carpet & upholstery", "Window cleaning", "Junk & appliance removal", "Cleanouts and hauling", "Final photo-ready detail"] },
-  { t: "Specialty trades", icon: "wrench", src: P + "trailer-interior.jpg", alt: "Tools and equipment staged in a trailer", caption: "Fully stocked trailers keep crews working without supply runs.", body: "When a job needs a licensed trade, we bring it into the same scope and the same invoice instead of handing you another phone number.", items: ["Minor electrical", "Minor plumbing", "HVAC as needed", "Licensed trades through our network", "Coordination & scheduling", "Single point of contact"] },
+  { t: "Interior repairs & finishes", icon: "paint-roller", src: PHOTOS["office-desk"].tile, alt: "Refreshed interior workspace", caption: "Interior refresh completed ahead of tenant move-in.", body: "Everything inside the walls — paint, surfaces, flooring and the finish work that makes a space feel ready rather than repaired.", items: ["Interior painting", "Drywall & ceiling repair", "Flooring & carpet", "Doors, trim & hardware", "Cabinet touch-ups", "Fixture replacement", "Minor carpentry", "Punch-list repairs"] },
+  { t: "Exterior & grounds", icon: "trees", src: PHOTOS["trailer-exterior"].tile, alt: "Crew truck on a property exterior", caption: "Exterior cleanup and pressure washing on a commercial lot.", body: "Curb appeal and upkeep. The outside of a property is the first thing a buyer, tenant or inspector sees — and the first thing that gets flagged.", items: ["Exterior painting", "Pressure washing", "Landscaping & yard cleanup", "Gutter cleaning", "Fence & deck repair", "Debris removal"] },
+  { t: "Clean & prepare", icon: "sparkles", src: PHOTOS["restroom-refresh"].tile, alt: "Freshly cleaned interior space", caption: "Restroom refresh handled in a single coordinated visit.", body: "The last mile before listing or move-in: everything cleaned, cleared and photo-ready on the date you need it.", items: ["Deep cleaning", "Carpet & upholstery", "Window cleaning", "Junk & appliance removal", "Cleanouts and hauling", "Final photo-ready detail"] },
+  { t: "Specialty trades", icon: "wrench", src: PHOTOS["trailer-interior"].tile, alt: "Tools and equipment staged in a trailer", caption: "Fully stocked trailers keep crews working without supply runs.", body: "When a job needs a licensed trade, we bring it into the same scope and the same invoice instead of handing you another phone number.", items: ["Minor electrical", "Minor plumbing", "HVAC as needed", "Licensed trades through our network", "Coordination & scheduling", "Single point of contact"] },
 ];
 
 export interface TimelineRow {
@@ -172,10 +172,10 @@ export const MOWERS: FleetUnit[] = [
 ];
 
 export const TRAILERS: FleetUnit[] = [
-  { name: "Landscaping trailer", spec: "Mowers, trimmers, blowers and debris hauling.", ph: "Landscaping trailer", src: P + "trailer-secured-load.jpg" },
-  { name: "Summit open trailer", spec: "Demo, cleanout and haul-off loads.", ph: "Summit open", src: P + "trailer-exterior.jpg" },
-  { name: "White flooring trailer", spec: "Flooring, underlayment and install tools.", ph: "Flooring trailer", src: P + "trailer-packout.jpg" },
-  { name: "White general supplies trailer", spec: "Paint, drywall and general trade stock.", ph: "General supplies", src: P + "trailer-interior.jpg" },
+  { name: "Landscaping trailer", spec: "Mowers, trimmers, blowers and debris hauling.", ph: "Landscaping trailer", src: PHOTOS["trailer-secured-load"].tile },
+  { name: "Summit open trailer", spec: "Demo, cleanout and haul-off loads.", ph: "Summit open", src: PHOTOS["trailer-exterior"].tile },
+  { name: "White flooring trailer", spec: "Flooring, underlayment and install tools.", ph: "Flooring trailer", src: PHOTOS["trailer-packout"].tile },
+  { name: "White general supplies trailer", spec: "Paint, drywall and general trade stock.", ph: "General supplies", src: PHOTOS["trailer-interior"].tile },
 ];
 
 export const TRUCKS: FleetUnit[] = [

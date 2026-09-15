@@ -1,0 +1,19 @@
+# Cloudflare Workers/Pages static-asset caching. Only applies to files served
+# directly from the assets bucket (images, fonts, built JS/CSS, favicon) — SSR
+# page responses come from the Worker itself and aren't affected by this file.
+#
+# Everything under /assets/ is content-hashed (Vite hashes its own JS/CSS output;
+# scripts/optimize-images.mjs hashes generated photo/logo filenames), so it's safe
+# to cache for a year and mark immutable: a changed file gets a new filename, an
+# unchanged one never needs to be re-fetched.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# The one static asset under /assets/ that ISN'T hashed (it's referenced by a
+# fixed path from the favicon <link>), so it gets a short, revalidated cache
+# instead of "immutable".
+/assets/logo-mark.png
+  Cache-Control: public, max-age=86400, must-revalidate
+
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable

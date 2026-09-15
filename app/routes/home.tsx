@@ -8,6 +8,7 @@ import { Icon } from "~/components/core/Icon";
 import { Eyebrow } from "~/components/core/Eyebrow";
 import { cssVars } from "~/styles/css-vars";
 import { FLEET_STRIP, HERO_PHOTOS, HOME_AUDIENCES, HOME_CAPABILITIES, ONES, SPEED_POINTS, STEPS, WORK } from "~/data/content";
+import { PHOTOS } from "~/data/images.generated";
 
 export function meta(_: Route.MetaArgs) {
   return [
@@ -15,6 +16,20 @@ export function meta(_: Route.MetaArgs) {
     { name: "description", content: "From repairs and painting to landscaping and final cleanup, we coordinate everything to get your property market-ready — fast." },
   ];
 }
+
+// The first hero photo is this page's LCP element — preload it (with the same
+// srcset the <img> uses) so the browser starts the fetch before it even parses
+// the rest of the document, instead of waiting to discover the <img> tag.
+export const links: Route.LinksFunction = () => [
+  {
+    rel: "preload",
+    as: "image",
+    href: HERO_PHOTOS[0].full,
+    imageSrcset: `${HERO_PHOTOS[0].tile} 700w, ${HERO_PHOTOS[0].full} 1600w`,
+    imageSizes: "100vw",
+    fetchPriority: "high",
+  },
+];
 
 function Hero() {
   const [i, setI] = useState(0);
@@ -98,12 +113,20 @@ function SpeedSection() {
               ))}
             </ul>
           </div>
-          <img src="/assets/photos/trailer-packout.jpg" alt="Trailer interior stocked with organized tool crates" style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }} />
+          <img
+            src={PHOTOS["trailer-packout"].full}
+            alt="Trailer interior stocked with organized tool crates"
+            loading="lazy"
+            decoding="async"
+            width={1600}
+            height={1200}
+            style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }}
+          />
         </div>
         <div className="co-grid" style={{ ...cssVars({ "--cols": 4, "--cols-tablet": 2, "--cols-mobile": 2, "--gap-x": "20px", "--gap-y": "20px" }), marginTop: "clamp(28px,4vh,44px)" }}>
           {FLEET_STRIP.map((f) => (
             <figure key={f.t} style={{ margin: 0, display: "flex", flexDirection: "column", gap: 10, minWidth: 0 }}>
-              <img src={f.src} alt={f.t} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }} />
+              <img src={f.src} alt={f.t} loading="lazy" decoding="async" width={700} height={525} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }} />
               <figcaption style={{ display: "flex", flexDirection: "column", gap: 3, paddingTop: 9 }}>
                 <span style={{ fontFamily: "Archivo, Arial, sans-serif", fontWeight: 700, fontSize: 17, textTransform: "uppercase", letterSpacing: ".02em", color: "#1c1c1c" }}>{f.t}</span>
                 <span style={{ fontSize: 17, lineHeight: 1.35, color: "#898989" }}>{f.b}</span>
@@ -127,7 +150,7 @@ function CapabilitiesBand() {
           <div className="co-grid" style={cssVars({ "--cols": 4, "--cols-tablet": 2, "--cols-mobile": 1, "--gap-x": "20px", "--gap-y": "28px" })}>
             {HOME_CAPABILITIES.map((c) => (
               <div key={c.t} style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-                <img src={c.src} alt={c.alt} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }} />
+                <img src={c.src} alt={c.alt} loading="lazy" decoding="async" width={700} height={525} style={{ width: "100%", aspectRatio: "4/3", objectFit: "cover", display: "block", borderRadius: 4, background: "#ededed" }} />
                 <div style={{ display: "flex", flexDirection: "column", gap: 14, padding: "10px 0 0", marginTop: 8 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 11 }}>
                     <Icon name={c.icon} size={22} strokeColor="var(--brand)" />
@@ -162,7 +185,15 @@ function DeadlineSection() {
               We know your time is valuable. A missed listing, move-in, inspection, or closing can cost time, money, and opportunity. We coordinate multiple teams from different trades to maximize time efficiency. No painful waits for one contractor to finish up just to send the next one in.
             </p>
           </div>
-          <img src="/assets/photos/restroom-refresh.jpg" alt="Refreshed commercial restroom" style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block", borderRadius: 16 }} />
+          <img
+            src={PHOTOS["restroom-refresh"].full}
+            alt="Refreshed commercial restroom"
+            loading="lazy"
+            decoding="async"
+            width={1600}
+            height={900}
+            style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block", borderRadius: 16 }}
+          />
         </div>
         <div className="co-grid" style={{ ...cssVars({ "--cols": 3, "--cols-tablet": 2, "--cols-mobile": 1, "--gap-x": "20px", "--gap-y": "20px" }), marginTop: 36 }}>
           {HOME_AUDIENCES.map((a) => (
@@ -233,7 +264,17 @@ function RecentWork() {
 function ClosingCTA() {
   return (
     <section style={{ position: "relative", width: "100%", background: "#141414", overflow: "hidden", minHeight: "clamp(420px,56vh,560px)", display: "flex", alignItems: "center" }}>
-      <img src="/assets/photos/conference-room.jpg" alt="Conference room ready for business" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+      <img
+        src={PHOTOS["conference-room"].full}
+        srcSet={`${PHOTOS["conference-room"].tile} 700w, ${PHOTOS["conference-room"].full} 1600w`}
+        sizes="100vw"
+        alt="Conference room ready for business"
+        loading="lazy"
+        decoding="async"
+        width={1600}
+        height={900}
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+      />
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(90deg,#0d0d0d 0%,rgba(13,13,13,.94) 34%,rgba(13,13,13,.55) 60%,rgba(13,13,13,.12) 100%)" }} />
       <div style={{ position: "relative", width: "100%", padding: "clamp(40px,7vh,88px) 0" }}>
         <Container>
