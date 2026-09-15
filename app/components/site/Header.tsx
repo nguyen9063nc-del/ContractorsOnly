@@ -32,30 +32,34 @@ export function Header() {
     <header style={{ position: "sticky", top: 0, zIndex: 30, background: "#fff", borderBottom: "1px solid #e0e0e0" }}>
       <Container>
         <div style={{ minHeight: 64, display: "flex", alignItems: "center", gap: 20, padding: "8px 0" }}>
-          <Link to="/" style={{ display: "flex", alignItems: "center", flex: "0 0 auto", textDecoration: "none", borderBottom: 0 }}>
-            <Wordmark height={40} />
-          </Link>
-          <nav className="co-nav-links" style={{ gap: "clamp(12px,2.2vw,32px)", flex: "1 1 auto", minWidth: 0 }}>
+          <div style={{ flex: "1 1 0", display: "flex", minWidth: 0 }}>
+            <Link to="/" style={{ display: "flex", alignItems: "center", flex: "0 0 auto", textDecoration: "none", borderBottom: 0 }}>
+              <Wordmark height={40} />
+            </Link>
+          </div>
+          <nav className="co-nav-links" style={{ justifyContent: "center", gap: "clamp(12px,2.2vw,32px)", flex: "0 0 auto" }}>
             {NAV.map((n) => (
               <Link key={n.to} to={n.to} style={linkStyle(pathname === n.to)}>
                 {n.label}
               </Link>
             ))}
           </nav>
-          <div className="co-header-cta" style={{ flex: "0 0 auto" }}>
-            <Button size="sm" as="link" to="/contact">
-              Get your project started
-            </Button>
+          <div style={{ flex: "1 1 0", display: "flex", alignItems: "center", justifyContent: "flex-end", minWidth: 0 }}>
+            <div className="co-header-cta">
+              <Button size="sm" as="link" to="/contact">
+                Get your project started
+              </Button>
+            </div>
+            <button
+              className="co-nav-toggle"
+              aria-label={open ? "Close menu" : "Open menu"}
+              aria-expanded={open}
+              onClick={() => setOpen((v) => !v)}
+              style={{ alignItems: "center", justifyContent: "center", width: 44, height: 44, border: "1px solid #e0e0e0", borderRadius: 4, background: "#fff", cursor: "pointer", flex: "0 0 auto" }}
+            >
+              <Icon name={open ? "x" : "menu"} size={22} strokeColor="#1c1c1c" />
+            </button>
           </div>
-          <button
-            className="co-nav-toggle"
-            aria-label={open ? "Close menu" : "Open menu"}
-            aria-expanded={open}
-            onClick={() => setOpen((v) => !v)}
-            style={{ marginLeft: "auto", alignItems: "center", justifyContent: "center", width: 44, height: 44, border: "1px solid #e0e0e0", borderRadius: 4, background: "#fff", cursor: "pointer", flex: "0 0 auto" }}
-          >
-            <Icon name={open ? "x" : "menu"} size={22} strokeColor="#1c1c1c" />
-          </button>
         </div>
       </Container>
 

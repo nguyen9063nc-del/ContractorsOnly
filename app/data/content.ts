@@ -102,33 +102,6 @@ export const WORK: WorkItem[] = [
   ] },
 ];
 
-/* ---- Who we serve (tabbed detail — deliberately no CTA/phone on this page) ---- */
-
-export interface AudienceDetail {
-  key: string;
-  icon: IconName;
-  kicker: string;
-  headline: string;
-  lead: string;
-  services: string[];
-}
-
-export const AUDIENCE_DETAIL: AudienceDetail[] = [
-  { key: "property-managers", icon: "key-round", kicker: "Property managers", headline: "Turn units faster. Manage fewer vendors.", lead: "Turn units faster. We can repair damage to get units ready for the next tenants and perform necessary maintenance — from move-out to move-in, coordinated on one schedule.", services: ["Unit turns", "Tenant damage", "Make-ready", "Recurring maintenance", "Painting", "Cleaning", "Flooring"] },
-  { key: "agents-listing-teams", icon: "house", kicker: "Real estate agents & listing teams", headline: "Market ready by your listing date.", lead: "We manage the process so you can focus on the business side. We have experience with a variety of properties and can work on anything — pre-listing repairs, punch lists, paint, landscaping and more.", services: ["Pre-listing repairs", "Punch lists", "Paint", "Landscaping", "Carpet cleaning", "Pressure washing"] },
-  { key: "investors-flippers", icon: "hammer", kicker: "Investors & flippers", headline: "You find the opportunity. We get it back on the market faster.", lead: "Instead of managing up to 10 different contractors, you have one team coordinating the entire project. Reduce delays and get your investment on the market fast.", services: ["Rehabs", "Demo", "Drywall", "Paint", "Flooring", "Final clean"] },
-  { key: "personal-renovations", icon: "building-2", kicker: "Personal renovations", headline: "Your home doesn't need to be a construction zone for months.", lead: "Have a home improvement idea? Maybe an area that is looking a bit outdated? Our contractors are professionals using high quality tools and materials.", services: ["Demo", "Drywall", "Paint", "Flooring", "Final clean"] },
-  { key: "reo-asset-managers", icon: "shield-check", kicker: "REO & asset managers", headline: "From distressed to market ready.", lead: "We handle cleanouts, securing, repairs, landscaping, and property preparation through one point of contact — helping you move assets toward listing or disposition faster.", services: ["Cleanouts", "Securing", "Repairs", "Landscaping", "Documentation"] },
-  { key: "commercial-property-managers", icon: "store", kicker: "Commercial property managers", headline: "Operational and looking their best — without managing multiple vendors.", lead: "We coordinate turnovers, repairs, painting, pressure washing, maintenance, and property improvements for retail, office, and light-industrial properties.", services: ["Turnovers", "Painting", "Pressure washing", "Repairs", "Maintenance"] },
-];
-
-export const AUDIENCE_FAQ = [
-  { title: "Do you handle rental turnovers end to end?", body: "Yes. Move-out to move-in: painting, cleaning, flooring, drywall, repairs, landscaping, pressure washing and hauling — coordinated on one schedule with one point of contact." },
-  { title: "Can you walk the property for me?", body: "That's usually the fastest start. We document the condition, identify the work, and come back with one organized scope and estimate for your approval." },
-  { title: "What if a unit needs something you didn't scope?", body: "We flag it, price it, and wait for your approval before it happens. You always know what we're doing before work begins." },
-  { title: "Do I get one invoice?", body: "One scope, one point of contact, one invoice — however many trades the job required." },
-];
-
 /* ---- Services page ---- */
 
 export interface ServiceAudience {
