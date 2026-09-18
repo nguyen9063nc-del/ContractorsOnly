@@ -171,7 +171,9 @@ export const serviceGroups: {
   title: string;
   icon: IconName;
   body: string;
-  photos: { photo: ImageName; alt: string; caption: string }[];
+  /** `photo` omitted means no honest shot exists — renders the §8 placeholder,
+   *  with `need` naming the photograph required. */
+  photos: { photo?: ImageName; alt?: string; caption: string; need?: string }[];
   items: { title: string; detail: string }[];
 }[] = [
   {
@@ -195,9 +197,9 @@ export const serviceGroups: {
         caption: "Repainted interior, ready for use.",
       },
       {
-        photo: "carpenter-drilling",
-        alt: "Carpenter fitting trim hardware",
-        caption: "Trim, doors and cabinet work.",
+        photo: "worker-spirit-level",
+        alt: "Worker checking level during an interior fit-out",
+        caption: "Levelling before trim goes on.",
       },
     ],
     items: [
@@ -231,9 +233,9 @@ export const serviceGroups: {
         caption: "Crews mobilized on site.",
       },
       {
-        photo: "washing-exterior-wall",
-        alt: "Washing an exterior wall",
-        caption: "Pressure washing walkways and siding.",
+        photo: "roof-replacement-crew",
+        alt: "Crew replacing a roof on a property",
+        caption: "Roof and exterior repairs.",
       },
       {
         photo: "mowing-lawn",
@@ -311,14 +313,13 @@ export const serviceGroups: {
     body: "When a job needs a licensed trade, we bring it into the same scope and the same invoice instead of handing you another phone number.",
     photos: [
       {
-        photo: "fixture-light-install",
-        alt: "Installing a ceiling light fixture",
         caption: "Minor electrical repairs.",
+        need: "Electrical work in progress",
       },
       {
-        photo: "handyman-drill",
-        alt: "Handyman making a fixture repair",
-        caption: "Fixture and hardware repairs.",
+        photo: "organized-drill-bits",
+        alt: "Organized drill bits and fixings in a case",
+        caption: "Hardware and fixings on hand.",
       },
       {
         photo: "toolset-flatlay",

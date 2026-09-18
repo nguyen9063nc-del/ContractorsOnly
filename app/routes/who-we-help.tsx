@@ -77,7 +77,7 @@ export default function WhoWeHelp() {
                   style={{ marginBottom: 2 }}
                 >
                   <Icon name={a.icon} size={22} color="var(--brand)" />
-                  <span className="pcard__title pcard__title--lg">{a.label}</span>
+                  <span className="pcard__title">{a.label}</span>
                 </span>
                 <span className="pcard__sub pcard__sub--body">{a.body}</span>
               </div>

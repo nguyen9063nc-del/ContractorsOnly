@@ -1,14 +1,15 @@
 /* Page-specific patterns: the services catalog, detailed service blocks,
-   audience cards, equipment layouts and the portfolio grid. */
+   audience cards, equipment rows, the portfolio grid and the contact layout.
+
+   All sizes come from the §3 type roles and the §4 spacing scale declared in
+   app.css. §1.5 applies here too — no dividers between blocks. */
 
 /* --------------------------------------------------------- service catalog */
 
-/* The 12 capability cards run 4 across, so the section reads as 4 x 3. Kept
-   separate from .grid--3 because the six-card grids on Home and Who we help
-   stay at three columns. */
+/* §12 — 12 tiles, 4 x 3, each with icon + 4 bullets. */
 .grid--cat {
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(26px, 3vw, 44px) clamp(20px, 2.2vw, 34px);
+  gap: clamp(14px, 1.6vw, 24px);
 }
 
 @media (max-width: 1240px) {
@@ -29,8 +30,6 @@
   }
 }
 
-/* Photo, icon + title, then a checklist. No border or panel — the photo and the
-   whitespace do the separating, matching the rest of the page's card grids. */
 .cat {
   display: flex;
   flex-direction: column;
@@ -43,14 +42,14 @@
   aspect-ratio: 16 / 10;
   border-radius: 10px;
   overflow: hidden;
-  background: var(--surface-muted);
+  background: var(--well);
 }
 
 .cat__body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 16px 0 0;
+  padding-top: 12px;
 }
 
 .cat__head {
@@ -60,12 +59,14 @@
 }
 
 .cat__title {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-label);
-  letter-spacing: 0.04em;
+  font-size: var(--fs-item-name);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--text-strong);
+  color: var(--ink);
+  text-wrap: pretty;
 }
 
 /* Red-tick checklist, shared by the catalog and the detail blocks. */
@@ -75,7 +76,7 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 9px;
 }
 
 .ticks li {
@@ -83,29 +84,29 @@
   grid-template-columns: auto 1fr;
   gap: 9px;
   align-items: start;
-  font-size: var(--fs-small);
+  min-width: 0;
+  font-size: var(--fs-caption);
   line-height: 1.45;
-  color: var(--ink-body);
+  color: var(--body);
+  text-wrap: pretty;
 }
 
 .ticks svg {
   margin-top: 3px;
-  color: var(--brand);
+  color: var(--brand-c);
 }
 
 /* ---------------------------------------------------- detailed service block */
 
+/* §1.5 — blocks are separated by space, not a rule. */
 .svc {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  padding-block: clamp(36px, 5vh, 56px);
-  border-top: 1px solid var(--border-hairline);
+  gap: var(--space-in-block);
 }
 
-.svc:first-child {
-  border-top: 0;
-  padding-top: 0;
+.svc + .svc {
+  margin-top: var(--space-between-blocks);
 }
 
 .svc__head {
@@ -115,31 +116,32 @@
 }
 
 .svc__body {
-  max-width: 760px;
+  max-width: 720px;
+  margin-top: 12px;
 }
 
-/* Four-across photo strip with captions. Scrolls horizontally on phones rather
-   than shrinking to thumbnails. */
+/* Four-across photo strip with captions. */
 .strip {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(12px, 1.6vw, 20px);
+  gap: clamp(14px, 1.6vw, 24px);
 }
 
-@media (max-width: 900px) {
-  .strip {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-/* Five-across variant for the tool rows. */
+/* Five-across variant for the tool rows (§12: 5 tiles each). */
 .strip--5 {
   grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: clamp(12px, 1.3vw, 20px);
 }
 
 @media (max-width: 1000px) {
   .strip--5 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -155,68 +157,50 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   min-width: 0;
 }
 
 .strip__fig figcaption {
   display: flex;
   flex-direction: column;
-  gap: 2px;
-}
-
-/* Stand-in for kit we own but have no photograph of yet. Reads as a deliberate
-   label rather than a missing image. */
-.strip__blank {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 12px;
-  text-align: center;
-  background: var(--white);
-  border: 1px solid var(--border-hairline);
-  border-radius: 8px;
-}
-
-.strip__blank span {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--gray-400);
+  gap: 5px;
+  min-width: 0;
 }
 
 .strip__media {
   position: relative;
   width: 100%;
   aspect-ratio: 4 / 3;
-  border-radius: 8px;
+  border-radius: 10px;
   overflow: hidden;
-  background: var(--surface-muted);
+  background: var(--well);
+}
+
+/* Square tiles for tools (§8). */
+.strip--5 .strip__media {
+  aspect-ratio: 1 / 1;
 }
 
 .strip figcaption {
-  font-size: 15px;
-  line-height: 1.4;
-  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  line-height: 1.35;
+  color: var(--muted);
   text-wrap: pretty;
+  min-width: 0;
 }
 
-/* Named items with descriptions, in four columns so they line up under the
-   four-across photo strip above them. Steps down on the same breakpoints as
-   .strip so the two stay aligned. */
+/* Named items with descriptions, four across so they line up under the strip. */
 .items {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 22px clamp(16px, 1.6vw, 20px);
+  gap: 22px clamp(14px, 1.6vw, 24px);
 }
 
 @media (max-width: 900px) {
   .items {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px clamp(20px, 3vw, 36px);
+    gap: 20px var(--gap-two-col);
   }
 }
 
@@ -226,11 +210,10 @@
   }
 }
 
-/* The FAQ grid on the contact page reuses .items but reads better in two wide
-   columns than four narrow ones. */
+/* The FAQ grid reuses .items but reads better in two wide columns. */
 .items--wide {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 28px clamp(24px, 3vw, 56px);
+  gap: 28px var(--gap-two-col);
 }
 
 @media (max-width: 760px) {
@@ -244,36 +227,38 @@
   grid-template-columns: auto 1fr;
   gap: 10px;
   align-items: start;
+  min-width: 0;
 }
 
 .item svg {
   margin-top: 4px;
-  color: var(--brand);
+  color: var(--brand-c);
+  flex: 0 0 auto;
 }
 
 .item__t {
   display: block;
-  font-family: var(--font-body);
   font-weight: 600;
-  font-size: var(--fs-small);
-  color: var(--text-strong);
+  font-size: var(--fs-caption);
+  color: var(--ink);
   line-height: 1.35;
+  text-wrap: pretty;
 }
 
 .item__d {
   display: block;
-  font-size: var(--fs-small);
-  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  color: var(--muted);
   line-height: 1.45;
+  text-wrap: pretty;
 }
 
 /* ------------------------------------------------- reasons / quote / marks */
 
-/* The four "why our clients work with us" reasons, as a 2x2 beside the photo. */
 .reasons {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(28px, 3vw, 44px) clamp(24px, 2.5vw, 40px);
+  gap: var(--gap-two-col);
   align-content: center;
 }
 
@@ -291,24 +276,24 @@
 }
 
 .reason__t {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-label);
-  line-height: 1.2;
+  font-size: var(--fs-item-name);
+  line-height: 1.15;
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--text-strong);
+  color: var(--ink);
   text-wrap: pretty;
 }
 
 .reason__b {
-  font-size: var(--fs-small);
+  font-size: var(--fs-caption);
   line-height: 1.5;
-  color: var(--text-muted);
+  color: var(--muted);
   text-wrap: pretty;
 }
 
-/* Pull quote — plain text, no panel or rule. The quotation marks carry it. */
+/* Pull quote — plain text, no panel and no rule (§1.5). */
 .quote {
   margin: 0;
   display: flex;
@@ -318,28 +303,28 @@
 }
 
 .quote p {
-  font-size: var(--fs-h3);
+  margin: 0;
+  font-size: var(--fs-body);
   line-height: 1.5;
-  color: var(--ink-body);
+  color: var(--body);
   text-wrap: pretty;
 }
 
 .quote footer {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 5px;
 }
 
 .quote__name {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-small);
-  letter-spacing: var(--tracking-caps);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-strong);
+  color: var(--ink);
 }
 
-/* Single-column list of proof points, icon beside an uppercase label. */
 .marks {
   list-style: none;
   margin: 0;
@@ -357,53 +342,20 @@
 }
 
 .marks span {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-label);
-  letter-spacing: var(--tracking-caps);
+  font-size: var(--fs-body);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-strong);
-}
-
-/* ------------------------------------------------------------ audience cards */
-
-.aud {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-width: 0;
-  padding: 26px 26px 30px;
-  background: var(--surface-card);
-  border: 1px solid var(--border-hairline);
-  border-top: var(--border-width-accent) solid var(--brand);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-xs);
-}
-
-.aud__head {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-}
-
-.aud__t {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-h3);
-  line-height: 1.2;
-  letter-spacing: 0.01em;
-  text-transform: uppercase;
-  color: var(--text-strong);
-  text-wrap: pretty;
+  color: var(--ink);
 }
 
 /* --------------------------------------------------------------- split rows */
 
-/* Alternating photo / copy rows used on the equipment and about pages. */
 .split {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(28px, 4vw, 64px);
+  gap: var(--gap-two-col);
   align-items: center;
 }
 
@@ -411,8 +363,7 @@
   .split {
     grid-template-columns: 1fr;
   }
-  /* Keep the photo above the copy on every row once stacked, regardless of
-     which side it sits on in the two-column layout. */
+  /* Photo above the copy once stacked, whichever side it sat on. */
   .split__media {
     order: -1;
   }
@@ -421,14 +372,10 @@
 .split__media {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  border-radius: 12px;
+  aspect-ratio: 3 / 2;
+  border-radius: 10px;
   overflow: hidden;
-  background: var(--surface-muted);
-}
-
-.split__media--tall {
-  aspect-ratio: 3 / 4;
+  background: var(--well);
 }
 
 .split__copy {
@@ -438,15 +385,42 @@
   min-width: 0;
 }
 
-/* ------------------------------------------------------------ portfolio grid */
+/* ------------------------------------------------------------ portfolio */
 
+/* §12 — each property: lead photo + a 2 x 2 grid. */
 .folio {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-in-block);
+}
+
+.folio + .folio {
+  margin-top: var(--space-between-blocks);
+}
+
+.folio__lead {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--well);
+}
+
+.folio__tiles {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  gap: clamp(24px, 3vw, 40px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 1.6vw, 24px);
+}
+
+@media (max-width: 560px) {
+  .folio__tiles {
+    grid-template-columns: 1fr;
+  }
 }
 
 .folio__item {
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -459,54 +433,50 @@
   aspect-ratio: 4 / 3;
   border-radius: 10px;
   overflow: hidden;
-  background: var(--surface-muted);
+  background: var(--well);
 }
 
-.folio__tag {
-  align-self: flex-start;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--brand);
-}
+/* ------------------------------------------------------------- team slots */
 
-/* --------------------------------------------------------------- stat strip */
-
-.stats {
+/* §12 — five portrait slots. Fluid tracks, never a fixed px card width (§9). */
+.team {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-  gap: clamp(20px, 3vw, 40px);
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: clamp(14px, 1.6vw, 24px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.stat__n {
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(30px, 3vw, 44px);
-  line-height: 1;
-  color: var(--brand);
-  margin-bottom: 8px;
+.team__item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
 }
 
-.stat__t {
-  display: block;
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-small);
-  letter-spacing: var(--tracking-caps);
-  text-transform: uppercase;
-  color: var(--text-strong);
-  margin-bottom: 4px;
+.team__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--well);
 }
 
-/* --------------------------------------------------------- contact page grid */
+.team__body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+/* --------------------------------------------------------- contact layout */
 
 .contact {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  gap: clamp(32px, 5vw, 72px);
+  gap: var(--gap-two-col);
   align-items: start;
 }
 
@@ -521,9 +491,9 @@
   flex-direction: column;
   gap: 24px;
   padding: 28px;
-  background: var(--white);
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-card);
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
+  border-radius: 12px;
 }
 
 .contact__row {
@@ -534,35 +504,34 @@
 
 .contact__row svg {
   margin-top: 3px;
-  color: var(--brand);
+  color: var(--brand-c);
   flex: 0 0 auto;
 }
 
 .contact__label {
   display: block;
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: 14px;
-  letter-spacing: var(--tracking-caps);
+  font-size: var(--fs-small-label);
+  letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--muted);
   margin-bottom: 3px;
 }
 
 .contact__value {
-  font-size: var(--fs-small);
+  font-size: var(--fs-caption);
   line-height: 1.5;
-  color: var(--text-strong);
+  color: var(--ink);
 }
 
-/* The phone and email are standalone links rather than inline prose, so they
-   need a real touch target rather than the bare 19px text line. */
+/* §13 — padded to the 44px tap-target floor. */
 a.contact__value {
   display: inline-block;
-  padding-block: 8px;
-  margin-block: -4px;
+  padding-block: 11px;
+  margin-block: -6px;
 }
 
 a.contact__value:hover {
-  color: var(--brand);
+  color: var(--brand-c);
 }

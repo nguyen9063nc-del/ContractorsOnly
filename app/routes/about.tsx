@@ -70,7 +70,6 @@ export default function About() {
           eyebrow="How we work"
           title="One crew. One point of accountability."
           copy="From the first walkthrough to the final invoice, one person owns your property."
-          cta={{ label: "See our services", to: "/services" }}
         />
         <div className="grid grid--3">
           {culture.map((c) => (
@@ -94,11 +93,19 @@ export default function About() {
           title="The people behind the work."
           copy={site.regions}
         />
-        <ul className="stats" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+        <ul className="team">
           {team.map((person) => (
-            <li key={person.name} className="aud" style={{ gap: 4 }}>
-              <span className="aud__t">{person.name}</span>
-              <span className="item__d">{person.role}</span>
+            <li className="team__item" key={person.name}>
+              <div className="team__media">
+                <div className="slot">
+                  <span className="small-label">Photo needed</span>
+                  <span className="caption">Portrait of {person.name}</span>
+                </div>
+              </div>
+              <div className="team__body">
+                <span className="pcard__title">{person.name}</span>
+                <span className="caption">{person.role}</span>
+              </div>
             </li>
           ))}
         </ul>

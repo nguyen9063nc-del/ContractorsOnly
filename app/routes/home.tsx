@@ -69,7 +69,7 @@ export default function Home() {
       />
 
       {/* The four "ones" strip. */}
-      <section className="band band--muted">
+      <section className="strip-band">
         <div className="shell" style={{ paddingBlock: 26 }}>
           <ul className="ones" style={{ listStyle: "none", margin: 0, padding: 0 }}>
             {ones.map((one) => {
@@ -104,7 +104,6 @@ export default function Home() {
               sub={item.body}
               to="/who-we-help"
               ratio="portrait"
-              titleSize="lg"
               subTone="body"
               // Four across at 1440px ≈ 300px each; two across on tablet; one on
               // the narrowest phones.
@@ -183,10 +182,8 @@ export default function Home() {
             <span className="seq__label">Typical sequence</span>
             <Sequence />
           </div>
-          <div>
-            <h3 className="h3" style={{ marginBottom: 12 }}>
-              Trades overlap, not queue.
-            </h3>
+          <div className="seq__copy">
+            <h3 className="h4">Trades overlap, not queue.</h3>
             <p className="lead">
               Hiring each trade separately means every crew waits for the last one to finish. We
               start the next phase while the current one is still running, which is where the days

@@ -51,7 +51,7 @@ export function Header() {
         </nav>
 
         <div className="hdr__cta">
-          <Link to="/contact" className="btn btn--primary btn--sm">
+          <Link to="/contact" className="btn btn--primary">
             Start your project
           </Link>
         </div>

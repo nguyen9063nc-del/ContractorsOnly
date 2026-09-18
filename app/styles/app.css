@@ -1,12 +1,18 @@
 /* Contractors Only — global stylesheet.
-   Tokens first, then base element styles, then the layout/type/component classes
-   the pages compose from.
 
-   The design-system templates express everything as inline styles. Those are
-   reproduced here as classes for two reasons: inline styles cannot carry media
-   queries (and the fixed `repeat(3,...)` grids in the templates must collapse on
-   small screens), and hoisting them into one cached stylesheet keeps the
-   prerendered HTML small. */
+   Written against the build spec. Two rules drive most of what follows:
+
+   §1.1  No raw px font sizes. Every text element uses one of the type roles
+         declared in :root below. If something seems to need a new size, it
+         should reuse the nearest role instead.
+   §1.5  No horizontal rules. No dividers under section headings, no accent
+         dashes under eyebrows. The exceptions are structural, not decorative:
+         the header's bottom border (§11) and the Gantt axis rule (§10).
+
+   The design-system templates express everything as inline styles. They are
+   reproduced here as classes because inline styles cannot carry media queries,
+   and hoisting them into one cached stylesheet keeps the prerendered HTML small.
+*/
 
 @import "./tokens/fonts.css";
 @import "./tokens/colors.css";
@@ -16,44 +22,78 @@
 @import "./tokens/motion.css";
 @import "./tokens/base.css";
 
-/* ---------------------------------------------------------------- foundations */
-
 :root {
-  /* Fluid roles taken from the template clamp() values, named once so a size
-     change lands everywhere. Lower bounds are the mobile sizes. */
-  --fs-hero: clamp(38px, 5.45vw, 76px);
-  --fs-h2: clamp(26px, 5.2vw, 48px);
-  --fs-h3: clamp(19px, 1.35vw, 23px);
-  --fs-card-title: clamp(17px, 1.35vw, 22px);
-  --fs-label: clamp(17px, 1.15vw, 20px);
-  --fs-body: clamp(17px, 1.15vw, 20px);
-  --fs-small: clamp(15px, 1vw, 17px);
-  --fs-eyebrow: clamp(15px, 1vw, 17px);
+  /* ---- §2 colors ---------------------------------------------------------- */
+  --ink: #1c1c1c;
+  --body: #4d4d4d;
+  --muted: #898989;
+  --muted-strong: #6a6a6a;
+  --brand-c: #e02b1d;
+  --brand-press-c: #c21f13;
+  --brand-tint-c: #fdeceb;
+  --surface: #ffffff;
+  --surface-alt: #f6f6f6;
+  --surface-strip: #f2f2f2;
+  --hairline: #e0e0e0;
+  --dash: #c4c4c4;
+  --well: #ededed;
+  --dark: #141414;
 
-  /* Band rhythm. Tightens on short/small viewports via the vh term. */
-  --band-y: clamp(60px, 9vh, 116px);
-  --band-y-tight: clamp(52px, 7.5vh, 92px);
+  /* On dark grounds. */
+  --on-dark-body: rgba(255, 255, 255, 0.82);
+  --on-dark-eyebrow: rgba(255, 255, 255, 0.7);
+  --on-dark-ring: rgba(255, 255, 255, 0.55);
+  --on-dark-hover: rgba(255, 255, 255, 0.14);
+
+  /* ---- §3 type scale — the only font sizes on the site -------------------- */
+  --fs-hero-h1: clamp(38px, 5.45vw, 76px);
+  --fs-closing-h2: clamp(32px, 4.45vw, 62px);
+  --fs-section-h2: clamp(26px, 5.2vw, 48px);
+  --fs-block-h3: clamp(26px, 3vw, 40px);
+  --fs-row-heading: clamp(26px, 1.9vw, 32px);
+  --fs-item-name: clamp(19px, 1.35vw, 23px);
+  --fs-body: clamp(17px, 1.15vw, 20px);
+  --fs-lead: clamp(17px, 2vh, 20px);
+  --fs-caption: clamp(15px, 1vw, 17px);
+  --fs-eyebrow: clamp(15px, 1vw, 17px);
+  --fs-small-label: clamp(14px, 0.95vw, 16px);
+
+  /* ---- §4 spacing --------------------------------------------------------- */
+  --space-section: clamp(60px, 9vh, 116px);
+  --space-band: clamp(52px, 8.5vh, 110px);
+  --space-header-to-content: clamp(38px, 5.5vh, 66px);
+  --space-between-blocks: clamp(52px, 7.5vh, 96px);
+  --space-in-block: clamp(40px, 5.2vh, 60px);
+  --space-subsection-row: clamp(64px, 8.5vh, 108px);
+  --gap-two-col: clamp(20px, 3vw, 44px);
+  --gap-tiles: clamp(30px, 4vw, 64px);
+  --gap-tiles-tight: clamp(12px, 1.4vw, 18px);
+  --gap-band-stack: clamp(14px, 2.2vh, 22px);
 
   --shell-max: 1440px;
-  --shell-pad: clamp(20px, 4vw, 32px);
-
-  --header-h: 55px;
-  --hero-ink: #141414;
+  --shell-pad: 32px;
+  --header-h: 72px;
 }
 
+/* ---------------------------------------------------------------- foundations */
+
 html {
-  /* Anchor targets and in-page jumps clear the sticky header. */
+  /* Anchor targets clear the sticky header. */
   scroll-padding-top: calc(var(--header-h) + 16px);
   -webkit-text-size-adjust: 100%;
 }
 
 body {
+  font-family: "IBM Plex Sans", Arial, sans-serif;
   font-size: var(--fs-body);
+  line-height: 1.55;
+  color: var(--body);
+  background: var(--surface);
   overflow-x: hidden;
 }
 
-/* The design system's base.css underlines links inside prose. The site chrome
-   and cards are navigational, not prose, so opt them back out. */
+/* §1.4 — a global `a { border-bottom }` would eat the bottom edge of any
+   bordered button. Cleared without !important, which would break real borders. */
 a,
 a:hover {
   border-bottom: 0;
@@ -63,7 +103,6 @@ img {
   max-width: 100%;
 }
 
-/* Honour a reduced-motion preference: kill transitions and the hero crossfade. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -92,23 +131,32 @@ img {
   top: -100px;
   left: var(--shell-pad);
   z-index: 100;
-  padding: 12px 20px;
-  background: var(--brand);
-  color: var(--white);
-  font-family: var(--font-display);
-  font-weight: 700;
-  letter-spacing: var(--tracking-caps);
+  height: 52px;
+  padding: 0 26px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--brand-c);
+  color: #fff;
+  font: 700 var(--fs-eyebrow) / 1 Archivo, Arial, sans-serif;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  border-radius: var(--radius-md);
+  border-radius: 4px;
 }
 .skip-link:focus {
   top: 12px;
-  color: var(--white);
+  color: #fff;
 }
 
 /* --------------------------------------------------------------------- layout */
 
-/* Full-width shell used by the header and the dark hero bands. */
+/* §1.2 — one content column. */
+.wrap {
+  width: 86%;
+  max-width: var(--shell-max);
+  margin: 0 auto;
+}
+
+/* Full-bleed bands go edge to edge with their own inner max-width. */
 .shell {
   width: 100%;
   max-width: var(--shell-max);
@@ -116,171 +164,185 @@ img {
   padding-inline: var(--shell-pad);
 }
 
-/* Content bands sit in an 86%-width column on desktop (per the templates) but
-   need edge padding rather than a percentage inset once the screen is narrow. */
-.wrap {
-  width: 86%;
-  max-width: var(--shell-max);
-  margin: 0 auto;
-}
-
-@media (max-width: 1100px) {
-  .wrap {
-    width: 100%;
-    padding-inline: var(--shell-pad);
-  }
-}
-
-/* Every band is white. The design system alternates white / #f6f6f6 / #ededed
-   to mark section rhythm, but the site reads as one continuous white page —
-   section headings and spacing do the separating instead. The tone modifiers
-   are kept so pages don't need editing, and so a tone can be reintroduced in
-   one place if that changes. */
+/* §2 — all content sections are white. Only the overview strip and the Gantt
+   box carry a tint, and they declare it themselves. */
 .band,
 .band--subtle,
 .band--muted {
-  background: var(--white);
+  background: var(--surface);
 }
 
-.band__inner {
-  padding-block: var(--band-y);
-}
+.band__inner,
 .band__inner--tight {
-  padding-block: var(--band-y-tight);
+  padding-block: var(--space-section);
 }
 
-/* ----------------------------------------------------------------------- type */
+/* ------------------------------------------------------------ §3 type roles */
 
 .eyebrow {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
   font-size: var(--fs-eyebrow);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--brand);
+  color: var(--brand-c);
 }
 
 .h2 {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-h2);
+  font-size: var(--fs-section-h2);
   line-height: 0.95;
   letter-spacing: -0.025em;
   text-transform: uppercase;
-  color: var(--text-strong);
-  text-wrap: balance;
+  color: var(--ink);
+  text-wrap: pretty;
 }
 
+/* Block heading inside a section (Interior repairs & finishes, Vehicles, …). */
 .h3 {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-h3);
-  line-height: 1.2;
-  letter-spacing: 0.01em;
+  font-size: var(--fs-block-h3);
+  line-height: 1.06;
+  letter-spacing: -0.02em;
   text-transform: uppercase;
-  color: var(--text-strong);
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* Row heading — smaller than a block heading, used for sub-rows. */
+.h4 {
+  font-family: Archivo, Arial, sans-serif;
+  font-weight: 700;
+  font-size: var(--fs-row-heading);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.item-name {
+  font-family: Archivo, Arial, sans-serif;
+  font-weight: 700;
+  font-size: var(--fs-item-name);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.small-label {
+  font-family: Archivo, Arial, sans-serif;
+  font-weight: 700;
+  font-size: var(--fs-small-label);
+  line-height: 1.2;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted-strong);
 }
 
 .lead {
   font-size: var(--fs-body);
   line-height: 1.55;
-  color: var(--ink-body);
+  color: var(--body);
   text-wrap: pretty;
 }
 
+.caption,
 .muted {
-  font-size: var(--fs-small);
-  line-height: 1.4;
-  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  line-height: 1.35;
+  color: var(--muted);
   text-wrap: pretty;
 }
 
-/* Section opener: eyebrow, headline, then a paragraph with the band's CTA
-   pushed to the right. The CTA drops under the paragraph on narrow screens. */
+/* ------------------------------------------------------- §5 section anatomy */
+
 .intro {
   display: flex;
   flex-direction: column;
   gap: 22px;
-  margin-bottom: clamp(32px, 4.5vh, 52px);
+  margin-bottom: var(--space-header-to-content);
 }
 
+/* §5 — the section button aligns with the body paragraph, not the headline,
+   so the subline and the button share their own flex row. */
 .intro__row {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: space-between;
-  gap: clamp(20px, 3vw, 44px);
+  gap: var(--gap-two-col);
 }
 
 .intro__row p {
+  margin: 0;
   flex: 1 1 460px;
   min-width: 0;
   max-width: 720px;
 }
 
-/* -------------------------------------------------------------------- buttons */
+/* ------------------------------------------------------------- §6 buttons */
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  height: 52px;
-  padding: 0 26px;
   box-sizing: border-box;
+  /* §1.3 — fixed height + line-height 1. Vertical padding yields fractional
+     heights and clips the bottom edge. */
+  height: 52px;
   line-height: 1;
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
   font-size: var(--fs-eyebrow);
-  letter-spacing: var(--tracking-caps);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
   border: 0;
-  border-radius: var(--radius-md);
+  border-radius: 4px;
   cursor: pointer;
   transition: var(--transition-control);
 }
 
-.btn:active {
-  transform: scale(var(--press-scale));
-}
-
 .btn--primary {
-  background: var(--brand);
-  color: var(--white);
+  gap: 8px;
+  padding: 0 26px;
+  background: var(--brand-c);
+  color: #fff;
 }
 .btn--primary:hover {
-  background: var(--brand-hover);
-  color: var(--white);
+  background: var(--brand-press-c);
+  color: #fff;
 }
 
-/* Red hairline on white — the "See our equipment" / "View all services" CTA. */
+/* §1.4 — inset box-shadow, not border. */
 .btn--outline {
+  gap: 10px;
+  padding: 0 24px;
   background: transparent;
-  box-shadow: inset 0 0 0 1px var(--brand);
-  color: var(--brand);
+  box-shadow: inset 0 0 0 1px var(--brand-c);
+  color: var(--brand-c);
 }
 .btn--outline:hover {
-  background: var(--red-050);
-  color: var(--brand);
+  background: var(--brand-tint-c);
+  color: var(--brand-c);
 }
 
-/* On the dark hero bands. */
 .btn--onDark {
-  background: rgba(255, 255, 255, 0.06);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
-  color: var(--white);
+  gap: 10px;
+  padding: 0 24px;
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--on-dark-ring);
+  color: #fff;
 }
 .btn--onDark:hover {
-  background: rgba(255, 255, 255, 0.16);
-  color: var(--white);
-}
-
-.btn--sm {
-  height: 44px;
-  padding: 0 18px;
-  font-size: var(--fs-small);
+  background: var(--on-dark-hover);
+  color: #fff;
 }
 
 .btn--block {
@@ -291,55 +353,37 @@ img {
   flex: 0 0 auto;
 }
 
-/* --------------------------------------------------------------------- grids */
+/* --------------------------------------------------------------- §9 grids */
 
-/* Auto-fit grids: they reflow by available width instead of at hard breakpoints,
-   so tablets in between get a sensible column count for free. */
 .grid {
   display: grid;
-  gap: clamp(24px, 3vw, 48px);
   align-items: start;
 }
 
 .grid--2 {
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap-two-col);
 }
 
-/* 3-up on desktop (capabilities, audiences, recent work).
-   Explicit rather than auto-fit: at container widths above ~1400px a
-   `minmax(280px, 1fr)` auto-fit track fits a fourth column, which turned the
-   six-card grids into 4 + 2 instead of the intended two rows of three. */
 .grid--3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(30px, 4vw, 64px);
+  gap: var(--gap-tiles);
 }
 
-@media (max-width: 1000px) {
-  .grid--3 {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 640px) {
-  .grid--3 {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* 4-up on desktop (fleet). Two columns on phones rather than one, since these
-   cards are photo-led and read fine at half width. */
 .grid--4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: clamp(20px, 4vw, 64px);
+  gap: clamp(14px, 1.6vw, 24px);
 }
 
-/* 5-up process steps. */
 .grid--5 {
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: clamp(24px, 3vw, 48px);
+  gap: clamp(12px, 1.3vw, 20px);
 }
 
+/* The spec fixes column counts at desktop; these steps keep the same tiles
+   usable once the column is too narrow to hold them. */
 @media (max-width: 1000px) {
+  .grid--3,
   .grid--4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -348,21 +392,23 @@ img {
   }
 }
 
-@media (max-width: 560px) {
+@media (max-width: 640px) {
+  .grid--3 {
+    grid-template-columns: 1fr;
+  }
   .grid--5 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 420px) {
   .grid--4 {
     grid-template-columns: 1fr;
   }
 }
 
-/* ---------------------------------------------------------------- photo cards */
+/* ------------------------------------------------------ §8 photo tiles */
 
-/* A tappable card: portrait/landscape photo above an uppercase label and blurb. */
 .pcard {
   display: flex;
   flex-direction: column;
@@ -376,7 +422,7 @@ img {
   width: 100%;
   overflow: hidden;
   border-radius: 10px;
-  background: var(--surface-muted);
+  background: var(--well);
 }
 
 .pcard__media--portrait {
@@ -384,6 +430,12 @@ img {
 }
 .pcard__media--landscape {
   aspect-ratio: 4 / 3;
+}
+.pcard__media--wide {
+  aspect-ratio: 16 / 10;
+}
+.pcard__media--square {
+  aspect-ratio: 1 / 1;
 }
 
 .pcard__media img {
@@ -405,53 +457,65 @@ a.pcard:hover .pcard__media img {
   flex-direction: column;
   gap: 5px;
   min-width: 0;
+  /* Keeps tile captions on a common baseline across a row without stretching
+     the media (§9). */
+  min-height: 2.6em;
 }
 
 .pcard__title {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-label);
+  font-size: var(--fs-item-name);
   line-height: 1.15;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--text-strong);
+  color: var(--ink);
   text-wrap: pretty;
 }
 
-/* Larger label used by the "Who we serve" portrait cards. */
-.pcard__title--lg {
-  font-size: var(--fs-card-title);
-  line-height: 1.08;
-  letter-spacing: -0.005em;
-}
-
 .pcard__sub {
-  font-size: var(--fs-small);
+  font-size: var(--fs-caption);
   line-height: 1.35;
-  color: var(--text-muted);
+  color: var(--muted);
   text-wrap: pretty;
 }
 
 .pcard__sub--body {
   font-size: var(--fs-body);
   line-height: 1.5;
-  color: var(--ink-body);
+  color: var(--body);
 }
 
-/* --------------------------------------------------------------- dark heroes */
+/* §8 — placeholder for a shot we don't have. Names the photo needed. */
+.slot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 14px;
+  text-align: center;
+  border: 1px dashed var(--dash);
+  border-radius: 10px;
+  background: var(--surface-alt);
+}
+
+/* ------------------------------------------------ §7 hero + closing bands */
 
 .hero {
   position: relative;
   width: 100%;
-  background: var(--hero-ink);
+  background: var(--dark);
   overflow: hidden;
-  min-height: clamp(460px, 64vh, 620px);
+  min-height: clamp(380px, 48vh, 500px);
   display: flex;
   align-items: center;
 }
 
 .hero--short {
-  min-height: clamp(420px, 56vh, 560px);
+  min-height: clamp(340px, 42vh, 440px);
 }
 
 .hero__media,
@@ -464,9 +528,6 @@ a.pcard:hover .pcard__media img {
   display: block;
 }
 
-/* Crossfade between hero shots. The flag sits on the <picture> wrapper, which
-   is what the Photo component forwards data attributes to. A single-shot hero
-   has no wrapper flag, so default it to visible and let the carousel override. */
 .hero__media img {
   opacity: 1;
   transition: opacity 400ms ease;
@@ -478,8 +539,6 @@ a.pcard:hover .pcard__media img {
   opacity: 1;
 }
 
-/* Left-to-right scrim so the headline stays legible over any photo. On narrow
-   screens the text sits over the middle of the image, so go darker and vertical. */
 .hero__scrim {
   position: absolute;
   inset: 0;
@@ -494,8 +553,7 @@ a.pcard:hover .pcard__media img {
 
 /* The horizontal scrim only works while the text column is a small fraction of
    the viewport. On a tablet the 600px column reaches ~80% across, where the
-   gradient has faded to ~0.3 and long headlines lose contrast against the photo.
-   Below this width, darken vertically across the full frame instead. */
+   gradient has faded to ~0.3 and long headlines lose contrast. */
 @media (max-width: 1024px) {
   .hero__scrim {
     background: linear-gradient(
@@ -512,7 +570,7 @@ a.pcard:hover .pcard__media img {
   width: 100%;
   max-width: var(--shell-max);
   margin: 0 auto;
-  padding: clamp(52px, 8.5vh, 110px) var(--shell-pad);
+  padding: var(--space-band) var(--shell-pad);
 }
 
 .hero__col {
@@ -520,38 +578,45 @@ a.pcard:hover .pcard__media img {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: clamp(14px, 2.2vh, 22px);
+  gap: var(--gap-band-stack);
 }
 
 .hero__kicker {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-label);
+  font-size: var(--fs-body);
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--on-dark-eyebrow);
 }
 
 .hero__title {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-hero);
+  font-size: var(--fs-hero-h1);
   line-height: 0.92;
   letter-spacing: -0.025em;
   text-transform: uppercase;
-  color: var(--white);
+  color: #fff;
+  text-wrap: pretty;
+}
+
+/* Closing band headline sits one step down from the page h1. */
+.hero__title--closing {
+  font-size: var(--fs-closing-h2);
+  line-height: 0.94;
 }
 
 .hero__title em {
   font-style: normal;
-  color: var(--brand);
+  color: var(--brand-c);
 }
 
 .hero__copy {
   max-width: 470px;
-  font-size: clamp(17px, 2vh, 20px);
+  font-size: var(--fs-lead);
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--on-dark-body);
 }
 
 .hero__actions {
@@ -562,8 +627,6 @@ a.pcard:hover .pcard__media img {
   margin-top: 6px;
 }
 
-/* Full-width buttons on the narrowest screens read better than two stacked
-   pills of different widths. */
 @media (max-width: 420px) {
   .hero__actions {
     flex-direction: column;
@@ -577,18 +640,13 @@ a.pcard:hover .pcard__media img {
 
 .hero__dots {
   display: flex;
-  /* No gap: the buttons carry their own padding so their hit areas sit flush
-     without overlapping, which keeps the 16px visual gap between the dots. */
   gap: 0;
   margin-top: clamp(8px, 2vh, 18px);
   margin-left: -8px;
 }
 
-/* The visible dot is only 8px tall, well under any usable touch target. The
-   button is padded out to a 24x40 hit area and the dot itself is drawn as a
-   pseudo-element, so the target grows without the design changing. Padding
-   rather than an absolute overlay keeps adjacent targets from overlapping and
-   stealing each other's taps. */
+/* The visible dot is 8px; the button pads out to a real touch target and draws
+   the dot as a pseudo-element, so adjacent targets never overlap. */
 .hero__dot {
   display: block;
   padding: 16px 8px;
@@ -603,22 +661,24 @@ a.pcard:hover .pcard__media img {
   display: block;
   width: 8px;
   height: 8px;
-  border-radius: var(--radius-pill);
+  border-radius: 999px;
   background: rgba(255, 255, 255, 0.5);
   transition: width var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out);
 }
 
 .hero__dot[aria-current="true"]::after {
   width: 24px;
-  background: var(--white);
+  background: #fff;
 }
 
-/* ------------------------------------------------------------------ ones strip */
+/* ------------------------------------------------------ overview strip (§2) */
+
+.strip-band {
+  background: var(--surface-strip);
+}
 
 .ones {
   display: grid;
-  border-bottom: 1px solid var(--border-hairline);
-  padding-bottom: 20px;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1px;
 }
@@ -634,25 +694,23 @@ a.pcard:hover .pcard__media img {
   border-right: 1px solid #dcdcdc;
 }
 
-/* Hide the divider on the last item of each visual row. `:last-child` alone
-   leaves a trailing rule mid-row once the grid wraps. */
 .ones__item:last-child {
   border-right: 0;
 }
 
 .ones__title {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-label);
+  font-size: var(--fs-body);
   letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--text-strong);
+  color: var(--ink);
   line-height: 1.15;
 }
 
 .ones__sub {
-  font-size: var(--fs-label);
-  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  color: var(--muted);
   line-height: 1.35;
 }
 
@@ -666,7 +724,7 @@ a.pcard:hover .pcard__media img {
   }
 }
 
-/* ------------------------------------------------------------- process steps */
+/* ------------------------------------------------------------ process steps */
 
 .step {
   display: flex;
@@ -676,45 +734,45 @@ a.pcard:hover .pcard__media img {
 }
 
 .step__n {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: clamp(26px, 1.9vw, 32px);
+  font-size: var(--fs-row-heading);
   line-height: 1;
-  color: var(--brand);
+  color: var(--brand-c);
 }
 
 .step__t {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-label);
+  font-size: var(--fs-body);
   line-height: 1.15;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--text-strong);
+  color: var(--ink);
   text-wrap: pretty;
 }
 
-/* ------------------------------------------------------------ sequence chart */
+/* ------------------------------------------------- §10 "Typical sequence" */
 
-/* The chart is supporting evidence for the five process steps above it, not the
-   main event — so it takes less width than the copy beside it rather than more. */
+/* §9 — two-column photo/graph row. */
 .seq {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  gap: clamp(24px, 3vw, 48px);
-  align-items: center;
-  margin-top: clamp(40px, 5.2vh, 60px);
+  grid-template-columns: repeat(2, minmax(0, 570px));
+  justify-content: center;
+  align-items: stretch;
+  gap: var(--gap-two-col);
+  margin-top: var(--space-in-block);
 }
 
 @media (max-width: 900px) {
   .seq {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 
 .seq__panel {
-  background: var(--white);
-  border: 1px solid var(--border-hairline);
+  background: var(--surface-alt);
+  border: 1px solid var(--hairline);
   border-radius: 12px;
   padding: clamp(18px, 1.8vw, 26px);
   min-width: 0;
@@ -722,67 +780,77 @@ a.pcard:hover .pcard__media img {
 
 .seq__label {
   display: block;
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-eyebrow);
+  font-size: var(--fs-caption);
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--muted);
   margin-bottom: 18px;
+}
+
+.seq__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
 }
 
 .seq__chart {
   display: grid;
   grid-template-columns: max-content repeat(7, minmax(0, 1fr));
-  gap: 10px 0;
+  gap: 16px 0;
   align-items: center;
   min-width: 0;
 }
 
 .seq__trade {
   grid-column: 1;
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: 14px;
+  font-size: var(--fs-caption);
   text-transform: uppercase;
   letter-spacing: 0.02em;
-  color: var(--text-strong);
+  color: var(--ink);
   padding-right: 16px;
   text-align: right;
   white-space: nowrap;
 }
 
 .seq__bar {
-  height: 20px;
+  height: 30px;
   border-radius: 3px;
 }
 
+/* Structural axis, not a decorative rule (§10). */
 .seq__rule {
   grid-column: 2 / span 7;
   height: 1px;
-  background: var(--border-hairline);
+  background: var(--hairline);
   margin-top: 6px;
 }
 
 .seq__dayLabel {
   grid-column: 1;
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: 14px;
+  font-size: var(--fs-caption);
   text-transform: uppercase;
-  letter-spacing: var(--tracking-caps);
-  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  color: var(--muted);
   padding-right: 16px;
   text-align: right;
 }
 
 .seq__day {
-  font-size: 13px;
-  color: var(--text-muted);
+  font-size: var(--fs-small-label);
+  color: var(--muted);
 }
 
-/* The bars stay readable when narrow, but the trade labels do not. Below the
-   breakpoint, stack each label above its own bar track. */
+/* The bars stay readable when narrow; the right-aligned trade labels do not.
+   Below this width the track is replaced by a plain day-range readout, built
+   from the same data so the two cannot disagree. */
 @media (max-width: 620px) {
   .seq__chart {
     grid-template-columns: 1fr;
@@ -801,10 +869,9 @@ a.pcard:hover .pcard__media img {
   .seq__day {
     display: none;
   }
-  /* Replace the gantt with a plain day-range readout per trade. */
   .seq__range {
-    font-size: var(--fs-small);
-    color: var(--text-muted);
+    font-size: var(--fs-caption);
+    color: var(--muted);
   }
 }
 
@@ -814,7 +881,7 @@ a.pcard:hover .pcard__media img {
   }
 }
 
-/* ---------------------------------------------------------------- work gallery */
+/* ---------------------------------------------------------- work gallery */
 
 .work {
   margin: 0;
@@ -830,11 +897,9 @@ a.pcard:hover .pcard__media img {
   aspect-ratio: 4 / 3;
   border-radius: 10px;
   overflow: hidden;
-  background: var(--surface-muted);
+  background: var(--well);
 }
 
-/* Same crossfade pattern as the hero: the flag lands on the <picture> wrapper,
-   and a single-shot item carries no flag so it stays visible. */
 .work__frame img {
   position: absolute;
   inset: 0;
@@ -849,7 +914,6 @@ a.pcard:hover .pcard__media img {
 .work__frame picture[data-active] img {
   opacity: 0;
 }
-
 .work__frame picture[data-active="true"] img {
   opacity: 1;
 }
@@ -865,14 +929,14 @@ a.pcard:hover .pcard__media img {
 }
 
 .work__btn {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   border: 1px solid rgba(255, 255, 255, 0.5);
   background: rgba(0, 0, 0, 0.4);
-  color: var(--white);
-  border-radius: var(--radius-pill);
+  color: #fff;
+  border-radius: 999px;
   cursor: pointer;
   pointer-events: auto;
   transition: background var(--dur-fast) var(--ease-out);
@@ -887,15 +951,4 @@ a.pcard:hover .pcard__media img {
   flex-direction: column;
   gap: 5px;
   min-width: 0;
-}
-
-.work__capTitle {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-h3);
-  line-height: 1.15;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--text-strong);
-  text-wrap: pretty;
 }

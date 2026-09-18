@@ -15,7 +15,6 @@ export function PhotoCard({
   sub,
   to,
   ratio = "landscape",
-  titleSize = "md",
   subTone = "muted",
   sizes,
 }: {
@@ -24,8 +23,7 @@ export function PhotoCard({
   title: string;
   sub?: string;
   to?: string;
-  ratio?: "landscape" | "portrait";
-  titleSize?: "md" | "lg";
+  ratio?: "landscape" | "portrait" | "wide" | "square";
   subTone?: "muted" | "body";
   sizes: string;
 }) {
@@ -35,9 +33,7 @@ export function PhotoCard({
         <Photo name={photo} alt={alt} sizes={sizes} fill />
       </div>
       <div className="pcard__body">
-        <span className={`pcard__title${titleSize === "lg" ? " pcard__title--lg" : ""}`}>
-          {title}
-        </span>
+        <span className="pcard__title">{title}</span>
         {sub ? (
           <span className={`pcard__sub${subTone === "body" ? " pcard__sub--body" : ""}`}>{sub}</span>
         ) : null}

@@ -18,7 +18,7 @@ export function NotFound() {
           style={{ display: "flex", flexWrap: "wrap", gap: 12, marginTop: 28 }}
         >
           {nav.map((item) => (
-            <Link key={item.to} to={item.to} className="btn btn--outline btn--sm">
+            <Link key={item.to} to={item.to} className="btn btn--outline">
               {item.label}
             </Link>
           ))}

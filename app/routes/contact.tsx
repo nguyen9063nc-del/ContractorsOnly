@@ -51,7 +51,7 @@ export default function Contact() {
 
           <aside className="contact__aside">
             <div>
-              <h3 className="aud__t" style={{ marginBottom: 14 }}>
+              <h3 className="item-name" style={{ marginBottom: 14 }}>
                 What we'll ask for
               </h3>
               <ul className="ticks">
@@ -64,8 +64,8 @@ export default function Contact() {
               </ul>
             </div>
 
-            <div style={{ borderTop: "1px solid var(--border-hairline)", paddingTop: 22 }}>
-              <h3 className="aud__t" style={{ marginBottom: 6 }}>
+            <div style={{ paddingTop: 4 }}>
+              <h3 className="item-name" style={{ marginBottom: 6 }}>
                 Prefer to talk?
               </h3>
               <p className="form__note" style={{ marginBottom: 18 }}>
@@ -118,10 +118,10 @@ export default function Contact() {
         <div className="items items--wide">
           {faqs.map((faq) => (
             <div key={faq.q}>
-              <h3 className="aud__t" style={{ marginBottom: 8 }}>
+              <h3 className="item-name" style={{ marginBottom: 8 }}>
                 {faq.q}
               </h3>
-              <p className="muted" style={{ fontSize: "var(--fs-small)", lineHeight: 1.55 }}>
+              <p className="caption">
                 {faq.a}
               </p>
             </div>

@@ -96,7 +96,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
               padding: 16,
               overflowX: "auto",
               background: "var(--surface-subtle)",
-              fontSize: 13,
+              fontSize: "var(--fs-small-label)",
             }}
           >
             <code>{stack}</code>

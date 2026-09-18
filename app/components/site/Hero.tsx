@@ -77,7 +77,9 @@ export function Hero({
       <div className="hero__inner">
         <div className="hero__col">
           {kicker ? <span className="hero__kicker">{kicker}</span> : null}
-          <Heading className="hero__title">{title}</Heading>
+          <Heading className={`hero__title${Heading === "h2" ? " hero__title--closing" : ""}`}>
+            {title}
+          </Heading>
           {copy ? <p className="hero__copy">{copy}</p> : null}
           {actions ? <div className="hero__actions">{actions}</div> : null}
           {trailing ? <div className="hero__kicker">{trailing}</div> : null}

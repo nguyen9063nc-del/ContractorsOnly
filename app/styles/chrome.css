@@ -1,12 +1,12 @@
 /* Header, footer and form styles.
 
-   The design template's header relies on flex-wrap plus clamp() font sizes to
-   cope with narrow screens, which on a phone collapses seven nav links into an
-   unreadable wrapped block. Below --bp-nav the links move into a disclosure
-   panel behind a hamburger instead. */
+   §11 describes a header whose nav wraps on narrow screens. That is kept above
+   --bp-nav, but seven links wrapping on a phone is not usable, so below that
+   width they move into a disclosure panel behind a hamburger. Everything else —
+   logo height, nav type, the single primary CTA, the 10px/32px padding and the
+   absence of a min-height — follows §11. */
 
 :root {
-  /* Width at which the horizontal nav stops fitting alongside logo + CTA. */
   --bp-nav: 1100px;
 }
 
@@ -16,15 +16,17 @@
   position: sticky;
   top: 0;
   z-index: 30;
-  background: var(--white);
-  border-bottom: 1px solid var(--border-hairline);
+  background: var(--surface);
+  /* Structural, per §11 — not one of the decorative rules §1.5 forbids. */
+  border-bottom: 1px solid var(--hairline);
 }
 
+/* §11 — no fixed min-height: the bar must grow when the nav wraps. */
 .hdr__bar {
   display: flex;
   align-items: center;
   gap: 20px;
-  padding-block: 8px;
+  padding: 10px 0;
 }
 
 .hdr__logo {
@@ -34,42 +36,42 @@
 }
 
 .hdr__logo img {
-  height: 38px;
+  height: 46px;
   width: auto;
   display: block;
 }
 
 .hdr__nav {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  gap: clamp(10px, 1.8vw, 26px);
+  gap: 10px clamp(10px, 1.8vw, 26px);
   flex: 1 1 auto;
   min-width: 0;
-  font-family: var(--font-display);
+  padding: 4px 0;
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: clamp(11px, 1vw, 13px);
-  letter-spacing: var(--tracking-caps);
+  font-size: var(--fs-eyebrow);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1;
 }
 
 .hdr__link {
-  color: var(--text-muted);
+  color: var(--muted);
   padding: 4px 0;
   white-space: nowrap;
   transition: color var(--dur-fast) var(--ease-out);
 }
 
 .hdr__link:hover {
-  color: var(--text-strong);
+  color: var(--ink);
 }
 
-/* Active page: ink text with a red underline, per the template. */
 .hdr__link[aria-current="page"] {
-  color: var(--text-strong);
-  box-shadow: inset 0 -3px 0 var(--brand);
+  color: var(--ink);
+  box-shadow: inset 0 -3px 0 var(--brand-c);
 }
 
 .hdr__cta {
@@ -79,14 +81,6 @@
   flex: 0 0 auto;
 }
 
-/* Scoped to the header so .btn--sm stays as-is elsewhere (the 404 link row). */
-.hdr__cta .btn {
-  height: 38px;
-  padding: 0 16px;
-  font-size: 13px;
-}
-
-/* Hamburger — hidden until the nav no longer fits. */
 .hdr__toggle {
   display: none;
   width: 48px;
@@ -94,16 +88,16 @@
   margin-left: auto;
   place-items: center;
   background: transparent;
-  border: 1px solid var(--border-hairline);
-  border-radius: var(--radius-md);
-  color: var(--text-strong);
+  border: 1px solid var(--hairline);
+  border-radius: 4px;
+  color: var(--ink);
   cursor: pointer;
   transition: var(--transition-control);
 }
 
 .hdr__toggle:hover {
-  border-color: var(--brand);
-  color: var(--brand);
+  border-color: var(--brand-c);
+  color: var(--brand-c);
 }
 
 @media (max-width: 1100px) {
@@ -114,19 +108,14 @@
   .hdr__toggle {
     display: grid;
   }
-  .hdr__logo img {
-    height: 34px;
-  }
 }
 
-/* Mobile disclosure panel. Animating grid-template-rows between 0fr and 1fr
-   collapses to the content's own height with no JS measurement and no magic
-   number. Browsers without interpolable grid rows just snap open, which is a
-   fine fallback. */
+/* Animating grid-template-rows between 0fr and 1fr collapses to the content's
+   own height with no JS measurement and no magic number. */
 .hdr__panel {
   display: none;
   grid-template-rows: 0fr;
-  background: var(--white);
+  background: var(--surface);
   transition: grid-template-rows var(--dur-slow) var(--ease-out);
 }
 
@@ -138,7 +127,7 @@
 
 .hdr__panel[data-open="true"] {
   grid-template-rows: 1fr;
-  border-top: 1px solid var(--border-hairline);
+  border-top: 1px solid var(--hairline);
 }
 
 .hdr__panelInner {
@@ -154,19 +143,18 @@
 }
 
 .hdr__panelLink {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: 17px;
-  letter-spacing: var(--tracking-caps);
+  font-size: var(--fs-body);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-strong);
-  /* Comfortable tap target — 44px minimum. */
+  color: var(--ink);
+  /* §13 — comfortable tap target. */
   padding: 15px 4px;
-  border-bottom: 1px solid var(--border-hairline);
 }
 
 .hdr__panelLink[aria-current="page"] {
-  color: var(--brand);
+  color: var(--brand-c);
 }
 
 .hdr__panelCta {
@@ -176,10 +164,9 @@
 /* -------------------------------------------------------------------- footer */
 
 .ftr {
-  background: var(--white);
-  border-top: 1px solid var(--border-hairline);
-  padding: 64px 0 32px;
-  color: var(--ink-body);
+  background: var(--surface);
+  padding: var(--space-section) 0 var(--space-in-block);
+  color: var(--body);
 }
 
 .ftr__grid {
@@ -187,7 +174,6 @@
   grid-template-columns: 1.4fr 1fr 1fr 1fr;
   gap: 40px;
   padding-bottom: 40px;
-  border-bottom: 1px solid var(--border-hairline);
 }
 
 @media (max-width: 900px) {
@@ -195,7 +181,6 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 36px 24px;
   }
-  /* Let the identity block span the full row on two-column layouts. */
   .ftr__brand {
     grid-column: 1 / -1;
   }
@@ -222,13 +207,13 @@
 }
 
 .ftr__tagline {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: clamp(17px, 1.5vw, 22px);
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  font-size: var(--fs-item-name);
+  line-height: 1.15;
+  letter-spacing: 0.02em;
   text-transform: uppercase;
-  color: var(--text-strong);
+  color: var(--ink);
 }
 
 .ftr__contact {
@@ -236,47 +221,49 @@
   flex-direction: column;
   align-items: center;
   gap: 6px;
-  font-size: var(--fs-label);
+  font-size: var(--fs-caption);
   line-height: 1.5;
+  font-style: normal;
 }
 
 .ftr__contact a {
-  color: var(--ink-body);
+  color: var(--body);
   word-break: break-word;
+  display: inline-block;
+  padding-block: 11px;
 }
 
 .ftr__contact a:hover {
-  color: var(--brand);
+  color: var(--brand-c);
 }
 
 .ftr__col {
   display: flex;
   flex-direction: column;
-  /* Small gap because the links carry their own vertical padding below; the
-     combined rhythm still reads as the 12px spacing in the design. */
   gap: 2px;
   align-items: flex-start;
 }
 
 .ftr__heading {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: var(--fs-label);
-  letter-spacing: var(--tracking-eyebrow);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--text-strong);
-}
-
-/* Padded to a comfortable touch target — the bare text line is only ~28px tall,
-   which clears the WCAG minimum but is fiddly to hit on a phone. */
-.ftr__col a {
-  font-size: var(--fs-label);
-  color: var(--ink-body);
+  color: var(--ink);
   padding-block: 6px;
 }
 
+/* §13 — the caption role gives a ~22px line box, so the padding carries these
+   links up to the 44px tap-target floor. */
+.ftr__col a {
+  font-size: var(--fs-caption);
+  color: var(--body);
+  padding-block: 11px;
+}
+
 .ftr__col a:hover {
-  color: var(--brand);
+  color: var(--brand-c);
 }
 
 .ftr__base {
@@ -285,8 +272,8 @@
   flex-wrap: wrap;
   gap: 8px;
   padding-top: 22px;
-  font-size: var(--fs-label);
-  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  color: var(--muted);
 }
 
 /* --------------------------------------------------------------------- forms */
@@ -304,33 +291,33 @@
 }
 
 .field__label {
-  font-family: var(--font-body);
   font-weight: 600;
-  font-size: var(--fs-small);
-  color: var(--text-strong);
+  font-size: var(--fs-caption);
+  color: var(--ink);
 }
 
 .field__req {
-  color: var(--brand);
+  color: var(--brand-c);
 }
 
 .field__hint {
-  font-size: 15px;
-  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  color: var(--muted);
 }
 
 .input,
 .textarea,
 .select {
   width: 100%;
-  font: var(--type-body);
-  font-size: 17px;
-  color: var(--text-strong);
-  background: var(--white);
-  border: 1px solid var(--border-strong);
-  border-radius: var(--radius-control);
+  font-family: "IBM Plex Sans", Arial, sans-serif;
+  font-size: var(--fs-body);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--dash);
+  border-radius: 4px;
   padding: 0 14px;
-  height: var(--control-h-lg);
+  /* §1.3 / §13 — fixed control height, same as buttons. */
+  height: 52px;
   transition: var(--transition-control);
 }
 
@@ -344,7 +331,6 @@
 
 .select {
   appearance: none;
-  /* Room for the chevron drawn by the wrapper. */
   padding-right: 42px;
   cursor: pointer;
 }
@@ -359,28 +345,28 @@
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
-  color: var(--text-muted);
+  color: var(--muted);
 }
 
 .input:focus,
 .textarea:focus,
 .select:focus {
   outline: none;
-  border-color: var(--brand);
+  border-color: var(--brand-c);
   box-shadow: var(--focus-shadow);
 }
 
 .input::placeholder,
 .textarea::placeholder {
-  color: var(--gray-400);
+  color: var(--muted);
 }
 
-/* Only style invalid fields the user has actually interacted with — :invalid
-   alone paints every required field red before anyone has typed. */
+/* Only style fields the visitor has actually interacted with — :invalid alone
+   paints every required field red before anyone has typed. */
 .input:user-invalid,
 .textarea:user-invalid,
 .select:user-invalid {
-  border-color: var(--danger);
+  border-color: var(--brand-press-c);
 }
 
 .form__row {
@@ -396,27 +382,25 @@
 }
 
 .form__note {
-  font-size: 15px;
-  color: var(--text-muted);
+  font-size: var(--fs-caption);
+  color: var(--muted);
   line-height: 1.5;
 }
 
-/* Submission confirmation panel. */
 .form__ok {
   display: flex;
   align-items: flex-start;
   gap: 12px;
   padding: 18px 20px;
-  background: var(--white);
-  border-left: var(--border-width-accent) solid var(--brand);
-  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+  border-radius: 12px;
 }
 
 .form__okTitle {
-  font-family: var(--font-display);
+  font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
-  font-size: 17px;
-  letter-spacing: var(--tracking-caps);
+  font-size: var(--fs-caption);
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--text-strong);
+  color: var(--ink);
 }

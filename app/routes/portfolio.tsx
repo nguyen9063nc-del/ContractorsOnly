@@ -38,7 +38,7 @@ export default function Portfolio() {
         actions={
           <HeroActions
             primary={{ label: "Start your project", to: "/contact" }}
-            secondary={{ label: "See our services", to: "/services" }}
+            secondary={{ label: "About us", to: "/about" }}
           />
         }
       />
@@ -52,20 +52,14 @@ export default function Portfolio() {
         />
 
         {projects.map((project) => (
-          <section className="svc" key={project.name}>
+          <section className="folio" key={project.name}>
             <div>
               <h3 className="h3">{project.name}</h3>
-              <p className="lead svc__body" style={{ marginTop: 12 }}>
-                {project.body}
-              </p>
+              <p className="lead svc__body">{project.body}</p>
             </div>
 
-            {/* Lead shot, then the four supporting tiles. */}
-            <figure className="folio__item" style={{ margin: 0 }}>
-              <div
-                className="folio__media"
-                style={{ aspectRatio: "16 / 9", borderRadius: 12 }}
-              >
+            <figure className="folio__item">
+              <div className="folio__lead">
                 <Photo
                   name={project.hero.photo}
                   alt={project.hero.alt}
@@ -73,21 +67,21 @@ export default function Portfolio() {
                   sizes="(max-width: 1100px) 100vw, 1100px"
                 />
               </div>
-              <figcaption className="item__d">{project.hero.caption}</figcaption>
+              <figcaption className="caption">{project.hero.caption}</figcaption>
             </figure>
 
-            <div className="strip">
+            <div className="folio__tiles">
               {project.tiles.map((tile) => (
-                <figure key={`${project.name}-${tile.caption}`}>
-                  <div className="strip__media">
+                <figure className="folio__item" key={`${project.name}-${tile.caption}`}>
+                  <div className="folio__media">
                     <Photo
                       name={tile.photo}
                       alt={tile.alt}
                       fill
-                      sizes="(max-width: 560px) 50vw, (max-width: 900px) 50vw, 22vw"
+                      sizes="(max-width: 560px) 100vw, (max-width: 1100px) 50vw, 44vw"
                     />
                   </div>
-                  <figcaption>{tile.caption}</figcaption>
+                  <figcaption className="caption">{tile.caption}</figcaption>
                 </figure>
               ))}
             </div>

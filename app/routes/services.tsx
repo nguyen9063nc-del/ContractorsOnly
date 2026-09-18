@@ -104,16 +104,25 @@ export default function Services() {
 
             <div className="strip">
               {group.photos.map((p) => (
-                <figure key={`${group.title}-${p.photo}-${p.caption}`}>
+                <figure className="strip__fig" key={`${group.title}-${p.caption}`}>
                   <div className="strip__media">
-                    <Photo
-                      name={p.photo}
-                      alt={p.alt}
-                      fill
-                      sizes="(max-width: 900px) 50vw, 22vw"
-                    />
+                    {p.photo ? (
+                      <Photo
+                        name={p.photo}
+                        alt={p.alt ?? p.caption}
+                        fill
+                        sizes="(max-width: 900px) 50vw, 22vw"
+                      />
+                    ) : (
+                      /* §1.7 — no honest photo exists for this one, so name the
+                         shot needed rather than reusing another tile's image. */
+                      <div className="slot">
+                        <span className="small-label">Photo needed</span>
+                        <span className="caption">{p.need}</span>
+                      </div>
+                    )}
                   </div>
-                  <figcaption>{p.caption}</figcaption>
+                  <figcaption className="caption">{p.caption}</figcaption>
                 </figure>
               ))}
             </div>

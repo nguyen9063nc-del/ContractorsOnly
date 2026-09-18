@@ -34,7 +34,7 @@ function UnitTile({ unit }: { unit: Unit }) {
         {unit.photo ? (
           <Photo name={unit.photo} alt={unit.name} fill sizes={UNIT_SIZES} />
         ) : (
-          <div className="strip__blank">
+          <div className="slot">
             <span>{unit.name}</span>
           </div>
         )}

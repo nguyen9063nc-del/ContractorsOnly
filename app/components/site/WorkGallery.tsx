@@ -59,7 +59,7 @@ export function WorkItem({
       </div>
 
       <figcaption className="work__cap">
-        <span className="work__capTitle">{caption}</span>
+        <span className="pcard__title">{caption}</span>
         <span className="pcard__sub">{sub}</span>
       </figcaption>
     </figure>
