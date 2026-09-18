@@ -52,9 +52,8 @@ export default function Services() {
           eyebrow="Our services"
           title="Everything your property needs."
           copy="Interior, exterior, big or small — we handle it all, on one scope and one schedule."
-          cta={{ label: "Start your project", to: "/contact" }}
         />
-        <div className="grid grid--3">
+        <div className="grid grid--cat">
           {catalog.map((c) => (
             <article className="cat" key={c.title}>
               <div className="cat__media">
@@ -62,7 +61,7 @@ export default function Services() {
                   name={c.photo}
                   alt={c.alt}
                   fill
-                  sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+                  sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, (max-width: 1240px) 33vw, 25vw"
                 />
               </div>
               <div className="cat__body">
@@ -90,7 +89,6 @@ export default function Services() {
           eyebrow="Things we do"
           title="One scope. One invoice."
           copy="One scope, one proposal, one invoice — no matter how many trades the job takes."
-          cta={{ label: "See our work", to: "/portfolio" }}
         />
         {serviceGroups.map((group) => (
           <section className="svc" key={group.title}>
@@ -142,7 +140,6 @@ export default function Services() {
         shots={[{ name: servicesOutro.photo, alt: servicesOutro.alt }]}
         title={servicesOutro.title}
         copy={servicesOutro.copy}
-        actions={<HeroActions primary={{ label: "Start your project", to: "/contact" }} />}
       />
 
       <ClosingCta />

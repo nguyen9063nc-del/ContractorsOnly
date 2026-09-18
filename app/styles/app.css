@@ -131,14 +131,15 @@ img {
   }
 }
 
-.band {
-  background: var(--white);
-}
-.band--subtle {
-  background: var(--surface-subtle);
-}
+/* Every band is white. The design system alternates white / #f6f6f6 / #ededed
+   to mark section rhythm, but the site reads as one continuous white page —
+   section headings and spacing do the separating instead. The tone modifiers
+   are kept so pages don't need editing, and so a tone can be reintroduced in
+   one place if that changes. */
+.band,
+.band--subtle,
 .band--muted {
-  background: #f2f2f2;
+  background: var(--white);
 }
 
 .band__inner {
@@ -616,6 +617,8 @@ a.pcard:hover .pcard__media img {
 
 .ones {
   display: grid;
+  border-bottom: 1px solid var(--border-hairline);
+  padding-bottom: 20px;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 1px;
 }
@@ -693,9 +696,11 @@ a.pcard:hover .pcard__media img {
 
 /* ------------------------------------------------------------ sequence chart */
 
+/* The chart is supporting evidence for the five process steps above it, not the
+   main event — so it takes less width than the copy beside it rather than more. */
 .seq {
   display: grid;
-  grid-template-columns: minmax(0, 2.3fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
   gap: clamp(24px, 3vw, 48px);
   align-items: center;
   margin-top: clamp(40px, 5.2vh, 60px);
@@ -708,7 +713,8 @@ a.pcard:hover .pcard__media img {
 }
 
 .seq__panel {
-  background: var(--surface-subtle);
+  background: var(--white);
+  border: 1px solid var(--border-hairline);
   border-radius: 12px;
   padding: clamp(18px, 1.8vw, 26px);
   min-width: 0;
@@ -728,7 +734,7 @@ a.pcard:hover .pcard__media img {
 .seq__chart {
   display: grid;
   grid-template-columns: max-content repeat(7, minmax(0, 1fr));
-  gap: 16px 0;
+  gap: 10px 0;
   align-items: center;
   min-width: 0;
 }
@@ -737,7 +743,7 @@ a.pcard:hover .pcard__media img {
   grid-column: 1;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-small);
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.02em;
   color: var(--text-strong);
@@ -747,7 +753,7 @@ a.pcard:hover .pcard__media img {
 }
 
 .seq__bar {
-  height: 30px;
+  height: 20px;
   border-radius: 3px;
 }
 
@@ -762,7 +768,7 @@ a.pcard:hover .pcard__media img {
   grid-column: 1;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-small);
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: var(--tracking-caps);
   color: var(--text-muted);
@@ -771,7 +777,7 @@ a.pcard:hover .pcard__media img {
 }
 
 .seq__day {
-  font-size: 15px;
+  font-size: 13px;
   color: var(--text-muted);
 }
 

@@ -3,6 +3,32 @@
 
 /* --------------------------------------------------------- service catalog */
 
+/* The 12 capability cards run 4 across, so the section reads as 4 x 3. Kept
+   separate from .grid--3 because the six-card grids on Home and Who we help
+   stay at three columns. */
+.grid--cat {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(26px, 3vw, 44px) clamp(20px, 2.2vw, 34px);
+}
+
+@media (max-width: 1240px) {
+  .grid--cat {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .grid--cat {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .grid--cat {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Photo, icon + title, then a checklist. No border or panel — the photo and the
    whitespace do the separating, matching the rest of the page's card grids. */
 .cat {
@@ -148,7 +174,7 @@
   place-items: center;
   padding: 12px;
   text-align: center;
-  background: var(--surface-muted);
+  background: var(--white);
   border: 1px solid var(--border-hairline);
   border-radius: 8px;
 }
@@ -495,7 +521,8 @@
   flex-direction: column;
   gap: 24px;
   padding: 28px;
-  background: var(--surface-subtle);
+  background: var(--white);
+  border: 1px solid var(--border-hairline);
   border-radius: var(--radius-card);
 }
 

@@ -59,7 +59,6 @@ export default function WhoWeHelp() {
           eyebrow="Our clients"
           title="Real people. Real properties. Real results."
           copy="We understand your goals, your timelines and what is at stake. Here is how we help each of them."
-          cta={{ label: "See what we can do", to: "/services" }}
         />
         <div className="grid grid--3">
           {audiences.map((a) => (

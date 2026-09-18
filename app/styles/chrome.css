@@ -169,7 +169,7 @@
 /* -------------------------------------------------------------------- footer */
 
 .ftr {
-  background: var(--surface-subtle);
+  background: var(--white);
   border-top: 1px solid var(--border-hairline);
   padding: 64px 0 32px;
   color: var(--ink-body);
@@ -400,7 +400,7 @@
   align-items: flex-start;
   gap: 12px;
   padding: 18px 20px;
-  background: var(--red-050);
+  background: var(--white);
   border-left: var(--border-width-accent) solid var(--brand);
   border-radius: var(--radius-sm);
 }

@@ -75,7 +75,6 @@ export default function Equipment() {
           eyebrow="Efficiency by design"
           title="Our vehicle fleet."
           copy="How we get our people, equipment, tools and supplies to you quickly."
-          cta={{ label: "Start your project", to: "/contact" }}
         />
         {fleetRows.map((row) => (
           <section className="svc" key={row.label}>
