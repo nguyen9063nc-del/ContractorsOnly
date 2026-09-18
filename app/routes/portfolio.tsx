@@ -1,6 +1,6 @@
 import type { Route } from "./+types/portfolio";
-import { Band, SectionIntro } from "~/components/site/Section";
-import { Hero, HeroActions } from "~/components/site/Hero";
+import { Section, SectionHead } from "~/components/site/Section";
+import { Band, BandActions } from "~/components/site/Band";
 import { Photo, photoPreload } from "~/components/Photo";
 import { ClosingCta } from "~/components/site/ClosingCta";
 import { portfolioHero, projects } from "~/data/portfolio";
@@ -23,71 +23,71 @@ export const links: Route.LinksFunction = () => [photoPreload(portfolioHero.phot
 export default function Portfolio() {
   return (
     <>
-      <Hero
-        short
+      <Band
         shots={[{ name: portfolioHero.photo, alt: portfolioHero.alt }]}
-        kicker={portfolioHero.eyebrow}
+        eyebrow={portfolioHero.eyebrow}
         title={
           <>
             {portfolioHero.titleTop}
             <br />
-            <em>{portfolioHero.titleAccent}</em>
+            <span className="accent">{portfolioHero.titleAccent}</span>
           </>
         }
         copy={portfolioHero.copy}
         actions={
-          <HeroActions
+          <BandActions
             primary={{ label: "Start your project", to: "/contact" }}
             secondary={{ label: "About us", to: "/about" }}
           />
         }
       />
 
-      <Band tight>
-        <SectionIntro
+      {/* Each property: a lead photo then a 2 x 2 grid. */}
+      <Section>
+        <SectionHead
           eyebrow="Recent projects"
           title="One scope. One schedule."
           copy="Each property below was handled under one scope, one schedule and one point of contact."
-          cta={{ label: "Start your project", to: "/contact" }}
         />
+        <div className="stack-blocks">
+          {projects.map((project) => (
+            <section className="stack-inblock" key={project.name}>
+              <div className="stack-sm">
+                <h3 className="block-h3">{project.name}</h3>
+                <p className="body">{project.body}</p>
+              </div>
 
-        {projects.map((project) => (
-          <section className="folio" key={project.name}>
-            <div>
-              <h3 className="h3">{project.name}</h3>
-              <p className="lead svc__body">{project.body}</p>
-            </div>
-
-            <figure className="folio__item">
-              <div className="folio__lead">
+              <figure className="tile">
                 <Photo
                   name={project.hero.photo}
                   alt={project.hero.alt}
-                  fill
+                  className="tile__media tile__media--wide"
                   sizes="(max-width: 1100px) 100vw, 1100px"
                 />
-              </div>
-              <figcaption className="caption">{project.hero.caption}</figcaption>
-            </figure>
+                <figcaption className="tile__cap">
+                  <span className="caption">{project.hero.caption}</span>
+                </figcaption>
+              </figure>
 
-            <div className="folio__tiles">
-              {project.tiles.map((tile) => (
-                <figure className="folio__item" key={`${project.name}-${tile.caption}`}>
-                  <div className="folio__media">
+              <div className="folio__tiles">
+                {project.tiles.map((tile) => (
+                  <figure className="tile" key={`${project.name}-${tile.caption}`}>
                     <Photo
                       name={tile.photo}
                       alt={tile.alt}
-                      fill
-                      sizes="(max-width: 560px) 100vw, (max-width: 1100px) 50vw, 44vw"
+                      className="tile__media"
+                      sizes="(max-width: 520px) 100vw, (max-width: 1100px) 50vw, 44vw"
                     />
-                  </div>
-                  <figcaption className="caption">{tile.caption}</figcaption>
-                </figure>
-              ))}
-            </div>
-          </section>
-        ))}
-      </Band>
+                    <figcaption className="tile__cap">
+                      <span className="caption">{tile.caption}</span>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </Section>
 
       <ClosingCta />
     </>

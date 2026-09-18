@@ -6,8 +6,8 @@ import type { ImageName } from "~/data/images.generated";
 
 type Shot = { name: ImageName; alt: string };
 
-/** One project: a crossfading photo pair with a caption underneath. */
-export function WorkItem({
+/** A project tile whose photo crossfades between shots. */
+export function WorkTile({
   caption,
   sub,
   shots,
@@ -23,24 +23,24 @@ export function WorkItem({
   const step = (d: number) => setActive((i) => (i + d + shots.length) % shots.length);
 
   return (
-    <figure className="work">
-      <div className="work__frame">
+    <figure className="tile">
+      <div className="tile__frame">
         {shots.map((shot, i) => (
           <Photo
             key={shot.name}
             name={shot.name}
             alt={shot.alt}
             sizes={sizes}
-            fill
+            className="tile__media"
             data-active={multi ? i === active : undefined}
           />
         ))}
 
         {multi ? (
-          <div className="work__nav">
+          <div className="tile__nav">
             <button
               type="button"
-              className="work__btn"
+              className="tile__navBtn"
               onClick={() => step(-1)}
               aria-label={`Previous photo of ${caption}`}
             >
@@ -48,7 +48,7 @@ export function WorkItem({
             </button>
             <button
               type="button"
-              className="work__btn"
+              className="tile__navBtn"
               onClick={() => step(1)}
               aria-label={`Next photo of ${caption}`}
             >
@@ -58,9 +58,9 @@ export function WorkItem({
         ) : null}
       </div>
 
-      <figcaption className="work__cap">
-        <span className="pcard__title">{caption}</span>
-        <span className="pcard__sub">{sub}</span>
+      <figcaption className="tile__cap">
+        <span className="item-name">{caption}</span>
+        <span className="caption">{sub}</span>
       </figcaption>
     </figure>
   );

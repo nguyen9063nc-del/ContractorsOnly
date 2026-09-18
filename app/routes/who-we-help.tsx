@@ -1,19 +1,12 @@
 import { Link } from "react-router";
 
 import type { Route } from "./+types/who-we-help";
-import { Band, SectionIntro } from "~/components/site/Section";
-import { Hero, HeroActions } from "~/components/site/Hero";
+import { Section, SectionHead } from "~/components/site/Section";
+import { Band, BandActions } from "~/components/site/Band";
 import { Photo, photoPreload } from "~/components/Photo";
 import { Icon } from "~/components/Icon";
 import { ClosingCta } from "~/components/site/ClosingCta";
-import {
-  audiences,
-  marks,
-  reasons,
-  reasonsPhoto,
-  testimonial,
-  whoHero,
-} from "~/data/who-we-help";
+import { audiences, marks, reasons, reasonsPhoto, testimonial, whoHero } from "~/data/who-we-help";
 
 const DESCRIPTION =
   "Agents, investors, property managers, commercial owners, REO teams and homeowners — one team that prepares, improves and maintains the property.";
@@ -33,108 +26,101 @@ export const links: Route.LinksFunction = () => [photoPreload(whoHero.photo, "10
 export default function WhoWeHelp() {
   return (
     <>
-      <Hero
-        short
+      <Band
         shots={[{ name: whoHero.photo, alt: whoHero.alt }]}
-        kicker={whoHero.eyebrow}
+        eyebrow={whoHero.eyebrow}
         title={
           <>
             {whoHero.titleTop}
             <br />
-            <em>{whoHero.titleAccent}</em>
+            <span className="accent">{whoHero.titleAccent}</span>
           </>
         }
         copy={whoHero.copy}
         actions={
-          <HeroActions
+          <BandActions
             primary={{ label: "Start your project", to: "/contact" }}
             secondary={{ label: "See our work", to: "/portfolio" }}
           />
         }
       />
 
-      {/* Six audiences */}
-      <Band tight>
-        <SectionIntro
+      {/* Six audience cards. grid--6 rather than grid--fluid, to hold the 3 x 2
+          layout that was chosen for this section. */}
+      <Section>
+        <SectionHead
           eyebrow="Our clients"
           title="Real people. Real properties. Real results."
           copy="We understand your goals, your timelines and what is at stake. Here is how we help each of them."
         />
-        <div className="grid grid--3">
+        <div className="grid grid--6">
           {audiences.map((a) => (
-            <Link to="/services" className="pcard" key={a.label}>
-              <div className="pcard__media pcard__media--landscape">
-                <Photo
-                  name={a.photo}
-                  alt={a.alt}
-                  fill
-                  sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
-                />
-              </div>
-              <div className="pcard__body">
-                <span
-                  className="cat__head"
-                  style={{ marginBottom: 2 }}
-                >
-                  <Icon name={a.icon} size={22} color="var(--brand)" />
-                  <span className="pcard__title">{a.label}</span>
+            <Link to="/services" className="tile" key={a.label}>
+              <Photo
+                name={a.photo}
+                alt={a.alt}
+                className="tile__media"
+                sizes="(max-width: 520px) 100vw, (max-width: 820px) 50vw, 33vw"
+              />
+              <div className="tile__cap">
+                <span className="icon-head">
+                  <Icon name={a.icon} size={22} />
+                  <span className="item-name">{a.label}</span>
                 </span>
-                <span className="pcard__sub pcard__sub--body">{a.body}</span>
+                <span className="body">{a.body}</span>
               </div>
             </Link>
           ))}
         </div>
-      </Band>
+      </Section>
 
-      {/* Why clients work with us */}
-      <Band tone="subtle">
-        <SectionIntro
+      {/* Photo beside a 2 x 2 of reasons. */}
+      <Section>
+        <SectionHead
           eyebrow="Why our clients work with us"
           title="More than a contractor — a partner."
         />
         <div className="split">
-          <div className="split__media">
-            <Photo
-              name={reasonsPhoto.photo}
-              alt={reasonsPhoto.alt}
-              fill
-              sizes="(max-width: 860px) 100vw, 50vw"
-            />
-          </div>
-          <div className="reasons">
+          <Photo
+            name={reasonsPhoto.photo}
+            alt={reasonsPhoto.alt}
+            className="tile__media tile__media--photo"
+            sizes="(max-width: 820px) 100vw, 45vw"
+          />
+          <div className="grid grid--2 grid--gap-col">
             {reasons.map((r) => (
-              <div className="reason" key={r.title}>
-                <Icon name={r.icon} size={26} color="var(--brand)" />
-                <span className="reason__t">{r.title}</span>
-                <span className="reason__b">{r.body}</span>
+              <div className="stack-sm" key={r.title}>
+                <Icon name={r.icon} size={26} />
+                <span className="item-name">{r.title}</span>
+                <span className="body">{r.body}</span>
               </div>
             ))}
           </div>
         </div>
-      </Band>
+      </Section>
 
-      {/* Testimonial */}
-      <Band>
-        <SectionIntro eyebrow="In their words" title="One call instead of five." />
+      {/* Testimonial + trust marks. No panel, no rule. */}
+      <Section>
+        <SectionHead eyebrow="In their words" title="One call instead of five." />
         <div className="split">
-          <blockquote className="quote">
-            <p>&ldquo;{testimonial.quote}&rdquo;</p>
-            <footer>
-              <span className="quote__name">{testimonial.name}</span>
-              <span className="item__d">{testimonial.role}</span>
+          <blockquote className="stack-sm">
+            <p className="quote">&ldquo;{testimonial.quote}&rdquo;</p>
+            <footer className="tile__cap">
+              <span className="item-name">{testimonial.name}</span>
+              <span className="caption">{testimonial.role}</span>
             </footer>
           </blockquote>
 
           <ul className="marks">
             {marks.map((m) => (
               <li key={m.title}>
-                <Icon name={m.icon} size={22} color="var(--brand)" />
-                <span>{m.title}</span>
+                <Icon name={m.icon} size={22} />
+                <span className="title-body">{m.title}</span>
               </li>
             ))}
           </ul>
         </div>
-      </Band>
+      </Section>
 
       <ClosingCta />
     </>

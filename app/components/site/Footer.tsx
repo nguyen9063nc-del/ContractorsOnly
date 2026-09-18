@@ -7,10 +7,10 @@ const LOGO_H = 64;
 
 export function Footer() {
   return (
-    <footer className="ftr">
+    <footer className="site-footer">
       <div className="wrap">
-        <div className="ftr__grid">
-          <div className="ftr__brand">
+        <div className="site-footer__grid">
+          <address className="site-footer__brand">
             <img
               src="/logo-lockup.png"
               alt="Contractors Only"
@@ -19,21 +19,19 @@ export function Footer() {
               loading="lazy"
               decoding="async"
             />
-            <p className="ftr__tagline">{site.tagline}</p>
-            <address className="ftr__contact" style={{ fontStyle: "normal" }}>
-              <span>
-                {site.address.street}
-                <br />
-                {site.address.city}, {site.address.state} {site.address.zip}
-              </span>
-              <a href={site.phoneHref}>{site.phone}</a>
-              <a href={`mailto:${site.email}`}>{site.email}</a>
-            </address>
-          </div>
+            <span className="item-name">{site.tagline}</span>
+            <span className="caption">
+              {site.address.street}
+              <br />
+              {site.address.city}, {site.address.state} {site.address.zip}
+            </span>
+            <a href={site.phoneHref}>{site.phone}</a>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </address>
 
           {footerColumns.map((col) => (
-            <nav className="ftr__col" key={col.heading} aria-label={col.heading}>
-              <span className="ftr__heading">{col.heading}</span>
+            <nav className="site-footer__col" key={col.heading} aria-label={col.heading}>
+              <span className="site-footer__heading">{col.heading}</span>
               {col.links.map((link) => (
                 <Link key={link.label} to={link.to}>
                   {link.label}
@@ -43,11 +41,11 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="ftr__base">
-          <span>
+        <div className="site-footer__base">
+          <span className="caption">
             © {__BUILD_YEAR__} {site.name}. {site.copyright}
           </span>
-          <span>{site.legal}</span>
+          <span className="caption">{site.legal}</span>
         </div>
       </div>
     </footer>

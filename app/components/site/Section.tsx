@@ -2,31 +2,30 @@ import type { ReactNode } from "react";
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
 
-/** Full-bleed band wrapping a centred content column. */
-export function Band({
+/** The canonical content section from the handoff README. */
+export function Section({
   children,
-  tone = "white",
-  tight = false,
+  flushTop = false,
   id,
 }: {
   children: ReactNode;
-  tone?: "white" | "subtle" | "muted";
-  tight?: boolean;
+  /** Drops the top padding where the section butts against a band. */
+  flushTop?: boolean;
   id?: string;
 }) {
-  const toneClass = tone === "white" ? "band" : `band band--${tone}`;
   return (
-    <section className={toneClass} id={id}>
-      <div className={`wrap band__inner${tight ? " band__inner--tight" : ""}`}>{children}</div>
+    <section className={`section${flushTop ? " section--flush-top" : ""}`} id={id}>
+      <div className="wrap">{children}</div>
     </section>
   );
 }
 
 /**
- * The eyebrow / headline / paragraph-with-CTA opener that repeats on every
- * content band in the design.
+ * Section header block: eyebrow, headline, then the subline and button on one
+ * row. The button aligns to the body text rather than the headline — that is
+ * what `.section-head__row` is for.
  */
-export function SectionIntro({
+export function SectionHead({
   eyebrow,
   title,
   copy,
@@ -38,16 +37,16 @@ export function SectionIntro({
   cta?: { label: string; to: string };
 }) {
   return (
-    <div className="intro">
+    <div className="section-head">
       <span className="eyebrow">{eyebrow}</span>
-      <h2 className="h2">{title}</h2>
+      <h2 className="section-h2">{title}</h2>
       {copy || cta ? (
-        <div className="intro__row">
-          {copy ? <p className="lead">{copy}</p> : null}
+        <div className="section-head__row">
+          {copy ? <p className="body">{copy}</p> : null}
           {cta ? (
             <Link className="btn btn--outline" to={cta.to}>
               {cta.label}
-              <ArrowRight size={16} strokeWidth={2.4} className="btn__icon" aria-hidden />
+              <ArrowRight size={16} strokeWidth={2.4} aria-hidden />
             </Link>
           ) : null}
         </div>

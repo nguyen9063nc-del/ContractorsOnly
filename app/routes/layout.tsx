@@ -6,7 +6,7 @@ import { Footer } from "~/components/site/Footer";
 export default function SiteLayout() {
   return (
     <>
-      <a className="skip-link" href="#main">
+      <a className="skip-link btn btn--primary" href="#main">
         Skip to content
       </a>
       <Header />

@@ -1,9 +1,10 @@
 import { Check } from "lucide-react";
 
 import type { Route } from "./+types/services";
-import { Band, SectionIntro } from "~/components/site/Section";
-import { Hero, HeroActions } from "~/components/site/Hero";
+import { Section, SectionHead } from "~/components/site/Section";
+import { Band, BandActions } from "~/components/site/Band";
 import { Photo, photoPreload } from "~/components/Photo";
+import { PhotoSlot } from "~/components/site/Tile";
 import { Icon } from "~/components/Icon";
 import { ClosingCta } from "~/components/site/ClosingCta";
 import { catalog, serviceGroups, servicesHero, servicesOutro } from "~/data/services";
@@ -26,54 +27,51 @@ export const links: Route.LinksFunction = () => [photoPreload(servicesHero.photo
 export default function Services() {
   return (
     <>
-      <Hero
-        short
+      <Band
         shots={[{ name: servicesHero.photo, alt: servicesHero.alt }]}
-        kicker={servicesHero.eyebrow}
+        eyebrow={servicesHero.eyebrow}
         title={
           <>
             {servicesHero.titleTop}
             <br />
-            <em>{servicesHero.titleAccent}</em>
+            <span className="accent">{servicesHero.titleAccent}</span>
           </>
         }
         copy={servicesHero.copy}
         actions={
-          <HeroActions
+          <BandActions
             primary={{ label: "Start your project", to: "/contact" }}
             secondary={{ label: "See our work", to: "/portfolio" }}
           />
         }
       />
 
-      {/* Catalog */}
-      <Band tight>
-        <SectionIntro
+      {/* 12 service tiles, 4 x 3 */}
+      <Section>
+        <SectionHead
           eyebrow="Our services"
           title="Everything your property needs."
           copy="Interior, exterior, big or small — we handle it all, on one scope and one schedule."
         />
-        <div className="grid grid--cat">
+        <div className="grid grid--4 grid--gap-col">
           {catalog.map((c) => (
-            <article className="cat" key={c.title}>
-              <div className="cat__media">
-                <Photo
-                  name={c.photo}
-                  alt={c.alt}
-                  fill
-                  sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, (max-width: 1240px) 33vw, 25vw"
-                />
-              </div>
-              <div className="cat__body">
-                <div className="cat__head">
-                  <Icon name={c.icon} size={20} color="var(--brand)" />
-                  <h3 className="cat__title">{c.title}</h3>
-                </div>
+            <article className="tile" key={c.title}>
+              <Photo
+                name={c.photo}
+                alt={c.alt}
+                className="tile__media tile__media--wide"
+                sizes="(max-width: 520px) 100vw, (max-width: 820px) 50vw, 25vw"
+              />
+              <div className="tile__cap">
+                <span className="icon-head">
+                  <Icon name={c.icon} size={20} />
+                  <h3 className="item-name">{c.title}</h3>
+                </span>
                 <ul className="ticks">
                   {c.items.map((item) => (
                     <li key={item}>
                       <Check size={14} strokeWidth={2.6} aria-hidden />
-                      <span>{item}</span>
+                      <span className="body">{item}</span>
                     </li>
                   ))}
                 </ul>
@@ -81,71 +79,64 @@ export default function Services() {
             </article>
           ))}
         </div>
-      </Band>
+      </Section>
 
-      {/* Detailed groups */}
-      <Band tone="subtle">
-        <SectionIntro
+      {/* Four blocks: photo strip + grouped list */}
+      <Section>
+        <SectionHead
           eyebrow="Things we do"
           title="One scope. One invoice."
           copy="One scope, one proposal, one invoice — no matter how many trades the job takes."
         />
-        {serviceGroups.map((group) => (
-          <section className="svc" key={group.title}>
-            <div>
-              <div className="svc__head">
-                <Icon name={group.icon} size={26} color="var(--brand)" />
-                <h3 className="h3">{group.title}</h3>
+        <div className="stack-blocks">
+          {serviceGroups.map((group) => (
+            <section className="stack-inblock" key={group.title}>
+              <div className="stack-sm">
+                <span className="icon-head">
+                  <Icon name={group.icon} size={26} />
+                  <h3 className="block-h3">{group.title}</h3>
+                </span>
+                <p className="body">{group.body}</p>
               </div>
-              <p className="lead svc__body" style={{ marginTop: 12 }}>
-                {group.body}
-              </p>
-            </div>
 
-            <div className="strip">
-              {group.photos.map((p) => (
-                <figure className="strip__fig" key={`${group.title}-${p.caption}`}>
-                  <div className="strip__media">
+              <div className="grid grid--4 grid--gap-col">
+                {group.photos.map((p) => (
+                  <figure className="tile" key={`${group.title}-${p.caption}`}>
                     {p.photo ? (
                       <Photo
                         name={p.photo}
                         alt={p.alt ?? p.caption}
-                        fill
-                        sizes="(max-width: 900px) 50vw, 22vw"
+                        className="tile__media"
+                        sizes="(max-width: 520px) 100vw, (max-width: 820px) 50vw, 25vw"
                       />
                     ) : (
-                      /* §1.7 — no honest photo exists for this one, so name the
-                         shot needed rather than reusing another tile's image. */
-                      <div className="slot">
-                        <span className="small-label">Photo needed</span>
-                        <span className="caption">{p.need}</span>
-                      </div>
+                      <PhotoSlot need={p.need ?? p.caption} />
                     )}
-                  </div>
-                  <figcaption className="caption">{p.caption}</figcaption>
-                </figure>
-              ))}
-            </div>
+                    <figcaption className="tile__cap">
+                      <span className="body body--muted">{p.caption}</span>
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
 
-            <div className="items">
-              {group.items.map((item) => (
-                <div className="item" key={item.title}>
-                  <Check size={15} strokeWidth={2.6} aria-hidden />
-                  <div>
-                    <span className="item__t">{item.title}</span>
-                    <span className="item__d">{item.detail}</span>
+              <div className="items">
+                {group.items.map((item) => (
+                  <div className="item" key={item.title}>
+                    <Check size={15} strokeWidth={2.6} aria-hidden />
+                    <div>
+                      <span className="item-name">{item.title}</span>
+                      <span className="body">{item.detail}</span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
-        ))}
-      </Band>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      </Section>
 
-      {/* "Don't see it listed?" */}
-      <Hero
-        short
-        as="h2"
+      <Band
+        closing
         shots={[{ name: servicesOutro.photo, alt: servicesOutro.alt }]}
         title={servicesOutro.title}
         copy={servicesOutro.copy}

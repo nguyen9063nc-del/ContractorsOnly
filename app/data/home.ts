@@ -140,16 +140,17 @@ export const steps = [
 ];
 
 /**
- * The "typical sequence" gantt. `start` is the 1-indexed grid column within the
- * 7-day track and `span` is its width in days.
+ * The "typical sequence" Gantt. `start` is the 1-indexed grid column (column 1
+ * is the label gutter) and `span` its width. `cls` is the handoff's phase
+ * colour class — colours live in the stylesheet, not here.
  */
 export const sequence = [
-  { name: "Plumbing", color: "#7a4fa3", start: 2, span: 3 },
-  { name: "Electrical work", color: "#2f4858", start: 2, span: 4 },
-  { name: "Exterior paint", color: "#c77800", start: 3, span: 3 },
-  { name: "Landscaping", color: "#6a8f2f", start: 5, span: 2 },
-  { name: "Interior paint", color: "#e02b1d", start: 6, span: 2 },
-  { name: "Clean", color: "#00688b", start: 8, span: 2 },
+  { name: "Plumbing", cls: "ph-plumbing", start: 2, span: 3 },
+  { name: "Electrical work", cls: "ph-electrical", start: 2, span: 4 },
+  { name: "Exterior paint", cls: "ph-ext-paint", start: 3, span: 3 },
+  { name: "Landscaping", cls: "ph-landscape", start: 5, span: 2 },
+  { name: "Interior paint", cls: "ph-int-paint", start: 6, span: 2 },
+  { name: "Clean", cls: "ph-clean", start: 8, span: 2 },
 ];
 
 export const recentWork = [

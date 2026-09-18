@@ -1,8 +1,8 @@
 import type { Route } from "./+types/about";
-import { Band, SectionIntro } from "~/components/site/Section";
-import { Hero, HeroActions } from "~/components/site/Hero";
+import { Section, SectionHead } from "~/components/site/Section";
+import { Band, BandActions } from "~/components/site/Band";
 import { Photo, photoPreload } from "~/components/Photo";
-import { PhotoCard } from "~/components/site/PhotoCard";
+import { Tile, PhotoSlot } from "~/components/site/Tile";
 import { ClosingCta } from "~/components/site/ClosingCta";
 import { site } from "~/data/site";
 import { aboutHero, culture, team, values } from "~/data/about";
@@ -25,91 +25,77 @@ export const links: Route.LinksFunction = () => [photoPreload(aboutHero.photo, "
 export default function About() {
   return (
     <>
-      <Hero
-        short
+      <Band
         shots={[{ name: aboutHero.photo, alt: aboutHero.alt }]}
-        kicker={aboutHero.eyebrow}
+        eyebrow={aboutHero.eyebrow}
         title={
           <>
             {aboutHero.titleTop}
             <br />
-            <em>{aboutHero.titleAccent}</em>
+            <span className="accent">{aboutHero.titleAccent}</span>
           </>
         }
         copy={aboutHero.copy}
         actions={
-          <HeroActions
+          <BandActions
             primary={{ label: "Start your project", to: "/contact" }}
             secondary={{ label: "See our work", to: "/portfolio" }}
           />
         }
       />
 
-      {/* Who we are */}
-      <Band tight>
-        <SectionIntro eyebrow="Who we are" title="People over projects." />
+      <Section>
+        <SectionHead eyebrow="Who we are" title="People over projects." />
         <div className="split">
-          <div className="split__media">
-            <Photo
-              name={values.photo}
-              alt={values.alt}
-              fill
-              sizes="(max-width: 860px) 100vw, 50vw"
-            />
-          </div>
-          <div className="split__copy">
-            <p className="lead">{values.body}</p>
-            <p className="lead">{values.pullquote}</p>
+          <Photo
+            name={values.photo}
+            alt={values.alt}
+            className="tile__media tile__media--photo"
+            sizes="(max-width: 820px) 100vw, 45vw"
+          />
+          <div className="stack-sm">
+            <p className="body">{values.body}</p>
+            <p className="body">{values.pullquote}</p>
           </div>
         </div>
-      </Band>
+      </Section>
 
-      {/* Culture */}
-      <Band tone="subtle">
-        <SectionIntro
+      <Section>
+        <SectionHead
           eyebrow="How we work"
           title="One crew. One point of accountability."
           copy="From the first walkthrough to the final invoice, one person owns your property."
         />
-        <div className="grid grid--3">
+        <div className="grid grid--3 grid--gap-col">
           {culture.map((c) => (
-            <PhotoCard
+            <Tile
               key={c.title}
               photo={c.photo}
               alt={c.alt}
               title={c.title}
-              sub={c.body}
-              subTone="body"
-              sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw"
+              caption={c.body}
+              fixedCap
+              sizes="(max-width: 520px) 100vw, (max-width: 820px) 50vw, 33vw"
             />
           ))}
         </div>
-      </Band>
+      </Section>
 
-      {/* Team */}
-      <Band>
-        <SectionIntro
-          eyebrow="The team"
-          title="The people behind the work."
-          copy={site.regions}
-        />
-        <ul className="team">
+      {/* Five portrait slots — no headshots supplied. */}
+      <Section>
+        <SectionHead eyebrow="The team" title="The people behind the work." copy={site.regions} />
+        <ul className="grid grid--fluid">
           {team.map((person) => (
-            <li className="team__item" key={person.name}>
-              <div className="team__media">
-                <div className="slot">
-                  <span className="small-label">Photo needed</span>
-                  <span className="caption">Portrait of {person.name}</span>
-                </div>
-              </div>
-              <div className="team__body">
-                <span className="pcard__title">{person.name}</span>
+            <li className="tile" key={person.name}>
+              <PhotoSlot need={`Portrait of ${person.name}`} />
+              <div className="tile__cap">
+                <span className="item-name">{person.name}</span>
                 <span className="caption">{person.role}</span>
               </div>
             </li>
           ))}
         </ul>
-      </Band>
+      </Section>
 
       <ClosingCta />
     </>

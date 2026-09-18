@@ -8,47 +8,38 @@ import type { ImageName } from "~/data/images.generated";
 type Shot = { name: ImageName; alt: string };
 
 /**
- * Dark photo hero. Accepts one or more shots; with more than one it crossfades
- * between them and exposes dot controls.
+ * The canonical hero / closing band. Accepts one or more shots; with more than
+ * one it crossfades and exposes dot controls.
  */
-export function Hero({
+export function Band({
   shots,
-  kicker,
+  eyebrow,
   title,
   copy,
   actions,
-  short = false,
-  interval = 6000,
-  as: Heading = "h1",
+  closing = false,
   trailing,
+  interval = 6000,
 }: {
   shots: Shot[];
-  kicker?: string;
-  /** Wrap the accent words in <em> — it is restyled to brand red, not italic. */
+  eyebrow?: string;
+  /** Wrap accent words in <span className="accent">. */
   title: ReactNode;
   copy?: string;
   actions?: ReactNode;
-  short?: boolean;
-  interval?: number;
-  /**
-   * Heading level. The page hero is the h1; reused bands like the closing CTA
-   * must drop to h2 so a page never ships two h1s.
-   */
-  as?: "h1" | "h2";
-  /** Slot rendered after the actions — the closing band's trailing kicker. */
+  /** Closing bands are shorter and drop to an h2. */
+  closing?: boolean;
   trailing?: ReactNode;
+  interval?: number;
 }) {
   const [active, setActive] = useState(0);
   // Once the visitor picks a shot, stop advancing — auto-advancing over a
-  // deliberate choice is the thing everyone finds irritating about carousels.
+  // deliberate choice is the irritating part of carousels.
   const [paused, setPaused] = useState(false);
 
   useEffect(() => {
     if (shots.length < 2 || paused) return;
-
-    // Respect the OS reduced-motion setting: no auto-advance, no crossfade.
-    const motionOk = window.matchMedia("(prefers-reduced-motion: no-preference)");
-    if (!motionOk.matches) return;
+    if (!window.matchMedia("(prefers-reduced-motion: no-preference)").matches) return;
 
     const id = window.setInterval(() => {
       setActive((i) => (i + 1) % shots.length);
@@ -56,41 +47,41 @@ export function Hero({
     return () => window.clearInterval(id);
   }, [shots.length, paused, interval]);
 
+  const Heading = closing ? "h2" : "h1";
+
   return (
-    <section className={`hero${short ? " hero--short" : ""}`}>
-      <div className="hero__media">
+    <section className={`band on-dark${closing ? " band--closing" : ""}`}>
+      <div className="band__media">
         {shots.map((shot, i) => (
           <Photo
             key={shot.name}
             name={shot.name}
             alt={shot.alt}
             sizes="100vw"
-            // Only the first shot is the LCP candidate; the rest load lazily.
+            className="band__img"
+            // Only the first shot is the LCP candidate.
             priority={i === 0}
-            fill
             data-active={shots.length > 1 ? i === active : undefined}
           />
         ))}
       </div>
-      <div className="hero__scrim" />
+      <div className="band__scrim" />
 
-      <div className="hero__inner">
-        <div className="hero__col">
-          {kicker ? <span className="hero__kicker">{kicker}</span> : null}
-          <Heading className={`hero__title${Heading === "h2" ? " hero__title--closing" : ""}`}>
-            {title}
-          </Heading>
-          {copy ? <p className="hero__copy">{copy}</p> : null}
-          {actions ? <div className="hero__actions">{actions}</div> : null}
-          {trailing ? <div className="hero__kicker">{trailing}</div> : null}
+      <div className="band__inner">
+        <div className="band__content">
+          {eyebrow ? <span className="eyebrow-band">{eyebrow}</span> : null}
+          <Heading className={closing ? "closing-h2" : "hero-h1"}>{title}</Heading>
+          {copy ? <p className="lead">{copy}</p> : null}
+          {actions ? <div className="btn-row">{actions}</div> : null}
+          {trailing ? <span className="eyebrow-band">{trailing}</span> : null}
 
           {shots.length > 1 ? (
-            <div className="hero__dots" role="group" aria-label="Choose a hero photo">
+            <div className="band__dots" role="group" aria-label="Choose a photo">
               {shots.map((shot, i) => (
                 <button
                   key={shot.name}
                   type="button"
-                  className="hero__dot"
+                  className="band__dot"
                   aria-current={i === active}
                   aria-label={`Show photo ${i + 1} of ${shots.length}`}
                   onClick={() => {
@@ -107,8 +98,8 @@ export function Hero({
   );
 }
 
-/** Primary + secondary action pair used in the heroes. */
-export function HeroActions({
+/** Every CTA is "Start your project" (primary) or "See our work" (outline). */
+export function BandActions({
   primary,
   secondary,
 }: {
@@ -121,9 +112,9 @@ export function HeroActions({
         {primary.label}
       </Link>
       {secondary ? (
-        <Link className="btn btn--onDark" to={secondary.to}>
+        <Link className="btn btn--outline-light" to={secondary.to}>
           {secondary.label}
-          <ArrowRight size={16} strokeWidth={2.4} className="btn__icon" aria-hidden />
+          <ArrowRight size={16} strokeWidth={2.4} aria-hidden />
         </Link>
       ) : null}
     </>

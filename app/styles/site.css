@@ -1,0 +1,781 @@
+/* Contractors Only — site additions.
+
+   `contractors-only.css` is the source of truth for sizing and is used verbatim.
+   This file only covers surfaces that handoff does not ship a class for — the
+   footer, forms, the mobile nav, the contact and portfolio layouts — plus the
+   few deliberate deviations noted inline.
+
+   Per the handoff rule, nothing here introduces a new font-size, colour or
+   radius: every value comes from the variables in contractors-only.css. */
+
+/* <picture> wraps every responsive image, so it has to behave like the <img>
+   the handoff classes expect to sit directly in a flex or grid child. */
+picture {
+  display: block;
+  min-width: 0;
+}
+
+/* Every <img> carries width/height attributes from the image manifest so the
+   box is reserved before the bytes land. Those map to a presentational height,
+   which stops `aspect-ratio` applying — `height:auto` hands the ratio back to
+   the handoff class while keeping the attributes doing their job. */
+.tile__media {
+  height: auto;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 32px;
+  z-index: 100;
+}
+.skip-link:focus {
+  top: 12px;
+  color: #fff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html {
+  scroll-padding-top: 88px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+/* ------------------------------------------------------------------ header */
+
+/* DEVIATION: the handoff nav wraps onto extra lines on narrow screens. Seven
+   links wrapping on a phone is unusable, so below this width they collapse into
+   a disclosure panel. Everything above it is the handoff's markup untouched. */
+.site-header__toggle {
+  display: none;
+  width: 48px;
+  height: 48px;
+  margin-left: auto;
+  place-items: center;
+  background: transparent;
+  border: 1px solid var(--hairline);
+  border-radius: var(--r-button);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.site-header__toggle:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+@media (max-width: 1100px) {
+  .site-nav,
+  .site-header__cta {
+    display: none;
+  }
+  .site-header__toggle {
+    display: grid;
+  }
+}
+
+.site-nav a[aria-current] {
+  box-shadow: inset 0 -3px 0 var(--brand);
+}
+
+/* The header CTA is the design system's `size="sm"` button (36px, 0 16px) —
+   the template renders it at 210x36. The handoff ships a single 52px button and
+   has no small variant, which made the whole bar sit noticeably heavier. */
+.site-header__cta .btn,
+.nav-panel__inner .btn {
+  height: 36px;
+  padding: 0 16px;
+}
+
+/* Animating grid-template-rows 0fr → 1fr collapses to the content's own height
+   with no JS measurement and no magic number. */
+.nav-panel {
+  display: none;
+  grid-template-rows: 0fr;
+  background: var(--surface);
+  transition: grid-template-rows 0.32s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+@media (max-width: 1100px) {
+  .nav-panel {
+    display: grid;
+  }
+}
+
+.nav-panel[data-open="true"] {
+  grid-template-rows: 1fr;
+  border-top: 1px solid var(--hairline);
+}
+
+.nav-panel__inner {
+  display: flex;
+  flex-direction: column;
+  /* The 0fr row only clips if the child hides its own overflow. */
+  overflow: hidden;
+  min-width: 0;
+  min-height: 0;
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 32px;
+}
+
+.nav-panel[data-open="true"] .nav-panel__inner {
+  padding: 8px 32px 20px;
+}
+
+.nav-panel__inner a:not(.btn) {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--t-body);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink);
+  /* 44px tap target. */
+  padding: 15px 0;
+}
+
+.nav-panel__inner a[aria-current] {
+  color: var(--brand);
+}
+
+.nav-panel__inner .btn {
+  margin-top: 20px;
+}
+
+/* ------------------------------------------------------------------ bands */
+
+/* DEVIATION: the handoff's left-to-right scrim fades to ~0.3 opacity by the
+   point a 600px content column reaches on a tablet, so long headlines lose
+   contrast. Below this width the frame darkens vertically instead. */
+@media (max-width: 1024px) {
+  .band__scrim {
+    background: linear-gradient(
+      180deg,
+      rgba(13, 13, 13, 0.62) 0%,
+      rgba(13, 13, 13, 0.76) 55%,
+      rgba(13, 13, 13, 0.88) 100%
+    );
+  }
+}
+
+/* Crossfade between hero shots. A single-shot band carries no flag and stays
+   visible. */
+.band__img {
+  transition: opacity 0.4s ease;
+}
+.band__media picture[data-active] .band__img {
+  opacity: 0;
+}
+.band__media picture[data-active="true"] .band__img {
+  opacity: 1;
+}
+
+.band__dots {
+  display: flex;
+  gap: 0;
+  margin-left: -8px;
+}
+
+/* The visible dot is 8px, well under a usable target, so the button pads out to
+   44px and draws the dot as a pseudo-element. Padding rather than an absolute
+   overlay keeps adjacent targets from overlapping and stealing taps. */
+.band__dot {
+  display: block;
+  padding: 16px 8px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.band__dot::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--r-pill);
+  background: var(--on-dark-ring);
+  transition: width 0.2s ease, background 0.2s ease;
+}
+
+.band__dot[aria-current="true"]::after {
+  width: 24px;
+  background: #fff;
+}
+
+@media (max-width: 420px) {
+  .btn-row {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .btn-row .btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ------------------------------------------------------------ work gallery */
+
+.tile__frame {
+  position: relative;
+  min-width: 0;
+}
+
+.tile__nav {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  pointer-events: none;
+}
+
+.tile__navBtn {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--on-dark-ring);
+  background: rgba(0, 0, 0, 0.4);
+  color: #fff;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  pointer-events: auto;
+  transition: background 0.15s ease;
+}
+
+.tile__navBtn:hover {
+  background: rgba(0, 0, 0, 0.65);
+}
+
+.tile__frame picture[data-active] .tile__media {
+  opacity: 0;
+}
+.tile__frame picture[data-active="true"] .tile__media {
+  opacity: 1;
+}
+.tile__frame .tile__media {
+  transition: opacity 0.4s ease;
+}
+
+/* Stacked shots share one box so the crossfade has somewhere to happen. */
+.tile__frame picture + picture {
+  position: absolute;
+  inset: 0;
+}
+.tile__frame picture + picture .tile__media {
+  height: 100%;
+}
+
+/* ----------------------------------------------------------- grid gap roles */
+
+/* The handoff keys grid gap to column count (.grid--4 is always 14-24px, .grid--5
+   always 12-20px). The design varies it per section: Equipment's 4-up and 5-up
+   are tight like the handoff, but Home's fleet row is 30-64px and its process
+   steps 24-48px — roughly triple. These modifiers re-point gap at the handoff's
+   other existing gap variables; no new values. */
+.grid--gap-tile {
+  gap: var(--s-tile-gap);
+}
+
+.grid--gap-col {
+  gap: var(--s-col-gap);
+}
+
+/* ------------------------------------------------------- type role helpers */
+
+/* The original design templates use two combinations the handoff has no class
+   for. Both compose existing variables — neither introduces a new size.
+
+   1. Tile, step and strip titles are set at BODY size, uppercase — one step
+      below .item-name. The handoff's canonical tile example uses .item-name
+      there, which renders those titles ~2px larger than the design.
+   2. A lot of supporting copy is body size in the MUTED colour. The handoff has
+      .body (dark) and .caption (muted, one size down) but no muted body, so
+      that copy was landing 2px small as .caption. */
+
+.title-body {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--t-body);
+  line-height: 1.15;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.body--muted {
+  color: var(--muted);
+}
+
+.on-dark .body--muted {
+  color: var(--on-dark);
+}
+
+/* ------------------------------------------------------------------ lists */
+
+/* Red-tick checklist, used by the service tiles and the contact aside. */
+.ticks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  /* Template sets the <ul> at 7px and each row's icon gap at 9px. */
+  gap: 7px;
+}
+
+.ticks li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 9px;
+  align-items: start;
+  min-width: 0;
+}
+
+.ticks svg {
+  margin-top: 3px;
+  color: var(--brand);
+  flex: 0 0 auto;
+}
+
+/* Named items with a description, four across so they line up under the
+   four-across photo strip above them. */
+.items {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--s-col-gap) clamp(14px, 1.6vw, 24px);
+  /* The design lays these out auto-fit from ~150px rather than a hard 4-up. */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+}
+
+.items > * {
+  min-width: 0;
+}
+
+.items--wide {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: 820px) {
+  .items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .items,
+  .items--wide {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+  min-width: 0;
+}
+
+.item svg {
+  margin-top: 4px;
+  color: var(--brand);
+  flex: 0 0 auto;
+}
+
+.item__t {
+  display: block;
+  font-weight: 600;
+  font-size: var(--t-caption);
+  line-height: 1.35;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+/* Icon beside a heading — service tiles, audience cards, reasons. */
+.icon-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.icon-head svg {
+  color: var(--brand);
+  flex: 0 0 auto;
+}
+
+/* Stacked heading + body, used in the reasons 2x2 and the culture tiles. */
+.stack-sm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* Proof-point list beside the testimonial. */
+.marks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.marks li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.marks svg {
+  color: var(--brand);
+  flex: 0 0 auto;
+}
+
+/* --------------------------------------------------------------- the chart */
+
+/* DEVIATION: the handoff pairs the chart with its copy in equal 570px columns
+   (`.pair`). At that width the seven-day track is too compressed for the bars
+   to read, so the chart takes the larger share. */
+.chart-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 1fr);
+  gap: var(--s-col-gap);
+  align-items: center;
+}
+
+.chart-pair > * {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .chart-pair {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.chart-pair__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* On a phone the chart shrinks in place: label stays beside its bar in a
+   narrower column that wraps long names. Stacking labels above their tracks
+   costs six extra rows and breaks the read across the row. The column is sized
+   to the longest unbreakable name — "Landscaping" — so it can never spill over
+   the bars. */
+@media (max-width: 620px) {
+  .gantt {
+    grid-template-columns: clamp(116px, 30vw, 132px) repeat(7, minmax(0, 1fr));
+    gap: 10px 0;
+  }
+  .gantt__label,
+  .gantt__daylabel {
+    font-size: var(--t-small);
+    line-height: 1.15;
+    padding-right: 8px;
+    min-width: 0;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+  .gantt__bar {
+    height: 20px;
+  }
+  .gantt__tick {
+    font-size: var(--t-small);
+  }
+}
+
+/* --------------------------------------------------------------- portfolio */
+
+.folio__tiles {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--s-tile-gap-tight);
+}
+
+.folio__tiles > * {
+  min-width: 0;
+}
+
+@media (max-width: 520px) {
+  .folio__tiles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ----------------------------------------------------------------- contact */
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(30px, 4.5vw, 76px);
+  align-items: start;
+}
+
+.contact-grid > * {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.contact-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.contact-row svg {
+  margin-top: 3px;
+  color: var(--brand);
+  flex: 0 0 auto;
+}
+
+.contact-row a {
+  font-size: var(--t-body);
+  color: var(--ink);
+  display: inline-block;
+  /* 44px tap target. */
+  padding: 11px 0;
+  margin: -6px 0;
+}
+
+.contact-row a:hover {
+  color: var(--brand);
+}
+
+/* -------------------------------------------------------------------- forms */
+
+.form {
+  display: grid;
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+}
+
+.field label {
+  font-weight: 600;
+  font-size: var(--t-caption);
+  color: var(--ink);
+}
+
+.field .req {
+  color: var(--brand);
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: var(--t-body);
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--dash);
+  border-radius: var(--r-button);
+  padding: 0 14px;
+  /* Same fixed height as the buttons. */
+  height: 52px;
+}
+
+.textarea {
+  height: auto;
+  min-height: 132px;
+  padding: 12px 14px;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.select {
+  appearance: none;
+  padding-right: 42px;
+  cursor: pointer;
+}
+
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap svg {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--muted);
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-tint);
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--muted);
+}
+
+/* Only style fields the visitor has actually interacted with — :invalid alone
+   paints every required field red before anyone has typed. */
+.input:user-invalid,
+.textarea:user-invalid,
+.select:user-invalid {
+  border-color: var(--brand);
+}
+
+.form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+@media (max-width: 620px) {
+  .form__row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 18px 20px;
+  background: var(--surface-alt);
+  border-radius: var(--r-box);
+}
+
+.notice svg {
+  color: var(--brand);
+  flex: 0 0 auto;
+  margin-top: 3px;
+}
+
+/* ------------------------------------------------------------------ footer */
+
+.site-footer {
+  background: var(--surface);
+  padding: var(--s-section) 0 var(--s-inblock);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: var(--s-col-gap);
+  padding-bottom: var(--s-inblock);
+}
+
+.site-footer__grid > * {
+  min-width: 0;
+}
+
+@media (max-width: 900px) {
+  .site-footer__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .site-footer__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .site-footer__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.site-footer__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  font-style: normal;
+}
+
+.site-footer__brand img {
+  height: 64px;
+  width: auto;
+}
+
+.site-footer__col {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.site-footer__col a,
+.site-footer__brand a {
+  font-size: var(--t-caption);
+  color: var(--body);
+  /* 44px tap target. */
+  padding: 11px 0;
+  word-break: break-word;
+}
+
+.site-footer__col a:hover,
+.site-footer__brand a:hover {
+  color: var(--brand);
+}
+
+.site-footer__heading {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--t-caption);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 11px 0;
+}
+
+.site-footer__base {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}

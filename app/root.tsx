@@ -9,9 +9,11 @@ import {
 import type { Route } from "./+types/root";
 
 import { site } from "~/data/site";
-import "./styles/app.css";
-import "./styles/chrome.css";
-import "./styles/pages.css";
+// Self-hosted faces first, then the handoff stylesheet (used verbatim), then
+// the few surfaces it does not cover.
+import "./styles/fonts.css";
+import "./styles/contractors-only.css";
+import "./styles/site.css";
 
 export const links: Route.LinksFunction = () => [
   // Preconnect is deliberately absent: fonts and images are same-origin, so
@@ -77,28 +79,20 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="band">
-      <div className="wrap band__inner">
-        <p className="eyebrow">{site.name}</p>
-        <h1 className="h2" style={{ marginBlock: "16px 20px" }}>
-          {heading}
-        </h1>
-        <p className="lead" style={{ maxWidth: 560 }}>
-          {detail}
-        </p>
-        <a className="btn btn--primary" href="/" style={{ marginTop: 28 }}>
-          Back to home
+    <main className="section">
+      <div className="wrap">
+        <div className="section-head">
+          <span className="eyebrow">{site.name}</span>
+          <h1 className="section-h2">{heading}</h1>
+          <div className="section-head__row">
+            <p className="body">{detail}</p>
+          </div>
+        </div>
+        <a className="btn btn--primary" href="/">
+          Start your project
         </a>
         {stack ? (
-          <pre
-            style={{
-              marginTop: 32,
-              padding: 16,
-              overflowX: "auto",
-              background: "var(--surface-subtle)",
-              fontSize: "var(--fs-small-label)",
-            }}
-          >
+          <pre className="caption">
             <code>{stack}</code>
           </pre>
         ) : null}
