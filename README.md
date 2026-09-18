@@ -72,17 +72,16 @@ app/
   components/
     Photo.tsx           Responsive <picture> over the generated image manifest
     Icon.tsx            lucide-react icon map
-    site/               Header, Footer, Hero, Section, PhotoCard, ContactForm…
+    site/               Header, Footer, Band, Section, Tile, ContactForm…
   data/                 Page content, transcribed from the design templates
   styles/
-    tokens/             Design-system tokens (see the caveat below)
-    app.css             Layout, type, buttons, grids, hero
-    chrome.css          Header, footer, forms
-    pages.css           Page-specific patterns
+    contractors-only.css  The design system handoff stylesheet — VERBATIM, do not edit
+    site.css              Only what the handoff ships no class for, plus noted deviations
+    fonts.css             Generated: self-hosted @font-face
 scripts/
   optimize-images.mjs   source-assets/ → public/img/ + images.generated.ts
-  fetch-fonts.mjs       Google Fonts → public/fonts/ + tokens/fonts.css
-source-assets/          Full-resolution originals (not served)
+  fetch-fonts.mjs       Google Fonts → public/fonts/ + styles/fonts.css
+source-assets/          Full-resolution originals (not served, gitignored)
 ```
 
 ## Performance notes
@@ -140,31 +139,53 @@ To change the photography:
   `photoPreload`; everything else is `loading="lazy"`. Marking more than one
   defeats the point.
 
-## Known gaps
+## Keeping the design honest
 
-- **The contact form has no destination.** The site is prerendered, so React
-  Router `action` exports are unavailable and submission must happen client-side.
-  `submitEnquiry` in `app/components/site/ContactForm.tsx` is the single place to
-  wire up — a Pages Function, a form service, or the Zoho endpoint the previous
-  site used. Until then the form validates and then tells the visitor to call
-  instead; it never pretends a message was sent.
-- **Seven equipment items have no photograph** and render as labelled panels:
-  box truck, landscaping trailer, tile saws, flooring nailers, genie lift,
-  John Deere 2, tow cutter. Drop files into `source-assets/photos/`, add the
-  `photo` key in `app/data/equipment.ts`, and re-run `npm run images`.
-- **Team members have no headshots.** `app/data/about.ts` carries names and roles
-  only; the design marked these as photo slots.
+The conformance tooling lives in a **separate repo: `design-script`**. It reads
+the per-element values out of a design system's templates and asserts the built
+site against them.
 
-## Design-system caveat
+```bash
+cd ../design-script
+npm run check -- --baseline baselines/contractors-only.json
+```
 
-`app/styles/tokens/` is copied from the design system, with one fix applied:
+The baseline for this site is `baselines/contractors-only.json` in that repo; its
+`dist` points back here at `build/client`, so build first.
 
-Upstream names the body text **colour** `--text-body` in `colors.css`, which
-collides with `--text-body: 17px` in `typography.css`. Whichever imports last
-wins, so `color: var(--text-body)` resolved to `color: 17px` — an invalid
-declaration, which makes elements inherit their parent's colour instead. The
-visible symptom was card copy inside links rendering brand red, and the site's
-default body colour falling back to black.
+### The one thing to remember
 
-The colours are now exposed as `--ink-strong` / `--ink-body` / `--ink-muted`.
-**If you re-sync tokens from the design system, re-apply that rename.**
+A design system hands you a spec, a stylesheet and rendered templates. Only the
+**templates** say which element gets which value — the other two give you a
+vocabulary, and their examples can disagree with the design. Every sizing bug in
+this build came from filling that gap by judgement:
+
+| Role | Design templates | This build, before the fix |
+| --- | --- | --- |
+| body 17–20px | 88 uses | 61 |
+| caption 15–17px | 55 | 276 |
+| item-name 19–23px | 10 | 87 |
+
+Body copy was 2px small everywhere, tile titles 2px large, and the fleet grid ran
+at 23px where the design said 64px. **When the stylesheet and the templates
+disagree, the templates win.**
+
+## Editing styles
+
+`app/styles/contractors-only.css` is the design system's handoff stylesheet and is
+used **verbatim** — treat it as vendored. Put changes in `site.css`, which covers
+only surfaces the handoff has no class for, and carries a comment on every
+deliberate deviation.
+
+Two things in `site.css` exist because the handoff's vocabulary is narrower than
+the design's, and are load-bearing:
+
+- `.title-body` / `.body--muted` — the design uses body-size uppercase titles and
+  body-size muted copy; the handoff has neither, so these compose its variables.
+- `.grid--gap-tile` / `.grid--gap-col` — the handoff keys gap to column count, the
+  design varies it per section.
+
+One more, easy to trip over: `.tile__media` needs `height: auto`. Our `<img>`
+carries `width`/`height` attributes for CLS, and those map to a presentational
+height that stops `aspect-ratio` applying. Without it every image renders at full
+intrinsic height.
