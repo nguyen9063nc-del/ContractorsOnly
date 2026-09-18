@@ -4,8 +4,7 @@ import type { ImageName } from "./images.generated";
 
 export const aboutHero = {
   eyebrow: "About us",
-  titleTop: "One team for everything",
-  titleAccent: "your property needs.",
+  titleTop: "One team for everything.",
   copy: "Contractors Only coordinates the trades that get properties ready — so you make one call instead of ten. Currently serving the Seattle, Portland and Los Angeles regions.",
   photo: "crew-collaborating-site" as ImageName,
   alt: "Crew collaborating on a job site",

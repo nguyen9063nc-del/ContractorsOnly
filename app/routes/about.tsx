@@ -28,13 +28,7 @@ export default function About() {
       <Band
         shots={[{ name: aboutHero.photo, alt: aboutHero.alt }]}
         eyebrow={aboutHero.eyebrow}
-        title={
-          <>
-            {aboutHero.titleTop}
-            <br />
-            <span className="accent">{aboutHero.titleAccent}</span>
-          </>
-        }
+        title={aboutHero.titleTop}
         copy={aboutHero.copy}
         actions={
           <BandActions
