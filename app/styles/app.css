@@ -754,12 +754,12 @@ a.pcard:hover .pcard__media img {
 
 /* ------------------------------------------------- §10 "Typical sequence" */
 
-/* §9 — two-column photo/graph row. */
+/* The chart carries more width than the copy beside it — §9's equal 570px
+   tracks left the 7-day span too compressed to read. */
 .seq {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 570px));
-  justify-content: center;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 2.3fr) minmax(0, 1fr);
+  align-items: center;
   gap: var(--gap-two-col);
   margin-top: var(--space-in-block);
 }
@@ -797,16 +797,26 @@ a.pcard:hover .pcard__media img {
   min-width: 0;
 }
 
+/* One shared label column across every row. Each row sizing its own
+   `max-content` column would let the short "Day" label start its axis further
+   left than the trade rows' tracks, putting the ticks out of line with the bar
+   edges — subgrid makes all rows share the chart's own columns. */
 .seq__chart {
   display: grid;
-  grid-template-columns: max-content repeat(7, minmax(0, 1fr));
+  grid-template-columns: max-content minmax(0, 1fr);
   gap: 16px 0;
+  min-width: 0;
+}
+
+.seq__row {
+  display: grid;
+  grid-column: 1 / -1;
+  grid-template-columns: subgrid;
   align-items: center;
   min-width: 0;
 }
 
 .seq__trade {
-  grid-column: 1;
   font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
   font-size: var(--fs-caption);
@@ -818,21 +828,31 @@ a.pcard:hover .pcard__media img {
   white-space: nowrap;
 }
 
+/* Seven day columns; bars and ticks both place against these gridlines. */
+.seq__track {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  align-items: center;
+  min-width: 0;
+}
+
 .seq__bar {
+  grid-column: var(--bar-start) / span var(--bar-span);
   height: 30px;
   border-radius: 3px;
 }
 
-/* Structural axis, not a decorative rule (§10). */
-.seq__rule {
-  grid-column: 2 / span 7;
-  height: 1px;
-  background: var(--hairline);
-  margin-top: 6px;
+/* Structural axis rule, not a decorative divider (§1.5 / §10). */
+.seq__axis {
+  border-top: 1px solid var(--hairline);
+  padding-top: 6px;
+}
+
+.seq__row--axis {
+  margin-top: 2px;
 }
 
 .seq__dayLabel {
-  grid-column: 1;
   font-family: Archivo, Arial, sans-serif;
   font-weight: 700;
   font-size: var(--fs-caption);
@@ -846,38 +866,33 @@ a.pcard:hover .pcard__media img {
 .seq__day {
   font-size: var(--fs-small-label);
   color: var(--muted);
+  grid-row: 1;
 }
 
-/* The bars stay readable when narrow; the right-aligned trade labels do not.
-   Below this width the track is replaced by a plain day-range readout, built
-   from the same data so the two cannot disagree. */
+/* On a phone the label moves above its track rather than the chart collapsing
+   to a list — the bars stay proportional because the track keeps its 7 columns. */
 @media (max-width: 620px) {
   .seq__chart {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 14px 0;
   }
-  .seq__trade {
-    grid-column: 1 !important;
+  /* Label stacks above its own full-width track. */
+  .seq__row {
+    display: block;
+  }
+  .seq__trade,
+  .seq__dayLabel {
+    display: block;
+    margin-bottom: 6px;
+  }
+  .seq__trade,
+  .seq__dayLabel {
     text-align: left;
     padding-right: 0;
-    padding-top: 4px;
     white-space: normal;
   }
-  .seq__bar,
-  .seq__rule,
-  .seq__dayLabel,
-  .seq__day {
-    display: none;
-  }
-  .seq__range {
-    font-size: var(--fs-caption);
-    color: var(--muted);
-  }
-}
-
-@media (min-width: 621px) {
-  .seq__range {
-    display: none;
+  .seq__bar {
+    height: 22px;
   }
 }
 

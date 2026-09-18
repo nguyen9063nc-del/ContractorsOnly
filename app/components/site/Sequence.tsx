@@ -1,70 +1,64 @@
 import { sequence } from "~/data/home";
 
 /**
- * "Typical sequence" gantt — trades overlapping across a 7-day track.
+ * "Typical sequence" gantt — trades overlapping across a 7-day track (§10).
  *
- * A 7-column bar chart with right-aligned labels cannot survive a 360px screen,
- * so below 620px the CSS hides the track and shows a plain "Day 1–4" range per
- * trade instead. Both readings come from the same data, so they cannot drift.
+ * Each row is a label plus its own 7-column track, rather than one flat grid.
+ * That lets the label sit beside the track on desktop and stack above it on a
+ * phone, so the chart scales down instead of degrading into a list.
+ *
+ * Day maths (§10): a phase running days A→B is stored as `start = A + 1` and
+ * `span = B − A + 1` against a grid whose first column is the label gutter.
+ * Inside a label-free 7-column track that becomes `start − 1`.
  */
-/** Last day marked on the track. The grid has 7 day columns (2 through 8). */
-const LAST_DAY = 7;
+
+const DAYS = 7;
 
 export function Sequence() {
-  const rows = sequence.length;
-
   return (
     <div className="seq__chart">
-      {sequence.map((trade, i) => {
-        // Column 1 is the label gutter, so column 2 is the day-0 boundary and a
-        // bar occupying columns [start, start+span-1] covers days
-        // start-2 through start+span-2.
-        const fromDay = trade.start - 2;
-        // The final trade's span runs past the explicit grid, where it lands in
-        // a zero-width implicit track — so it renders as ending at day 7, and
-        // the label has to say the same thing the bar shows.
-        const toDay = Math.min(trade.start + trade.span - 2, LAST_DAY);
-
-        return (
-          <div key={trade.name} style={{ display: "contents" }}>
-            <span className="seq__trade" style={{ gridRow: i + 1 }}>
-              {trade.name}
-              <span className="seq__range">
-                {" "}
-                · Day {fromDay}–{toDay}
-              </span>
-            </span>
+      {sequence.map((trade) => (
+        <div className="seq__row" key={trade.name}>
+          <span className="seq__trade">{trade.name}</span>
+          <div className="seq__track">
             <div
               className="seq__bar"
               style={{
-                gridColumn: `${trade.start} / span ${trade.span}`,
-                gridRow: i + 1,
+                // Custom properties rather than a literal grid-column, so the
+                // mobile rules can reuse the same placement.
+                ["--bar-start" as string]: trade.start - 1,
+                // Clamped to the end of the track. The spec's own data has
+                // Clean at start:8 span:2 while its comment reads "day 7";
+                // unclamped that spills into an 8th implicit column and drags
+                // the track out of alignment with the axis below it.
+                ["--bar-span" as string]: Math.min(trade.span, DAYS - (trade.start - 1) + 1),
                 background: trade.color,
               }}
             />
           </div>
-        );
-      })}
-
-      <div className="seq__rule" style={{ gridRow: rows + 1 }} />
-
-      <span className="seq__dayLabel" style={{ gridRow: rows + 2 }}>
-        Day
-      </span>
-      {Array.from({ length: 8 }, (_, d) => (
-        <span
-          key={d}
-          className="seq__day"
-          style={{
-            gridColumn: d === 0 ? 2 : d + 1,
-            gridRow: rows + 2,
-            justifySelf: d === 0 ? "start" : "end",
-            transform: d === 0 ? "translateX(-50%)" : "translateX(50%)",
-          }}
-        >
-          {d}
-        </span>
+        </div>
       ))}
+
+      <div className="seq__row seq__row--axis">
+        <span className="seq__dayLabel">Day</span>
+        <div className="seq__track seq__axis">
+          {/* Ticks sit on the gridlines: 0 at the left edge of the first column,
+              each later tick at the right edge of its own column. */}
+          {Array.from({ length: DAYS + 1 }, (_, d) => (
+            <span
+              key={d}
+              className="seq__day"
+              style={{
+                gridColumn: Math.max(d, 1),
+                justifySelf: d === 0 ? "start" : "end",
+                transform: d === 0 ? "translateX(-50%)" : "translateX(50%)",
+              }}
+            >
+              {d}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
