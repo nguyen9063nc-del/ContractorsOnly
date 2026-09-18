@@ -42,7 +42,7 @@ export default function Portfolio() {
         }
       />
 
-      {/* Each property: a lead photo then a 2 x 2 grid. */}
+      {/* Each property: a lead photo beside a locked 2 x 2 grid. */}
       <Section>
         <SectionHead
           eyebrow="Recent projects"
@@ -57,32 +57,34 @@ export default function Portfolio() {
                 <p className="body">{project.body}</p>
               </div>
 
-              <figure className="tile">
-                <Photo
-                  name={project.hero.photo}
-                  alt={project.hero.alt}
-                  className="tile__media tile__media--wide"
-                  sizes="(max-width: 1100px) 100vw, 1100px"
-                />
-                <figcaption className="tile__cap">
-                  <span className="caption">{project.hero.caption}</span>
-                </figcaption>
-              </figure>
+              <div className="case__media">
+                <figure className="tile">
+                  <Photo
+                    name={project.hero.photo}
+                    alt={project.hero.alt}
+                    className="tile__media tile__media--wide"
+                    sizes="(max-width: 820px) 100vw, 57vw"
+                  />
+                  <figcaption className="tile__cap">
+                    <span className="caption">{project.hero.caption}</span>
+                  </figcaption>
+                </figure>
 
-              <div className="folio__tiles">
-                {project.tiles.map((tile) => (
-                  <figure className="tile" key={`${project.name}-${tile.caption}`}>
-                    <Photo
-                      name={tile.photo}
-                      alt={tile.alt}
-                      className="tile__media"
-                      sizes="(max-width: 520px) 100vw, (max-width: 1100px) 50vw, 44vw"
-                    />
-                    <figcaption className="tile__cap">
-                      <span className="caption">{tile.caption}</span>
-                    </figcaption>
-                  </figure>
-                ))}
+                <div className="photogrid photogrid--2">
+                  {project.tiles.map((tile) => (
+                    <figure className="tile" key={`${project.name}-${tile.caption}`}>
+                      <Photo
+                        name={tile.photo}
+                        alt={tile.alt}
+                        className="tile__media"
+                        sizes="(max-width: 520px) 50vw, (max-width: 820px) 33vw, 22vw"
+                      />
+                      <figcaption className="tile__cap">
+                        <span className="caption">{tile.caption}</span>
+                      </figcaption>
+                    </figure>
+                  ))}
+                </div>
               </div>
             </section>
           ))}

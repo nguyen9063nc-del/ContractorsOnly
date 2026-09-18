@@ -107,14 +107,17 @@ export default function Contact() {
           title="Answers before you ask."
           copy="If your question isn't here, call or email us and we will answer it directly."
         />
-        <div className="items items--wide">
+        <ul className="bullets bullets--3">
           {faqs.map((faq) => (
-            <div className="stack-sm" key={faq.q}>
-              <h3 className="item-name">{faq.q}</h3>
-              <p className="caption">{faq.a}</p>
-            </div>
+            <li className="bullet" key={faq.q}>
+              <Check className="bullet__check" size={15} aria-hidden />
+              <span className="bullet__text">
+                <span className="bullet__title">{faq.q}</span>
+                <span className="caption">{faq.a}</span>
+              </span>
+            </li>
           ))}
-        </div>
+        </ul>
       </Section>
     </>
   );

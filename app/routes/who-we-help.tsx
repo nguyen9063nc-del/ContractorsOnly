@@ -45,15 +45,14 @@ export default function WhoWeHelp() {
         }
       />
 
-      {/* Six audience cards. grid--6 rather than grid--fluid, to hold the 3 x 2
-          layout that was chosen for this section. */}
+      {/* Six audience cards, in the locked 3 x 2 card grid. */}
       <Section>
         <SectionHead
           eyebrow="Our clients"
           title="Real people. Real properties. Real results."
           copy="We understand your goals, your timelines and what is at stake. Here is how we help each of them."
         />
-        <div className="grid grid--6">
+        <div className="grid grid--cards3">
           {audiences.map((a) => (
             <Link to="/services" className="tile" key={a.label}>
               <Photo
@@ -102,7 +101,7 @@ export default function WhoWeHelp() {
       {/* Testimonial + trust marks. No panel, no rule. */}
       <Section>
         <SectionHead eyebrow="In their words" title="One call instead of five." />
-        <div className="split">
+        <div className="split testimonial-split">
           <blockquote className="stack-sm">
             <p className="quote">&ldquo;{testimonial.quote}&rdquo;</p>
             <footer className="tile__cap">

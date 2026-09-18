@@ -367,60 +367,6 @@ body {
   flex: 0 0 auto;
 }
 
-/* Named items with a description, four across so they line up under the
-   four-across photo strip above them. */
-.items {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--s-col-gap) clamp(14px, 1.6vw, 24px);
-  /* The design lays these out auto-fit from ~150px rather than a hard 4-up. */
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
-}
-
-.items > * {
-  min-width: 0;
-}
-
-.items--wide {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-@media (max-width: 820px) {
-  .items {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 520px) {
-  .items,
-  .items--wide {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-.item {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 10px;
-  align-items: start;
-  min-width: 0;
-}
-
-.item svg {
-  margin-top: 4px;
-  color: var(--brand);
-  flex: 0 0 auto;
-}
-
-.item__t {
-  display: block;
-  font-weight: 600;
-  font-size: var(--t-caption);
-  line-height: 1.35;
-  color: var(--ink);
-  text-wrap: pretty;
-}
-
 /* Icon beside a heading — service tiles, audience cards, reasons. */
 .icon-head {
   display: flex;
@@ -520,20 +466,29 @@ body {
   }
 }
 
-/* --------------------------------------------------------------- portfolio */
+/* ------------------------------------------------------------- who we help */
 
-.folio__tiles {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--s-tile-gap-tight);
+/* DEVIATION: `.split` gives its second column the larger share, sized for the
+   photo+text pairs it's used for elsewhere on this page. The testimonial
+   pairs a pull-quote with a short fixed-width marks list, so the quote needs
+   the larger share instead — without this the quote wraps into a narrow
+   column while the marks list sits in mostly empty space. */
+@media (min-width: 821px) {
+  .testimonial-split {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
+    gap: clamp(24px, 3vw, 48px);
+  }
 }
 
-.folio__tiles > * {
-  min-width: 0;
-}
+/* ----------------------------------------------------------------- portfolio */
 
+/* DEVIATION: the handoff's `.photogrid--2` deliberately stays two-up even on
+   phones (a 2x2 shot set reads as one unit). This site's case-study tiles
+   looked right stacked one-per-row on a phone before that class existed, so
+   keep that mobile behaviour instead of adopting the handoff's phone layout
+   here. Desktop/tablet (the `.case__media` split) are unaffected. */
 @media (max-width: 520px) {
-  .folio__tiles {
+  .case__media .photogrid--2 {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -705,7 +660,7 @@ body {
 
 .site-footer__grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
   gap: var(--s-col-gap);
   padding-bottom: var(--s-inblock);
 }

@@ -119,17 +119,17 @@ export default function Services() {
                 ))}
               </div>
 
-              <div className="items">
+              <ul className="bullets bullets--4">
                 {group.items.map((item) => (
-                  <div className="item" key={item.title}>
-                    <Check size={15} strokeWidth={2.6} aria-hidden />
-                    <div>
-                      <span className="item-name">{item.title}</span>
-                      <span className="body">{item.detail}</span>
-                    </div>
-                  </div>
+                  <li className="bullet" key={item.title}>
+                    <Check className="bullet__check" size={15} aria-hidden />
+                    <span className="bullet__text">
+                      <span className="bullet__title">{item.title}</span>
+                      <span className="caption">{item.detail}</span>
+                    </span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </section>
           ))}
         </div>

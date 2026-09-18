@@ -84,7 +84,7 @@ export default function About() {
       {/* Five portrait slots — no headshots supplied. */}
       <Section>
         <SectionHead eyebrow="The team" title="The people behind the work." copy={site.regions} />
-        <ul className="grid grid--fluid">
+        <ul className="grid grid--cards5">
           {team.map((person) => (
             <li className="tile" key={person.name}>
               <PhotoSlot need={`Portrait of ${person.name}`} />
