@@ -1,5 +1,5 @@
 import type { Route } from "./+types/portfolio";
-import { Section, SectionHead } from "~/components/site/Section";
+import { Section } from "~/components/site/Section";
 import { Band, BandActions } from "~/components/site/Band";
 import { Photo, photoPreload } from "~/components/Photo";
 import { ClosingCta } from "~/components/site/ClosingCta";
@@ -42,13 +42,16 @@ export default function Portfolio() {
         }
       />
 
-      {/* Each property: a lead photo beside a locked 2 x 2 grid. */}
+      {/* Each property: a lead photo beside a locked 2 x 2 grid.
+          The template sets this heading directly in brand red, with no
+          eyebrow above it — not the usual SectionHead eyebrow+ink pattern. */}
       <Section>
-        <SectionHead
-          eyebrow="Recent projects"
-          title="One scope. One schedule."
-          copy="Each property below was handled under one scope, one schedule and one point of contact."
-        />
+        <div className="section-head">
+          <h2 className="section-h2 section-h2--accent">Recent projects</h2>
+          <p className="body">
+            Each property below was handled under one scope, one schedule and one point of contact.
+          </p>
+        </div>
         <div className="stack-blocks">
           {projects.map((project) => (
             <section className="stack-inblock" key={project.name}>

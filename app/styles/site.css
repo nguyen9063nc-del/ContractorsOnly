@@ -23,6 +23,14 @@ picture {
   height: auto;
 }
 
+/* The design templates color several section headings brand red directly,
+   with no small-caps eyebrow above them (Home's "Things we do", Portfolio's
+   "Recent projects", etc.) — a different pattern from `.eyebrow` + ink
+   `.section-h2` that `SectionHead` renders by default. */
+.section-h2--accent {
+  color: var(--brand);
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
