@@ -1,0 +1,430 @@
+/* Page-specific patterns: the services catalog, detailed service blocks,
+   audience cards, equipment layouts and the portfolio grid. */
+
+/* --------------------------------------------------------- service catalog */
+
+/* A bordered card: photo, icon + title, then a checklist. */
+.cat {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: box-shadow var(--dur-base) var(--ease-out),
+    transform var(--dur-base) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.cat:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.cat__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  background: var(--surface-muted);
+}
+
+.cat__body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 22px 24px;
+}
+
+.cat__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cat__title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-label);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+}
+
+/* Red-tick checklist, shared by the catalog and the detail blocks. */
+.ticks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ticks li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 9px;
+  align-items: start;
+  font-size: var(--fs-small);
+  line-height: 1.45;
+  color: var(--ink-body);
+}
+
+.ticks svg {
+  margin-top: 3px;
+  color: var(--brand);
+}
+
+/* ---------------------------------------------------- detailed service block */
+
+.svc {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-block: clamp(36px, 5vh, 56px);
+  border-top: 1px solid var(--border-hairline);
+}
+
+.svc:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.svc__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.svc__body {
+  max-width: 760px;
+}
+
+/* Four-across photo strip with captions. Scrolls horizontally on phones rather
+   than shrinking to thumbnails. */
+.strip {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(12px, 1.6vw, 20px);
+}
+
+@media (max-width: 900px) {
+  .strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Five-across variant for the tool rows. */
+.strip--5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+@media (max-width: 1000px) {
+  .strip--5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .strip,
+  .strip--5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.strip figure,
+.strip__fig {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.strip__fig figcaption {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Stand-in for kit we own but have no photograph of yet. Reads as a deliberate
+   label rather than a missing image. */
+.strip__blank {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  text-align: center;
+  background: var(--surface-muted);
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+}
+
+.strip__blank span {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--gray-400);
+}
+
+.strip__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--surface-muted);
+}
+
+.strip figcaption {
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+/* Two-column list of named items with descriptions. */
+.items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px clamp(24px, 3vw, 44px);
+}
+
+@media (max-width: 760px) {
+  .items {
+    grid-template-columns: 1fr;
+  }
+}
+
+.item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+}
+
+.item svg {
+  margin-top: 4px;
+  color: var(--brand);
+}
+
+.item__t {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--fs-small);
+  color: var(--text-strong);
+  line-height: 1.35;
+}
+
+.item__d {
+  display: block;
+  font-size: var(--fs-small);
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+/* ------------------------------------------------------------ audience cards */
+
+.aud {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 26px 26px 30px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-hairline);
+  border-top: var(--border-width-accent) solid var(--brand);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-xs);
+}
+
+.aud__head {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.aud__t {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-h3);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+  text-wrap: pretty;
+}
+
+/* --------------------------------------------------------------- split rows */
+
+/* Alternating photo / copy rows used on the equipment and about pages. */
+.split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 4vw, 64px);
+  align-items: center;
+}
+
+@media (max-width: 860px) {
+  .split {
+    grid-template-columns: 1fr;
+  }
+  /* Keep the photo above the copy on every row once stacked, regardless of
+     which side it sits on in the two-column layout. */
+  .split__media {
+    order: -1;
+  }
+}
+
+.split__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--surface-muted);
+}
+
+.split__media--tall {
+  aspect-ratio: 3 / 4;
+}
+
+.split__copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+/* ------------------------------------------------------------ portfolio grid */
+
+.folio {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.folio__item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.folio__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--surface-muted);
+}
+
+.folio__tag {
+  align-self: flex-start;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--brand);
+}
+
+/* --------------------------------------------------------------- stat strip */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: clamp(20px, 3vw, 40px);
+}
+
+.stat__n {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(30px, 3vw, 44px);
+  line-height: 1;
+  color: var(--brand);
+  margin-bottom: 8px;
+}
+
+.stat__t {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-small);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-strong);
+  margin-bottom: 4px;
+}
+
+/* --------------------------------------------------------- contact page grid */
+
+.contact {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .contact {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 28px;
+  background: var(--surface-subtle);
+  border-radius: var(--radius-card);
+}
+
+.contact__row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.contact__row svg {
+  margin-top: 3px;
+  color: var(--brand);
+  flex: 0 0 auto;
+}
+
+.contact__label {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.contact__value {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--text-strong);
+}
+
+/* The phone and email are standalone links rather than inline prose, so they
+   need a real touch target rather than the bare 19px text line. */
+a.contact__value {
+  display: inline-block;
+  padding-block: 8px;
+  margin-block: -4px;
+}
+
+a.contact__value:hover {
+  color: var(--brand);
+}

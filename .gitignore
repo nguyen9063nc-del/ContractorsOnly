@@ -1,0 +1,13 @@
+node_modules/
+.react-router/
+build/
+.wrangler/
+.env
+.env.local
+.DS_Store
+*.log
+
+# Full-resolution originals (~51 MB). Not needed to build or deploy — Vite
+# serves the encoded output in public/img/, which is committed. These live in
+# the Contractors Only Design System zip; see README "Re-encoding images".
+source-assets/

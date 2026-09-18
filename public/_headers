@@ -1,0 +1,36 @@
+# Cloudflare Pages response headers.
+# Vite copies this file into build/client/ where Pages picks it up.
+# Limits: 100 rules, 2,000 chars per line.
+
+# Build artifacts carry a content hash in the filename, so a changed file is a
+# changed URL and these can be cached permanently.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Fonts and processed images are content-addressed by name and only change when
+# the pipeline is re-run, which also changes what the HTML references.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/img/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Prerendered HTML must revalidate, otherwise a deploy would not go live until
+# caches aged out. Pages serves /about/index.html at /about/, with no extension,
+# so the rules are written against the served paths.
+/
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Route data payloads are regenerated on every build and version with the HTML.
+# Long-caching these would pair stale data with fresh markup.
+/*.data
+  Cache-Control: public, max-age=0, must-revalidate
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), microphone=(), camera=()

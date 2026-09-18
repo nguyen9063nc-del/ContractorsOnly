@@ -1,0 +1,12 @@
+# Normalize text to LF in the repository, checked out native on Windows.
+# Prevents the whole tree showing as modified when switching machines.
+* text=auto eol=lf
+
+# Binary assets — never touch these, and don't try to diff them.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.webp binary
+*.avif binary
+*.woff2 binary
+*.ico binary
