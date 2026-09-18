@@ -4,6 +4,7 @@ import type { Route } from "./+types/who-we-help";
 import { Section, SectionHead } from "~/components/site/Section";
 import { Band, BandActions } from "~/components/site/Band";
 import { Photo, photoPreload } from "~/components/Photo";
+import { PhotoSlot } from "~/components/site/Tile";
 import { Icon } from "~/components/Icon";
 import { ClosingCta } from "~/components/site/ClosingCta";
 import { audiences, marks, reasons, reasonsPhoto, testimonial, whoHero } from "~/data/who-we-help";
@@ -45,14 +46,16 @@ export default function WhoWeHelp() {
         }
       />
 
-      {/* Six audience cards, in the locked 3 x 2 card grid. */}
+      {/* Six audience cards, 3 x 2. The design template uses grid--6 here
+          (58px gap) — not grid--cards3, which the conformance baseline
+          confirmed is the wrong class for this content. */}
       <Section>
         <SectionHead
           eyebrow="Our clients"
           title="Real people. Real properties. Real results."
           copy="We understand your goals, your timelines and what is at stake. Here is how we help each of them."
         />
-        <div className="grid grid--cards3">
+        <div className="grid grid--6">
           {audiences.map((a) => (
             <Link to="/services" className="tile" key={a.label}>
               <Photo
@@ -79,7 +82,7 @@ export default function WhoWeHelp() {
           eyebrow="Why our clients work with us"
           title="More than a contractor — a partner."
         />
-        <div className="split">
+        <div className="split reasons-split">
           <Photo
             name={reasonsPhoto.photo}
             alt={reasonsPhoto.alt}
@@ -89,7 +92,9 @@ export default function WhoWeHelp() {
           <div className="grid grid--2 grid--gap-col">
             {reasons.map((r) => (
               <div className="stack-sm" key={r.title}>
-                <Icon name={r.icon} size={26} />
+                <span className="icon-head">
+                  <Icon name={r.icon} size={26} />
+                </span>
                 <span className="item-name">{r.title}</span>
                 <span className="body">{r.body}</span>
               </div>
@@ -101,14 +106,28 @@ export default function WhoWeHelp() {
       {/* Testimonial + trust marks. No panel, no rule. */}
       <Section>
         <SectionHead eyebrow="In their words" title="One call instead of five." />
-        <div className="split testimonial-split">
-          <blockquote className="stack-sm">
+        <div className="testimonial-grid">
+          <div className="testimonial-photo">
+            {testimonial.photo ? (
+              <Photo
+                name={testimonial.photo}
+                alt={`Portrait of ${testimonial.name}`}
+                className="tile__media"
+                sizes="(max-width: 820px) 100vw, 240px"
+              />
+            ) : (
+              <PhotoSlot need={`Portrait of ${testimonial.name}`} />
+            )}
+          </div>
+
+          <blockquote className="box testimonial-quote-box">
             <p className="quote">&ldquo;{testimonial.quote}&rdquo;</p>
-            <footer className="tile__cap">
-              <span className="item-name">{testimonial.name}</span>
-              <span className="caption">{testimonial.role}</span>
-            </footer>
           </blockquote>
+
+          <footer className="tile__cap testimonial-attribution">
+            <span className="item-name">{testimonial.name}</span>
+            <span className="caption">{testimonial.role}</span>
+          </footer>
 
           <ul className="marks">
             {marks.map((m) => (

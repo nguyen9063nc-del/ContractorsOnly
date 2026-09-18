@@ -468,15 +468,84 @@ body {
 
 /* ------------------------------------------------------------- who we help */
 
-/* DEVIATION: `.split` gives its second column the larger share, sized for the
-   photo+text pairs it's used for elsewhere on this page. The testimonial
-   pairs a pull-quote with a short fixed-width marks list, so the quote needs
-   the larger share instead — without this the quote wraps into a narrow
-   column while the marks list sits in mostly empty space. */
+/* Reasons: `.split` defaults to align-items: start, so the fixed-ratio photo
+   and the (taller) 2x2 reasons grid end at different heights. Stretch the
+   photo to match the grid instead — scoped to this pairing only, since
+   about.tsx's photo+text `.split` should keep the default. */
+.reasons-split {
+  align-items: stretch;
+}
+.reasons-split .tile__media {
+  height: 100%;
+}
+
+/* Testimonial: a portrait, a boxed pull-quote + attribution, and a trust-mark
+   list. Three tracks, none of which fit the shared two-column `.split`, so
+   this is its own layout — stacked below 821px (portrait, quote,
+   attribution, then marks, in source order). */
+.testimonial-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+}
+
+.testimonial-grid > * {
+  min-width: 0;
+}
+
+/* `<blockquote>` carries a default browser margin — reset it so the box
+   aligns flush with its grid cell instead of sitting inset and offset. */
+.testimonial-quote-box {
+  margin: 0;
+}
+
+/* Same size as item-name (used for the reasons/tile headings above this
+   section), but regular weight — item-name itself is always bold. */
+.testimonial-quote-box .quote {
+  font-size: var(--t-item);
+  font-weight: 400;
+}
+
 @media (min-width: 821px) {
-  .testimonial-split {
-    grid-template-columns: minmax(0, 1fr) minmax(260px, 300px);
-    gap: clamp(24px, 3vw, 48px);
+  .testimonial-grid {
+    grid-template-columns: minmax(200px, 240px) minmax(0, 1fr) minmax(240px, 280px);
+    grid-template-rows: auto auto;
+    column-gap: clamp(24px, 3vw, 40px);
+    row-gap: 14px;
+  }
+
+  /* Photo spans both rows, so it stretches from the top of the quote box to
+     the bottom of the attribution line below it. The box itself stays sized
+     to its own content — only the photo grows to meet it. */
+  .testimonial-photo {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: stretch;
+  }
+  .testimonial-photo .ph,
+  .testimonial-photo .tile__media {
+    height: 100%;
+  }
+
+  /* align-self: start, not the grid default of stretch — otherwise the box
+     grows to match row 1's height (set by the taller of it or the marks
+     list) instead of staying only as tall as the quote needs. */
+  .testimonial-quote-box {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: start;
+  }
+
+  .testimonial-attribution {
+    grid-column: 2;
+    grid-row: 2;
+  }
+
+  /* Vertically centered against the quote box, not the box + attribution. */
+  .testimonial-grid .marks {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
   }
 }
 

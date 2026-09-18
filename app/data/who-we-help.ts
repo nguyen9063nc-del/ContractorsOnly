@@ -98,6 +98,7 @@ export const testimonial = {
     "Contractors Only has been a game changer for my business. I can get a property fully ready with one call instead of coordinating multiple contractors. They are fast, reliable, and the quality is consistently excellent.",
   name: "Jessica M.",
   role: "Real estate agent, Seattle, WA",
+  photo: undefined as ImageName | undefined,
 };
 
 export const reasonsPhoto = {
