@@ -869,30 +869,34 @@ a.pcard:hover .pcard__media img {
   grid-row: 1;
 }
 
-/* On a phone the label moves above its track rather than the chart collapsing
-   to a list — the bars stay proportional because the track keeps its 7 columns. */
+/* On a phone the chart shrinks rather than restructuring: the label stays beside
+   its bar, in a narrower column that wraps long trade names onto two lines, with
+   the smallest type role and shorter bars. Stacking the label above the track
+   would cost six extra rows of height and break the read across the row. */
 @media (max-width: 620px) {
   .seq__chart {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 14px 0;
-  }
-  /* Label stacks above its own full-width track. */
-  .seq__row {
-    display: block;
-  }
-  .seq__trade,
-  .seq__dayLabel {
-    display: block;
-    margin-bottom: 6px;
+    /* Sized to the longest unbreakable label: "Landscaping" measures 108px at
+       the small-label role, so a narrower column would let it spill across the
+       bars rather than wrap. */
+    grid-template-columns: clamp(116px, 30vw, 132px) minmax(0, 1fr);
+    gap: 10px 0;
   }
   .seq__trade,
   .seq__dayLabel {
-    text-align: left;
-    padding-right: 0;
+    font-size: var(--fs-small-label);
+    line-height: 1.15;
+    padding-right: 8px;
+    min-width: 0;
+    /* Two-word names wrap; break-word is the backstop if a longer name is
+       added later, so it can never overlap the track. */
     white-space: normal;
+    overflow-wrap: break-word;
   }
   .seq__bar {
-    height: 22px;
+    height: 20px;
+  }
+  .seq__day {
+    font-size: var(--fs-small-label);
   }
 }
 
