@@ -115,7 +115,7 @@ export default function Contact() {
           title="Answers before you ask."
           copy="If your question isn't here, call or email us and we will answer it directly."
         />
-        <div className="items" style={{ gap: "28px clamp(24px, 3vw, 56px)" }}>
+        <div className="items items--wide">
           {faqs.map((faq) => (
             <div key={faq.q}>
               <h3 className="aud__t" style={{ marginBottom: 8 }}>

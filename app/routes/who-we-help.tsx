@@ -102,14 +102,12 @@ export default function WhoWeHelp() {
               sizes="(max-width: 860px) 100vw, 50vw"
             />
           </div>
-          <div className="split__copy">
+          <div className="reasons">
             {reasons.map((r) => (
-              <div key={r.title} style={{ display: "flex", flexDirection: "column", gap: 7 }}>
-                <Icon name={r.icon} size={28} color="var(--brand)" />
-                <span className="aud__t">{r.title}</span>
-                <span className="muted" style={{ fontSize: "var(--fs-small)", lineHeight: 1.5 }}>
-                  {r.body}
-                </span>
+              <div className="reason" key={r.title}>
+                <Icon name={r.icon} size={26} color="var(--brand)" />
+                <span className="reason__t">{r.title}</span>
+                <span className="reason__b">{r.body}</span>
               </div>
             ))}
           </div>
@@ -120,38 +118,19 @@ export default function WhoWeHelp() {
       <Band>
         <SectionIntro eyebrow="In their words" title="One call instead of five." />
         <div className="split">
-          <blockquote
-            style={{
-              margin: 0,
-              display: "flex",
-              flexDirection: "column",
-              gap: 20,
-              padding: "28px 30px",
-              background: "var(--surface-subtle)",
-              borderLeft: "var(--border-width-accent) solid var(--brand)",
-              borderRadius: "var(--radius-sm)",
-            }}
-          >
-            <p className="lead" style={{ fontSize: "var(--fs-h3)", lineHeight: 1.45 }}>
-              {testimonial.quote}
-            </p>
-            <footer style={{ display: "flex", flexDirection: "column", gap: 3 }}>
-              <span className="item__t">{testimonial.name}</span>
+          <blockquote className="quote">
+            <p>&ldquo;{testimonial.quote}&rdquo;</p>
+            <footer>
+              <span className="quote__name">{testimonial.name}</span>
               <span className="item__d">{testimonial.role}</span>
             </footer>
           </blockquote>
 
-          <ul
-            className="stats"
-            style={{ listStyle: "none", margin: 0, padding: 0, gap: 24 }}
-          >
+          <ul className="marks">
             {marks.map((m) => (
-              <li
-                key={m.title}
-                style={{ display: "flex", alignItems: "center", gap: 11 }}
-              >
+              <li key={m.title}>
                 <Icon name={m.icon} size={22} color="var(--brand)" />
-                <span className="item__t">{m.title}</span>
+                <span>{m.title}</span>
               </li>
             ))}
           </ul>

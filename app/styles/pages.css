@@ -3,29 +3,20 @@
 
 /* --------------------------------------------------------- service catalog */
 
-/* A bordered card: photo, icon + title, then a checklist. */
+/* Photo, icon + title, then a checklist. No border or panel — the photo and the
+   whitespace do the separating, matching the rest of the page's card grids. */
 .cat {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  background: var(--surface-card);
-  border: 1px solid var(--border-hairline);
-  border-radius: 10px;
-  overflow: hidden;
-  transition: box-shadow var(--dur-base) var(--ease-out),
-    transform var(--dur-base) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
-}
-
-.cat:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-2px);
 }
 
 .cat__media {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
+  border-radius: 10px;
+  overflow: hidden;
   background: var(--surface-muted);
 }
 
@@ -33,7 +24,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 20px 22px 24px;
+  padding: 16px 0 0;
 }
 
 .cat__head {
@@ -187,15 +178,37 @@
   text-wrap: pretty;
 }
 
-/* Two-column list of named items with descriptions. */
+/* Named items with descriptions, in four columns so they line up under the
+   four-across photo strip above them. Steps down on the same breakpoints as
+   .strip so the two stay aligned. */
 .items {
   display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 22px clamp(16px, 1.6vw, 20px);
+}
+
+@media (max-width: 900px) {
+  .items {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px clamp(20px, 3vw, 36px);
+  }
+}
+
+@media (max-width: 560px) {
+  .items {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* The FAQ grid on the contact page reuses .items but reads better in two wide
+   columns than four narrow ones. */
+.items--wide {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px clamp(24px, 3vw, 44px);
+  gap: 28px clamp(24px, 3vw, 56px);
 }
 
 @media (max-width: 760px) {
-  .items {
+  .items--wide {
     grid-template-columns: 1fr;
   }
 }
@@ -226,6 +239,104 @@
   font-size: var(--fs-small);
   color: var(--text-muted);
   line-height: 1.45;
+}
+
+/* ------------------------------------------------- reasons / quote / marks */
+
+/* The four "why our clients work with us" reasons, as a 2x2 beside the photo. */
+.reasons {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(28px, 3vw, 44px) clamp(24px, 2.5vw, 40px);
+  align-content: center;
+}
+
+@media (max-width: 520px) {
+  .reasons {
+    grid-template-columns: 1fr;
+  }
+}
+
+.reason {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.reason__t {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-label);
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--text-strong);
+  text-wrap: pretty;
+}
+
+.reason__b {
+  font-size: var(--fs-small);
+  line-height: 1.5;
+  color: var(--text-muted);
+  text-wrap: pretty;
+}
+
+/* Pull quote — plain text, no panel or rule. The quotation marks carry it. */
+.quote {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+}
+
+.quote p {
+  font-size: var(--fs-h3);
+  line-height: 1.5;
+  color: var(--ink-body);
+  text-wrap: pretty;
+}
+
+.quote footer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.quote__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-small);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-strong);
+}
+
+/* Single-column list of proof points, icon beside an uppercase label. */
+.marks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-self: center;
+}
+
+.marks li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.marks span {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-label);
+  letter-spacing: var(--tracking-caps);
+  text-transform: uppercase;
+  color: var(--text-strong);
 }
 
 /* ------------------------------------------------------------ audience cards */
